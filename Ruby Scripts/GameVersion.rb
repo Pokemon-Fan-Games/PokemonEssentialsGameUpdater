@@ -76,7 +76,7 @@ def pbGetPokeUpdaterText(textName, variable=nil)
     when 'NEW_VERSION'
       return "¡Version #{variable} disponible!"
     when 'BUTTON_UPDATE'
-      return "Para actualizar utilice el botón 'Actualizar juego' del menú."
+      return "Para actualizar utilice el botón disponible en el menú."
     when 'MANUAL_UPDATE'
       return "Por favor actualice el juego entrando a la red social del creador"
     when 'UPDATE'
