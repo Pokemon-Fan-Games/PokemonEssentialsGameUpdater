@@ -13,12 +13,6 @@ module VersionCheck
      ICH=Win32API.new(W,'InternetCloseHandle','l','l')
      HQI=Win32API.new(W,'HttpQueryInfo','llppp','i')
      module_function
-     def open_exe(path)
-        @r = nil
-        @path = path
-        @a = Thread.new {@r = %x(#{path})}
-        @a.abort_on_exception = true
-     end
      def validateVersion(url, update=false)
         internetOpen = Win32API.new(W,'InternetOpenA','plppl','l').call('',0,'','',0)
         open_url = IOU.call(internetOpen,url,nil,0,0x80000000,0)
