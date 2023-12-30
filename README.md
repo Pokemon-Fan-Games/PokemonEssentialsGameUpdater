@@ -6,7 +6,7 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 
 Por favor tener en cuenta que esta primera versión de PokéUpdater se desarrolló en menos de una semana y, aunque se han realizado pruebas, se esperan errores. Si encuentras algún problema, por favor, háznoslo saber abriendo un [issue](https://github.com/dpertierra/PokemonEssentialsGameUpdater/issues/new) o contactándonos a través de Discord @dpertierra y @iansson.
 
-![](preview.gif)
+![](/previews/preview.gif)
 
 #### Muchas gracias a [@Eric_Lostie](https://twitter.com/Eric_Lostie) en Twitter por permitirnos usar su juego, Pokémon Añil, como ejemplo para este proyecto.
 
