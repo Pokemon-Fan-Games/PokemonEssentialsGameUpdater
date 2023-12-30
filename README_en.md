@@ -169,7 +169,7 @@ If maintained properly, games which are running on an older version of your game
 
 ## Language support
 
-Currently those languages listed below are supported. Translation to other languages may be done in the future, but is not currently planned.
+Currently those languages listed below are supported. Translation to other languages may be done in the future, but is not currently planned. To allow script translation, don't forget to extract the `locales` file to your game directory.
 
 | Language             | Included in the executable? | Included in scripts? |
 | -------------------- | --------------------------- | -------------------- |
