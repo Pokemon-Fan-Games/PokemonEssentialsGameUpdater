@@ -1,4 +1,4 @@
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/dpertierra/PokemonEssentialsGameUpdater/blob/main/README_en.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/README_en.md)
 
 **Ahora puedes descargar los archivos de la última [versión](url)!.**
 
