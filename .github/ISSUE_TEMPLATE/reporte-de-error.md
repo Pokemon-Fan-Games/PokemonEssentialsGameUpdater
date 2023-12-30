@@ -22,9 +22,9 @@ Pueden agregar mas pasos de ser necesario
 **Capturas y evidencias**
 Si tiene capturas o evidencias que nos pueda compartir agreguelas aquí
 
-**Specific data(please complete the following information):**
- - Pokemon Essentials Version: [e.g. 16.2]
- - Number of affected users: 
+**Información de versiones**
+ - Version de Pokemon Essentials : [e.g. 16.2]
+ - Version de PokéUpdater: [ej: 1.0.0]
 
 **Información adicional**
 Cualquier otra información que nos ayude a entender el problema
