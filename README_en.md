@@ -219,3 +219,5 @@ A. This is probably caused by not having the provided ```pu_locales``` file in y
 A. No. The update process works inside the game folder and will NOT affect any other file in the user's computer. As saves are saved under ```C:/Users/USERNAME/SavedGames/GAME_NAME```.
 #### Q. Will you make the source code for the updated available?
 A. This is not planned at the moment. If a feature that you require is missing, you can [raise a feature request](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=feature-request-english.md&title=%5BFEATURE+REQUEST%5D). In the future we may make the source code available but this is not a priority at the moment. 
+
+**A big thanks to users of the [RPG Maker Web forum](https://forums.rpgmakerweb.com/index.php?threads/http-network-library.15009/#post-149590) for their help with the HTTP file download logic!**
