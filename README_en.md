@@ -1,6 +1,6 @@
 [![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/README.md)
 
-**You can now download the files for the latest [release](url)!**
+**You can now download the files for the latest [release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest)!**
 
 Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire or Google Drive. 
 
