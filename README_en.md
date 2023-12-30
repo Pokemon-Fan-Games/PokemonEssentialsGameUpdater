@@ -4,7 +4,7 @@
 
 Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire or Google Drive. 
 
-Joiplay support is not currently planned.
+**Joiplay support is not currently planned.**
 
 ![](/previews/preview_en.gif)
 
