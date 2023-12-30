@@ -2,9 +2,9 @@
 
 **You can now download the files for the latest [release](url)!**
 
-Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players of fan games from one version of a game to a newer one without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire or Google Drive. Joiplay support is not currently planned.
+Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire or Google Drive. 
 
-Please note that this first PokéUpdater version has been developed in under a week and even though throughout testing has been done, bugs are expected. Should you find any errors, please let us know by [opening an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D) or contacting us via Discord @dpertierra and @iansson!
+Joiplay support is not currently planned.
 
 ![](/previews/preview_en.gif)
 
@@ -23,9 +23,9 @@ For the game to check if there are new updates at the loading screen you have to
 
 ```ruby
 if !$joiplay # This is to avoid this code to run on Joiplay
-    POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] = true
+    GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] = true # WARNING: Delete this line if a button to manually update the game will not be created!
     pbFillUpdaterConfig()
-    if POKE_UPDATER_CONFIG && POKE_UPDATER_CONFIG['FORCE_VERSION_CHECK']
+    if GameVersion::POKE_UPDATER_CONFIG && GameVersion::POKE_UPDATER_CONFIG['FORCE_VERSION_CHECK']
         pbValidateGameVersion()
     end
 end
@@ -157,7 +157,7 @@ After setting the required values for all variables, the file does not need to b
 
 ## Releasing a new game update
 
-If you have followed the previous steps, and have bundled the `poke_updater.exe` and `pu_settings.txt` with your newly released game, congratulations! The updater is now in use for the first version that includes it.
+If you have followed the previous steps, and have bundled the `poke_updater.exe` and `pu_config` with your newly released game, congratulations! The updater is now ready to be used in the first version that includes it.
 
 When a new version is to be released, some of the values will need to be maintained for the updater to recognize a new release:
 
@@ -169,7 +169,7 @@ If maintained properly, games which are running on an older version of your game
 
 ## Language support
 
-Currently those languages listed below are supported. Translation to other languages may be done in the future, but is not currently planned. To allow script translation, don't forget to extract the `locales` file to your game directory.
+Currently those languages listed below are supported. Translation to other languages may be done in the future, but is not currently planned. To allow script translation, do not forget to copy the `locales` file to your game directory.
 
 | Language             | Included in the executable? | Included in scripts? |
 | -------------------- | --------------------------- | -------------------- |
@@ -204,17 +204,17 @@ A. The updater is thought to only be used in RPG Maker XP
 #### Q. Which Pokémon Essentials does the updater support?
 A. Although the updater has been developed and tested in PokéEssentials version 16.2, it is likely that this is a bare minimum and that any later version is also supported. If this is not the case, please report this [through an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D).
 #### Q. Is Python required to be installed to run the updater?
-A. The executable is thought to be used by an end user with no extra input on their end. For this reason, the updater is provided as a bundled executable instead of anything else.
+A. No. The executable is thought to be used by an end user with no extra input on their end. For this reason, the updater is provided as a bundled executable instead of anything else.
 #### Q. A user is reporting that they cannot download the game file or that their download is unusually slow, what's going on?
 A. MEGA and Mediafire both have a limited transfer quota that can be freely used. After this quota has been consumed, MEGA will not allow any download to continue and Mediafire will reduce the download speed significantly. This is something which we cannot circumvent. The user will need to wait for their download quota to become available again.
 #### Q. A user from <INSERT COUNTRY HERE\> cannot access my game file through the host page because of regional restrictions. Can they update the game using the PokéUpdater anyway?
 A. The PokéUpdater cannot bypass any regional / content restrictions set by the hosts. By the same measure, it will also not be possible to retrieve private or password protected files. 
 #### Q. Will my released updates be optional / mandatory?
-A. If the scripts have been implemented as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section, it is possible to control whether the version checking / updating will be forcibly done when showing the game load screen by setting the parameters ```FORCE_VERSION_CHECK``` and ```FORCE_UPDATE``` of the ```pu_settings.txt``` file. Note that if ```FORCE_UPDATE``` is set to a ```false``` value, then the update logic will have to be called somewhere else, for example, a menu button as exemplified in section [Optional code snippets](#optional-code-snippets). Also note that setting ```FORCE_VERSION_CHECK``` to a ```false``` value will deactivate the PokéUpdater unless the version validation is performed elsewhere.
+A. If the scripts have been implemented as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section, it is possible to control whether the version checking / updating will be forcibly done when showing the game load screen by setting the parameters ```FORCE_VERSION_CHECK``` and ```FORCE_UPDATE``` of the ```pu_config``` file. Note that if ```FORCE_UPDATE``` is set to a ```false``` value, then the update logic will have to be called somewhere else, for example, a menu button as exemplified in section [Optional code snippets](#optional-code-snippets). Also note that setting ```FORCE_VERSION_CHECK``` to a ```false``` value will deactivate the PokéUpdater unless the version validation is performed elsewhere.
 #### Q. I don't want to use the PokéUpdater executable, but I still want to notify my users that a new version has been released. Is it possible to do this with the provided scripts?
-A. Yes! By setting variable ```FORCE_VERSION_CHECK``` to a ```true``` value and ```FORCE_UPDATE``` to a ```false``` value and keeping the Pastebin file up to date, the game will raise a message notifying the user that a new version is available but the updater executable will not be run. If this is the only feature required, then it is not mandatory to download and bundle the ```poke_updater.exe``` file alongside your game.
+A. Yes! By setting variable ```FORCE_VERSION_CHECK``` to a ```true``` value and ```FORCE_UPDATE``` to a ```false``` value and keeping the Pastebin file up to date, the game will raise a message notifying the user that a new version is available but the updater executable will not be run. If this is the only feature required, then it is not mandatory to download and copy the ```poke_updater.exe``` file alongside your game.
 #### Q. The in-game messages are being displayed in Spanish, are there no translations available?
-A. This is probably caused by not having the provided ```pu_locales``` file in your folder. If file ```pu_locales``` is missing in the game directory, all messages will be initialized to fixed spanish ones which are found in method ```pbGetPokeUpdaterText``` of class ```GameVersion.rb```. Please note that only those languages supported by Pokémon Essentials 16.2 are taken into account. Existing translations can be modified by updating the locales ```pu_locales```.
+A. This is probably caused by not having the provided ```pu_locales``` file in your folder. If file ```pu_locales``` is missing in the game directory, all messages will be fixed to spanish ones which are found in method ```pbGetPokeUpdaterText``` of class ```GameVersion.rb```. Please note that only those languages supported by Pokémon Essentials 16.2 are taken into account. Existing translations can be modified by updating the locales ```pu_locales```.
 #### Q. Will user saves be affected by the update process?
 A. No. The update process works inside the game folder and will NOT affect any other file in the user's computer. As saves are saved under ```C:/Users/USERNAME/SavedGames/GAME_NAME```.
 #### Q. Will you make the source code for the updated available?
