@@ -1,10 +1,10 @@
-[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/dpertierra/PokemonEssentialsGameUpdater/blob/main/README.md)
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/README.md)
 
 **You can now download the files for the latest [release](url)!**
 
 Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players of fan games from one version of a game to a newer one without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire or Google Drive. Joiplay support is not currently planned.
 
-Please note that this first PokéUpdater version has been developed in under a week and even though throughout testing has been done, bugs are expected. Should you find any errors, please let us know by [opening an issue](https://github.com/dpertierra/PokemonEssentialsGameUpdater/issues/new) or contacting us via Discord @dpertierra and @iansson!
+Please note that this first PokéUpdater version has been developed in under a week and even though throughout testing has been done, bugs are expected. Should you find any errors, please let us know by [opening an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D) or contacting us via Discord @dpertierra and @iansson!
 
 ![](/previews/preview_en.gif)
 
@@ -196,13 +196,13 @@ Currently those languages listed below are supported. Translation to other langu
 | Greek                | ✔️                          | ❌                   |
 | Hebrew               | ✔️                          | ❌                   |
 
-_Want to help translate PokéUpdater into your language or notify us about an error in translation? Let us know by [opening an issue](https://github.com/dpertierra/PokemonEssentialsGameUpdater/issues/new)!_
+_Want to help translate PokéUpdater into your language or notify us about an error in translation? Let us know by [opening an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D)!_
 
 ## FAQ
 #### Q. Which RPG Maker versions do the scripts support?
 A. The updater is thought to only be used in RPG Maker XP
 #### Q. Which Pokémon Essentials does the updater support?
-A. Although the updater has been developed and tested in PokéEssentials version 16.2, it is likely that this is a bare minimum and that any later version is also supported. If this is not the case, please report this [through an issue](https://github.com/dpertierra/PokemonEssentialsGameUpdater/issues/new).
+A. Although the updater has been developed and tested in PokéEssentials version 16.2, it is likely that this is a bare minimum and that any later version is also supported. If this is not the case, please report this [through an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D).
 #### Q. Is Python required to be installed to run the updater?
 A. The executable is thought to be used by an end user with no extra input on their end. For this reason, the updater is provided as a bundled executable instead of anything else.
 #### Q. A user is reporting that they cannot download the game file or that their download is unusually slow, what's going on?
@@ -214,8 +214,8 @@ A. If the scripts have been implemented as specified in the [Maintaining your RP
 #### Q. I don't want to use the PokéUpdater executable, but I still want to notify my users that a new version has been released. Is it possible to do this with the provided scripts?
 A. Yes! By setting variable ```FORCE_VERSION_CHECK``` to a ```true``` value and ```FORCE_UPDATE``` to a ```false``` value and keeping the Pastebin file up to date, the game will raise a message notifying the user that a new version is available but the updater executable will not be run. If this is the only feature required, then it is not mandatory to download and bundle the ```poke_updater.exe``` file alongside your game.
 #### Q. The in-game messages are being displayed in Spanish, are there no translations available?
-A. This is probably caused by not having the provided ```pu_locales``` file in your folder. Please note that only those languages supported by Pokémon Essentials 16.2 are taken into account. Existing translations can be modified by updating the locales ```pu_locales```.
+A. This is probably caused by not having the provided ```pu_locales``` file in your folder. If file ```pu_locales``` is missing in the game directory, all messages will be initialized to fixed spanish ones which are found in method ```pbGetPokeUpdaterText``` of class ```GameVersion.rb```. Please note that only those languages supported by Pokémon Essentials 16.2 are taken into account. Existing translations can be modified by updating the locales ```pu_locales```.
 #### Q. Will user saves be affected by the update process?
 A. No. The update process works inside the game folder and will NOT affect any other file in the user's computer. As saves are saved under ```C:/Users/USERNAME/SavedGames/GAME_NAME```.
 #### Q. Will you make the source code for the updated available?
-A. This is not planned at the moment. If a feature that you require is missing, you can [raise a feature request](https://github.com/dpertierra/PokemonEssentialsGameUpdater/issues/new). In the future we may make the source code available but this is not a priority at the moment. 
+A. This is not planned at the moment. If a feature that you require is missing, you can [raise a feature request](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=feature-request-english.md&title=%5BFEATURE+REQUEST%5D). In the future we may make the source code available but this is not a priority at the moment. 
