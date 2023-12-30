@@ -1,6 +1,6 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/README_en.md)
 
-**Ahora puedes descargar los archivos de la última [versión](url)!.**
+**Ahora puedes descargar los archivos de la última [versión](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest)!.**
 
 Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Mediafire o Google Drive. 
 
@@ -219,3 +219,5 @@ R. Esto es causado probablemente por no tener el archivo ```pu_locales``` en la 
 R. No. El proceso de actualizaciónb trabaja únicamente dentro de la carpeta del juego y no afectará NINGÚN otro archivo en la PC del usuario. Como las partidas se guardan en la ruta ```C:/Usuarios/NOMBRE/SavedGames/NOMBRE_DEL_JUEGO```, no se verán afectadas.
 #### P. ¿Harán disponible el código fuente del actualizador?
 R. En el futuro es posible que hagamos disponible el código fuente pero no es una prioridad en el momento. Si una funcionalidad requerida no se encuentra disponible puedes levantar una [solicitud de funcionalidad](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=solicitud-de-funcionalidad.md&title=%5BFEATURE+REQUEST%5D).
+
+**Agradecemos a los usuarios del [foro RPG Maker Web](https://forums.rpgmakerweb.com/index.php?threads/http-network-library.15009/#post-149590) por su ayuda con la lógica de descarga de archivos a través de HTTP.**
