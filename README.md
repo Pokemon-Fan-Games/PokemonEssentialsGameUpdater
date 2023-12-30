@@ -170,7 +170,7 @@ Si se mantiene correctamente, aquellos juegos que estén corriendo en una versi�
 
 ## Idiomas soportados
 
-Actualmente aquellos idiomas listados debajo están soportados. La traducción a otros idiomas puede ser hecha en un futuro, pero no está actualmente planeada.
+Actualmente aquellos idiomas listados debajo están soportados. La traducción a otros idiomas puede ser hecha en un futuro, pero no está actualmente planeada. Para permitir traducciones de los scripts, no olvidar extraer el archivo `locales` al directorio del juego.
 
 | Idioma             | ¿Incluído en el ejecutable? | ¿Incluído en los scripts? |
 | -------------------- | --------------------------- | -------------------- |
