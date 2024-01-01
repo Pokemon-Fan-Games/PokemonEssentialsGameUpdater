@@ -1,4 +1,4 @@
 Name       = Pokemon Essentials Game Updater
-Version    = 1.0.2
+Version    = 1.1.0
 Website    = https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater
 Credits    = [dpertierra, iansson]
