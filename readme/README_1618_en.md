@@ -254,7 +254,8 @@ A. No. The update process works inside the game folder and will NOT affect any o
 
 #### Q. My antivirus software detects file `poke_updater.exe` as a potential virus, why is that?
 
-A. As the updater executable is being compiled by using library pyInstaller, antivirus software like Windows Defender automatically detect it as a potential virus. The `poke_updater.exe` file does not contain any kind of malicious code and we are currently working to find a way that it is not detected so. As we want to be as transparent as possible on how the updater works, we have also made the source code for the `poke_updater.exe` available.
+_~~A. As the updater executable is being compiled by using library pyInstaller, antivirus software like Windows Defender automatically detect it as a potential virus. The `poke_updater.exe` file does not contain any kind of malicious code and we are currently working to find a way that it is not detected so. As we want to be as transparent as possible on how the updater works, we have also made the source code for the `poke_updater.exe` available.~~_
+A. Starting with release 1.1.0 we have changed the way the executable is being compiled, which should no longer trigger this false positive. If that is not the case, please raise an [issue]((https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D)) for us to look further into it.
 
 #### Q. Will you make the source code for the updater available?
 
