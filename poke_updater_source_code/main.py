@@ -13,7 +13,7 @@ from locales import *
 from download import *
 import locale
 from download import Download
-from subprocess import Popen, DETACHED_PROCESS
+from subprocess import Popen, DETACHED_PROCESS, PIPE
 from patoolib import extract_archive
 from reversal import Reversal
 from worker import create_worker
@@ -25,11 +25,11 @@ is_extracting = False
 
 # Determine if application is a script file or exe
 if getattr(sys, 'frozen', False):
-    REAL_PATH = os.path.dirname(sys.executable)
+    REAL_PATH = os.path.dirname(os.path.dirname(sys.executable))
 elif __file__:
     REAL_PATH = os.path.dirname(__file__)
 
-TEST_PATH = "C:/Users/ianfr/Documents/poketests/Pokemon Añil 2.04"
+TEST_PATH = "C:/Users/Diego/Documents/RPGXP/Pokemon Añil 2.03 - Copy - Copy"
 test = False
 path_to_use = TEST_PATH if test else REAL_PATH
 
@@ -43,10 +43,10 @@ current_step = None
 
 
 def remove_updater(poke_updater_from_zip):
-    command = f'ping localhost -n 5 & del /q "{os.path.realpath(sys.executable)}" ' \
+    command = f'ping localhost -n 5 & rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}" ' \
             f'& move "{poke_updater_from_zip}" "{path_to_use}" ' \
             f'& rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
-    Popen(command, shell=True)
+    Popen(command, stdin=PIPE, stderr=PIPE, stdout=PIPE, shell=True)
 
 def main():
     global current_step, is_extracting
@@ -141,7 +141,14 @@ def main():
         app.step_label.config(text=Step.DELETING[1][LANGUAGE])
         app.progress_label.config(text=ProgressLabel.A_FEW_SECONDS[LANGUAGE])
         items_to_remove = os.listdir(path_to_use)
-        total_files = sum([len(files) for _, _, files in os.walk(path_to_use)])
+        items_to_ignore = []
+        total_files = 0
+        for root, _,  files in os.walk(path_to_use):
+            if 'poke_updater' in root:
+                for file in files:
+                    items_to_ignore.append(file)
+            total_files+= len(files)
+        #total_files = sum([len(files) for _, _, files in os.walk(path_to_use)])
         deleted_items = 0
         for file in items_to_remove:
             while wait:
@@ -149,7 +156,7 @@ def main():
             if file.startswith(".") or file == TEMP_PATH: continue
             app.progressbar['value'] = round((deleted_items/total_files)*100)
             app.progress_label.config(text=str(app.progressbar['value']) + "%")
-            if not "poke_updater" in file:
+            if "poke_updater" not in file and file not in items_to_ignore:
                 file_to_remove = os.path.join(path_to_use,file)
                 if os.path.isdir(file_to_remove):
                     deleted_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, file_to_remove))])
@@ -186,7 +193,9 @@ def main():
                 if kill: return
             app.progressbar['value'] = round((moved_files/total_files)*100)
             app.progress_label.config(text=str(app.progressbar['value']) + "%")
-            if "poke_updater" in file and file.endswith(".exe"):
+            if "poke_updater" in file and os.path.isdir(file):
+                file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
+                moved_files += file_tree_count
                 poke_updater_from_zip = os.path.join(extracted_folder, file)
             else:
                 if os.path.isdir(os.path.join(extracted_folder, file)):
@@ -200,15 +209,14 @@ def main():
         # Post update
         for i in range(5):
             app.step_label.config(text=f'{ProgressLabel.DONE[LANGUAGE]} {str(5-i)} {ProgressLabel.SECONDS[LANGUAGE]}')
-            app.update_idletasks()
             sleep(1)
         
-        Popen(os.path.join(path_to_use,"Game.exe"), creationflags=DETACHED_PROCESS)
+        Popen(os.path.join(path_to_use,"Game.exe"), stdin=PIPE, stderr=PIPE, stdout=PIPE, creationflags=DETACHED_PROCESS)
         if getattr(sys, 'frozen', False):
             remove_updater(poke_updater_from_zip)
 
-        app.main_thread.stop()
         app.quit()
+        app.main_thread.stop()
     except Exception as e: 
         print(e)
         app.show_error(ExceptionMessage.UNEXPECTED_ERROR[LANGUAGE], e)
@@ -221,7 +229,7 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.progressbar = None
         self.columnconfigure(0, weight=1)
-        self.iconbitmap(self.resource("poke_updater_logo.ico"))
+        # self.iconbitmap(self.resource("poke_updater_logo.ico"))
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.create_widgets()
         
