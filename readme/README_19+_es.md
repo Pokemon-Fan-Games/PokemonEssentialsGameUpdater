@@ -252,9 +252,12 @@ R. No. El proceso de actualizaciónb trabaja únicamente dentro de la carpeta de
 
 #### P. Mi antivirus detecta el archivo `poke_updater.exe` como un potencial virus, ¿por qué es eso?
 
-R. Debido a que el ejecutable del actualizador es compilado haciendo uso de la librería pyInstaller, programas antivirus como Windows Defender automáticamente lo detectan como un potencial virus. El `poke_updater.exe` no contiene código malicioso de ningún tipo y actualmente estamos trabajando intentando encontrar una manera de que no sea detectado de esta manera. Como queremos ser transparentes sobre cómo funciona el actualizador, hemos hecho disponible el código fuente del archivo `poke_updater.exe`.
+_~~R. Debido a que el ejecutable del actualizador es compilado haciendo uso de la librería pyInstaller, programas antivirus como Windows Defender automáticamente lo detectan como un potencial virus. El `poke_updater.exe` no contiene código malicioso de ningún tipo y actualmente estamos trabajando intentando encontrar una manera de que no sea detectado de esta manera. Como queremos ser transparentes sobre cómo funciona el actualizador, hemos hecho disponible el código fuente del archivo `poke_updater.exe`.~~_
+
+R. Comenzando con la versión 1.1.0 hemos cambiado la forma en que compilamos el ejecutable, lo cual debería no volver a disparar este falso positivo. De no ser ese el caso, por favor abrir un nuevo [reporte de problema](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=reporte-de-error.md&title=%5BBUG%5D) para que podamos revisarlo en detalle.
 
 #### P. ¿Harán disponible el código fuente del actualizador?
 
 _~~R. En el futuro es posible que hagamos disponible el código fuente pero no es una prioridad en el momento. Si una funcionalidad requerida no se encuentra disponible puedes levantar una [solicitud de funcionalidad](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=solicitud-de-funcionalidad.md&title=%5BFEATURE+REQUEST%5D).~~_
+
 R. Sí, con la versión 1.1.0 el código fuente se ha hecho disponible y puede ser encontrado [aquí](/poke_updater_source_code/).
