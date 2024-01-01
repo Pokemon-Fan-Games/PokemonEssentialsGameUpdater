@@ -255,11 +255,13 @@ A. No. The update process works inside the game folder and will NOT affect any o
 #### Q. My antivirus software detects file `poke_updater.exe` as a potential virus, why is that?
 
 _~~A. As the updater executable is being compiled by using library pyInstaller, antivirus software like Windows Defender automatically detect it as a potential virus. The `poke_updater.exe` file does not contain any kind of malicious code and we are currently working to find a way that it is not detected so. As we want to be as transparent as possible on how the updater works, we have also made the source code for the `poke_updater.exe` available.~~_
-A. Starting with release 1.1.0 we have changed the way the executable is being compiled, which should no longer trigger this false positive. If that is not the case, please raise an [issue]((https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D)) for us to look further into it.
+
+A. Starting with release 1.1.0 we have changed the way the executable is being compiled, which should no longer trigger this false positive. If that is not the case, please raise an [issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D) for us to look further into it.
 
 #### Q. Will you make the source code for the updater available?
 
 _~~A. This is not planned at the moment. If a feature that you require is missing, you can [raise a feature request](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=feature-request-english.md&title=%5BFEATURE+REQUEST%5D). In the future we may make the source code available but this is not a priority at the moment.~~_
+
 A. Yes, with release 1.1.0, the source code has been made available and can be found [here](/poke_updater_source_code/).
 
 **A big thanks to users of the [RPG Maker Web forum](https://forums.rpgmakerweb.com/index.php?threads/http-network-library.15009/#post-149590) for their help with the HTTP file download logic!**
