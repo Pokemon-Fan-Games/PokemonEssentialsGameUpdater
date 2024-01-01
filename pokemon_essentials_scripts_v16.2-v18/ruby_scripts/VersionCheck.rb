@@ -51,12 +51,13 @@ module VersionCheck
             newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
             
             Kernel.pbMessage(_INTL("#{newVersionText}"))
-            if !(GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update)
+            if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
               if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
                 Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}"))
               else
                 Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}"))
               end
+              return
             end
             
             if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update

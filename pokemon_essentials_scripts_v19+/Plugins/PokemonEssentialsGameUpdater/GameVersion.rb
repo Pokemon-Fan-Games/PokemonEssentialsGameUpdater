@@ -123,12 +123,13 @@ def pbValidateVersion(url, update=false)
 				Kernel.pbMessage(_INTL("#{pbGetUpdaterText('JOIPLAY_UPDATE')}"))
 				return
 			end
-			if !(GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update)
+			if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
 			  if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
-				Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}"))
+				  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}"))
 			  else
-				Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}"))
+				  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}"))
 			  end
+        return
 			end
 			
 			if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
