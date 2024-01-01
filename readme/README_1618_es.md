@@ -17,7 +17,7 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 ## Guía rápida
 
 1. Descargar el archivo `PokeUpdater_1.1.0_PE16-18.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
-2. Copiar los archivos `poke_updater.exe`, `pu_locales` y `pu_config` a la carpeta del juego.
+2. Extraer los archivos `poke_updater.exe`, `pu_locales`, `pu_config` y la carpeta `poke_updater` al directorio del juego.
 3. Copiar los scripts `VersionCheck.rb` y `GameVersion.rb` junto con el resto de los scripts del juego, antes del script llamado `Main`.
 4. Agregar el llamado al control de versiones como se indica en la sección [Mantenimiento de tus scripts de RPG Maker XP](#mantenimiento-de-tus-scripts-de-rpg-maker-xp).
 5. Iniciar sesión en http://pastebin.com.
@@ -168,7 +168,7 @@ Ver debajo para una explicación de cada variable:<br><br>
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
 | `CURRENT_GAME_VERSION` | La versión actual del juego. Cuando se valide si hay una nueva versión disponible, esta variable se comparará contra la `GAME_VERSION` configurada en el archivo de Pastebin. | Cualquier número de versión con el formato x.x (por ejemplo: `1.0`, `2.5`, `23.10`, etc.).                                                             | `1.0`              |
 | `VERSION_PASTEBIN`     | La URL al formato RAW del archivo de Pastebin. Esta será la URL con la cual los detalles de la nueva versión serán validados.                                                 | Una URL a un formato **RAW** de un archivo de Pastebin. Si se provee una URL de Pastebin no RAW, los valores no podrán ser determinados correctamente. | Empty              |
-| `UPDATER_FILENAME`     | El nombre del ejecutable del PokéUpdater. No necesita ser cambiado, pero si se cambia también debe ser mantenido en esta variable.                                            | Cualquier nombre de archivo válido que corresponda con el nombre del ejecutable.                                                                       | `poke_updater.exe` |
+| `UPDATER_FILENAME`     | El nombre del ejecutable del PokéUpdater. No necesita ser cambiado, pero si se cambia también debe ser mantenido en esta variable.                                            | Cualquier nombre de archivo válido que corresponda con el nombre del ejecutable.                                                                       | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Booleano para validar obligatoriamente si una nueva versión está disponible basada en la información configurada en el archivo de Pastebin al iniciar el juego.               | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                | `true`             |
 | `FORCE_UPDATE`         | Bolleano para descargar obligatoriamente y actualizar la nueva versión usando la URL indicada en el archivo de Pastebin.                                                      | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                | `true`             |
 
