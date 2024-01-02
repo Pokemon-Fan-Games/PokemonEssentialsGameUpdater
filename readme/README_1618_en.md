@@ -34,10 +34,10 @@ The PokéUpdater consists of mainly two Ruby scripts which must be added alogsid
 For the game to check if there are new updates at the loading screen you have to add the following line at the top of the `pbStartLoadScreen` method in the `PScreen_Load` script:
 
 ```ruby
-checkForUpdates()
+pbCheckForUpdates()
 ```
 
-If it is needed that the version is validated at any other point in your game, you can add this `checkForUpdates()` call where required.
+If it is needed that the version is validated at any other point in your game, you can add this `pbCheckForUpdates()` call where required.
 
 ### Optional code snippets
 
@@ -64,7 +64,7 @@ The full `if else` clause should look like this:
 ```ruby
 def pbStartLoadScreen(savenum=0,auto=nil,savename="Partida 1")
     # PokeUpdater Code
-    checkForUpdates()
+    pbCheckForUpdates()
     # End of PokeUpdater Code
 
     $PokemonTemp  = PokemonTemp.new
