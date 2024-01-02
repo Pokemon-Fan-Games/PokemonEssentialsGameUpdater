@@ -229,7 +229,7 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.progressbar = None
         self.columnconfigure(0, weight=1)
-        # self.iconbitmap(self.resource("poke_updater_logo.ico"))
+        self.iconbitmap(self.resource("poke_updater_logo.ico"))
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.create_widgets()
         
