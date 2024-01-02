@@ -38,10 +38,10 @@ El PokéUpdater consiste principalmente de dos scripts de Ruby que deben ser agr
 Para que el juego valide si hay nuevas actualizaciones en la pantalla de carga, se debe agregar la siguiente línea al principio del método `pbStartLoadScreen` en el script `PScreen_Load`:
 
 ```ruby
-checkForUpdates()
+pbCheckForUpdates()
 ```
 
-De ser necesario validar la versión del juego en cualquier otro punto del juego, es posible agregar este llamado al método `checkForUpdates()` donde sea requerido.
+De ser necesario validar la versión del juego en cualquier otro punto del juego, es posible agregar este llamado al método `pbCheckForUpdates()` donde sea requerido.
 
 ### Extractos de código opcionales
 
@@ -68,7 +68,7 @@ El extracto `if else` debería verse similar a lo siguiente:
 ```ruby
 def pbStartLoadScreen(savenum=0,auto=nil,savename="Partida 1")
     # PokeUpdater Code
-    checkForUpdates()
+    pbCheckForUpdates()
     # End of PokeUpdater Code
 
     $PokemonTemp  = PokemonTemp.new
