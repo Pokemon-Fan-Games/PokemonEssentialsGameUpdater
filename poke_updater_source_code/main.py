@@ -21,6 +21,7 @@ from worker import create_worker
 
 wait = False
 kill = False
+download = None
 is_extracting = False
 
 # Determine if application is a script file or exe
@@ -49,7 +50,7 @@ def remove_updater(poke_updater_from_zip):
     Popen(command, stdin=PIPE, stderr=PIPE, stdout=PIPE, shell=True)
 
 def main():
-    global current_step, is_extracting
+    global current_step, is_extracting, download
     try: 
         # Retrieve game version and download link from settings file
         current_step = Step.RETRIEVING
@@ -95,7 +96,8 @@ def main():
         if not os.path.exists(os.path.join(path_to_use, TEMP_PATH)):
             os.mkdir(os.path.join(path_to_use, TEMP_PATH))
         try:
-            Download(app, path_to_use, TEMP_PATH, LANGUAGE).start_download(game_url)
+            download = Download(app, path_to_use, TEMP_PATH, LANGUAGE)
+            download.start_download(game_url)
             if kill: return
         except ConnectionResetError:
             app.show_error(ExceptionMessage.DOWNLOAD_ERROR[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
@@ -255,8 +257,9 @@ class App(tk.Tk):
         self.label.config(text=label_text, foreground='#f00')
     
     def on_closing(self):
-        global wait, kill, is_extracting
+        global wait, kill, is_extracting, download
         wait = True
+        download.set_wait(True)
         self.main_thread.pause()
         if messagebox.askokcancel(QuitBoxTitle.TITLE[LANGUAGE], Reversal.getMessageText(current_step, LANGUAGE)):
             if is_extracting:
@@ -264,6 +267,7 @@ class App(tk.Tk):
             while is_extracting:
                 pass  # Freeze app after showing a message while files are extracting to be able to reverse
             kill = True
+            download.set_kill(True)
             self.main_thread.stop()
             app.destroy()
             Reversal.reverse(current_step, os.path.join(path_to_use, TEMP_PATH))

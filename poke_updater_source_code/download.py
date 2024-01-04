@@ -20,14 +20,26 @@ class Download():
         self.app = app
         self.path = os.path.join(path, temp_path)
         self.language = language
+        self.wait = False
+        self.kill = False
+        self.mega = None
         
+    def set_wait(self, wait):
+        self.wait = wait
+        if self.mega:
+            self.mega.set_wait(wait)
+    def set_kill(self, kill):
+        self.kill = kill
+        if self.mega:
+            self.mega.set_kill(kill)
     def start_download(self, url):
         host = None
         try:
             host = self._get_file_host(url)
             
             if host == Host.MEGA:
-                self._MegaDownload(self.app).download_url(url, self.path)
+                self.mega = self._MegaDownload(self.app, self.wait, self.kill)
+                self.mega.download_url(url, self.path)
             elif host == Host.GOOGLE_DRIVE:
                 self._download_file_from_google_drive(url)
             elif host == Host.MEDIAFIRE:
@@ -64,8 +76,8 @@ class Download():
         if not content_length: raise Exception(ExceptionMessage.NO_VALID_FILE_FOUND[self.language])
         with open(filename, "wb") as f:
             for chunk in response.iter_content(CHUNK_SIZE):
-                while wait:
-                    if kill:
+                while self.wait:
+                    if self.kill:
                         return
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
@@ -128,7 +140,7 @@ class Download():
         filename = re.findall("filename=(.+)", content_disposition)[0].split(';')[0].replace('"', '')
         filename = os.path.join(destination, filename)
         self._stream_to_file(filename, response)
-        if kill:
+        if self.kill:
             return
         self.app.progress_label.config(text="100%")
         self.app.progressbar['value'] = 100
@@ -144,7 +156,14 @@ class Download():
             self.sid = None
             self.mega = Mega()
             self.mega.login()
-            
+            self.wait = False
+            self.kill = False
+        
+        def set_wait(self, wait):
+            self.wait = wait
+        def set_kill(self, kill):
+            self.kill = kill
+        
         def download_url(self, url, dest_path=None, dest_filename=None):
             path = self._parse_url(url).split('!')
             file_id = path[0]
@@ -246,8 +265,8 @@ class Download():
                 for chunk in response.iter_content(CHUNK_SIZE): #chunk_start, chunk_size in get_chunks(file_size):
                     #chunk = input_file.read(chunk_size)
                     chunk = aes.decrypt(chunk)
-                    while wait:
-                        if kill:
+                    while self.wait:
+                        if self.kill:
                             return
                     if chunk:  # filter out keep-alive new chunks
                         f.write(chunk)
