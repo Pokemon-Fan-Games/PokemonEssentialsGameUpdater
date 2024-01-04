@@ -84,6 +84,8 @@ def pbGetPokeUpdaterText(textName, variable=nil)
       return "El juego se actualizará y reiniciará automáticamente. Esto puede demorar unos minutos. Tus partidas guardadas NO se verán afectadas durante la actualización."
     when 'NO_NEW_VERSION'
       return "Estás en la última versión"
+    when 'UPDATER_NOT_FOUND'
+      return 'No se ha encontrado el actualizador del juego.'
   end
 end
 
