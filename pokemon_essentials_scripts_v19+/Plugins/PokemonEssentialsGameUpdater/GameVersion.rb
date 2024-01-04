@@ -3,7 +3,6 @@ module GameVersion
   # Constantes requeridas para validación / actualización del juego
   POKE_UPDATER_CONFIG = {}
   POKE_UPDATER_LOCALES = {}
-  updateThread = nil
 end
 
 def pbFillUpdaterConfig()
@@ -92,12 +91,12 @@ end
 
 
 def pbValidateGameVersionAndUpdate()
-  return if !GameVersion::POKE_UPDATER_CONFIG
+  return if !GameVersion::POKE_UPDATER_CONFIG || !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
   pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true)
 end
 
 def pbValidateGameVersion()
-  return if !GameVersion::POKE_UPDATER_CONFIG
+  return if !GameVersion::POKE_UPDATER_CONFIG || !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
   pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false)
 end
 
@@ -133,6 +132,10 @@ def pbValidateVersion(url, update=false)
 			end
 			
 			if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
+        if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
+          Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}"))
+          return
+        end
 			  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATE')}"))
 			  IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
 			  Kernel.exit!

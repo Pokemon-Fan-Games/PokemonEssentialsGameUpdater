@@ -61,6 +61,10 @@ module VersionCheck
             end
             
             if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
+              if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
+                Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}"))
+                return
+              end
               Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATE')}"))
               IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
               Kernel.exit!

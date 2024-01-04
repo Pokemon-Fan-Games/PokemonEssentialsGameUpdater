@@ -97,12 +97,12 @@ def pbCheckForUpdates()
 end
 
 def pbValidateGameVersionAndUpdate()
-  return if !GameVersion::POKE_UPDATER_CONFIG
+  return if !GameVersion::POKE_UPDATER_CONFIG || !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
   VersionCheck::Connection.validateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true)
 end
 
 def pbValidateGameVersion()
-  return if !GameVersion::POKE_UPDATER_CONFIG
+  return if !GameVersion::POKE_UPDATER_CONFIG || !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
   VersionCheck::Connection.validateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false)
 end
 
