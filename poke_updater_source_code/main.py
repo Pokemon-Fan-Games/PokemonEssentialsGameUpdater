@@ -87,6 +87,11 @@ def main():
             app.show_error(ExceptionMessage.NO_INTERNET[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
             return
 
+        
+        # Delete temp folder if exists before downloading
+        if os.path.exists(os.path.join(path_to_use, TEMP_PATH)):
+            shutil.rmtree(os.path.join(path_to_use, TEMP_PATH))
+        
         # Download new version
         current_step = Step.DOWNLOADING
         app.step_label.config(text=Step.DOWNLOADING[1][LANGUAGE])
