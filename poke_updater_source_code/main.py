@@ -199,13 +199,16 @@ def main():
                 file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
                 moved_files += file_tree_count
                 poke_updater_from_zip = os.path.join(extracted_folder, file)
-            else:
+            elif os.path.join(path_to_use, file) != os.path.join(path_to_use, TEMP_PATH):
                 if os.path.isdir(os.path.join(extracted_folder, file)):
                     file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
                     moved_files += file_tree_count
                 else:
                     moved_files += 1
                 shutil.move(os.path.join(extracted_folder, file), path_to_use)
+            else:
+                file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
+                moved_files += file_tree_count
         app.progress_label.config(text="")
 
         # Post update
