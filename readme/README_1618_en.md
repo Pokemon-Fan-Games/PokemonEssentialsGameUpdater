@@ -16,13 +16,13 @@ Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface devel
 
 ## Quick start
 
-1.  Download file `PokeUpdater_1.1.2_PE16-18.zip` from the [latest release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/readme).
-2.  Extract files `pu_locales`, `pu_config` and the `poke_updater` folder to the game directory.
-3.  Copy scripts `VersionCheck.rb` and `GameVersion.rb` alongside the rest of the game's scripts, before the script named `Main`.
-4.  Add the code for the version check as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section.
-5.  Log in to [http://pastebin.com](http://pastebin.com/).
-6.  Create a new Pastebin file with the format specified in section [Set up and maintain the Pastebin file](#set-up-and-maintain-the-pastebin-file) and retrieve its RAW URL.
-7.  Edit file `pu_config` with notepad, and set the correct values for variables `CURRENT_GAME_VERSION` and `VERSION_PASTEBIN`.
+1. Download file `PokeUpdater_1.1.3_PE16-18.zip` from the [latest release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/readme).
+2. Extract files `pu_locales`, `pu_config` and the `poke_updater` folder to the game directory.
+3. Copy scripts `VersionCheck.rb` and `GameVersion.rb` alongside the rest of the game's scripts, before the script named `Main`.
+4. Add the code for the version check as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section.
+5. Log in to [http://pastebin.com](http://pastebin.com/).
+6. Create a new Pastebin file with the format specified in section [Set up and maintain the Pastebin file](#set-up-and-maintain-the-pastebin-file) and retrieve its RAW URL.
+7. Edit file `pu_config` with notepad, and set the correct values for variables `CURRENT_GAME_VERSION` and `VERSION_PASTEBIN`.
 
 ## Maintaining your RPG Maker XP scripts
 
