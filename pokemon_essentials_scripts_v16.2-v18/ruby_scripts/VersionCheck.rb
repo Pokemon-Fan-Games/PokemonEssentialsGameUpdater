@@ -17,7 +17,7 @@ module VersionCheck
         internetOpen = Win32API.new(W,'InternetOpenA','plppl','l').call('',0,'','',0)
         open_url = IOU.call(internetOpen,url,nil,0,0x80000000,0)
         if open_url == 0
-          Kernel.pbMessage("No hay conexión a internet o no se encontró una nueva versión.")
+          Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_NEW_VERSION_OR_INTERNET')))
           return
         end
 
