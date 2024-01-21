@@ -107,7 +107,7 @@ The full `pbStartLoadScreen` method should look like this:
         . . .
       # PokeUpdater Code
       when cmd_update
-        pbValidateGameVersionAndUpdate()
+        pbValidateGameVersionAndUpdate(true)
       # End of PokeUpdater Code
       when cmd_quit
         . . .

@@ -112,7 +112,7 @@ def pbStartLoadScreen(savenum=0,auto=nil,savename="Partida 1")
         . . .
       # PokeUpdater Code
       when cmd_update
-        pbValidateGameVersionAndUpdate()
+        pbValidateGameVersionAndUpdate(true)
       # End of PokeUpdater Code
       when cmd_quit
         . . .

@@ -13,7 +13,7 @@ module VersionCheck
      ICH=Win32API.new(W,'InternetCloseHandle','l','l')
      HQI=Win32API.new(W,'HttpQueryInfo','llppp','i')
      module_function
-     def validateVersion(url, update=false)
+     def validateVersion(url, update=false, from_update_button=false)
         internetOpen = Win32API.new(W,'InternetOpenA','plppl','l').call('',0,'','',0)
         open_url = IOU.call(internetOpen,url,nil,0,0x80000000,0)
         if open_url == 0
@@ -70,7 +70,7 @@ module VersionCheck
               Kernel.exit!
             end
           else
-            Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_NEW_VERSION')))
+            Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_NEW_VERSION'))) if from_update_button
           end 
         end
      end
