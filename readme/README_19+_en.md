@@ -146,7 +146,7 @@ After creating and configuring your Pastebin file, copy the provided `pu_config`
 ```
 CURRENT_GAME_VERSION=1.0
 VERSION_PASTEBIN=
-UPDATER_FILENAME=poke_updater.exe
+UPDATER_FILENAME=./poke_updater/poke_updater.exe
 FORCE_VERSION_CHECK=true
 FORCE_UPDATE=true
 ```
