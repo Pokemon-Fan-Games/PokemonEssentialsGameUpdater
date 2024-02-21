@@ -40,8 +40,8 @@ class Download():
             if host == Host.MEGA:
                 self.mega = self._MegaDownload(self.app, self.wait, self.kill)
                 self.mega.download_url(url, self.path)
-            elif host == Host.GOOGLE_DRIVE:
-                self._download_file_from_google_drive(url)
+            # elif host == Host.GOOGLE_DRIVE:
+            #     self._download_file_from_google_drive(url)
             elif host == Host.MEDIAFIRE:
                 download_url = BeautifulSoup(requests.get(url).content, 'html.parser').find(id="downloadButton")["href"]
                 self._download_from_mediafire(download_url)

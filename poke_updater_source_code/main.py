@@ -30,7 +30,7 @@ if getattr(sys, 'frozen', False):
 elif __file__:
     REAL_PATH = os.path.dirname(__file__)
 
-TEST_PATH = "C:/Users/Diego/Documents/RPGXP/Pokemon Añil 2.03 - Copy - Copy"
+TEST_PATH = ""
 test = False
 path_to_use = TEST_PATH if test else REAL_PATH
 
