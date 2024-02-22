@@ -160,7 +160,7 @@ See below for an explanation on each of the variables:<br><br>
 | `VERSION_PASTEBIN`     | The URL to your raw Pastebin file. This will be the URL from where the new version details will be validated.                                             | A **RAW** Pastebin URL. If a non RAW Pastebin URL is passed, values will not be properly determined. | Empty              |
 | `UPDATER_FILENAME`     | The PokéUpdater executable name. It doesn't need to be changed, but if it is, then it must be maintained in this variable.                                | Any valid filename                                                                                   | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Flag to forcibly validate if a new version is available based on Pastebin data on game launch.                                                            | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
-| `FORCE_UPDATE`         | Flag to forcibly download and update the game retrieving the new version from the indicated URL in the Pastebin data.                                     | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
+| `FORCE_UPDATE`         | If this flag is sent to true and the user chooses not to update the game when prompted the a message will be shown informing that the update is requiered and the game will close.     | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `false`             |
 
 After setting the required values for all variables, the file does not need to be changed unless a new version is released.
 
