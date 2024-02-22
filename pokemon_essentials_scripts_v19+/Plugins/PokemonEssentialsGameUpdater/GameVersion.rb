@@ -46,10 +46,8 @@ def getLanguage()
     ret=getUserDefaultLangID.call()&0x3FF
   end
   if ret==0 # Unknown
-    ret=MiniRegistry.get(MiniRegistry::HKEY_CURRENT_USER,
-       "Control Panel\\Desktop\\ResourceLocale","",0)
-    ret=MiniRegistry.get(MiniRegistry::HKEY_CURRENT_USER,
-       "Control Panel\\International","Locale","0").to_i(16) if ret==0
+    ret=MiniRegistry.get(MiniRegistry::HKEY_CURRENT_USER, "Control Panel\\Desktop\\ResourceLocale","",0)
+    ret=MiniRegistry.get(MiniRegistry::HKEY_CURRENT_USER, "Control Panel\\International","Locale","0").to_i(16) if ret==0
     ret=ret&0x3FF
     return 0 if ret==0  # Unknown
   end
@@ -88,39 +86,43 @@ def pbGetPokeUpdaterText(textName, variable=nil)
       return "Estás jugando en joiplay por favor entra a la red social del creador para descargar la última versión del juego."
     when 'UPDATER_NOT_FOUND'
       return 'No se ha encontrado el actualizador del juego.'
-    when 'NO_NEW_VERSION_OR_INTERNET'
-      return 'No tienes conexión a internet o se encontró una nueva versión del juego.'
-    when 'NO_PASTEBIN_URL'
-      return 'No hay una URL al pastebin en el archivo de configuración, repórtalo con el creador del juego.'
+	when 'NO_NEW_VERSION_OR_INTERNET'
+	  return 'No tienes conexión a internet o se encontró una nueva versión del juego.'
+	when 'NO_PASTEBIN_URL'
+	  return 'No hay una URL al pastebin en el archivo de configuración, repórtalo con el creador del juego.'
+  when 'ASK_FOR_UPDATE'
+    return '¿Deseas actualizar el juego?'
+  when 'FORCE_UPDATE_ON'
+    return 'La actualización del juego es obligatoria, el juego se cerrará.'
   end
 end
 
 
 def pbValidateGameVersionAndUpdate(from_update_button=false)
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
-  return if !GameVersion::POKE_UPDATER_CONFIG 
+  return if !GameVersion::POKE_UPDATER_CONFIG
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-    Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
+    Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL'))) if from_update_button
     return
   end
   pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true, from_update_button)
 end
 
-def pbValidateGameVersion()
+def pbValidateGameVersion(from_update_button=false)
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG 
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-	  Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
+	  Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL'))) if from_update_button
 	  return
   end
-  pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false)
+  pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false, from_update_button)
 end
 
-def pbCheckForUpdates()
+def pbCheckForUpdates(from_update_button=false)
 	if !$joiplay || major_version >= 19 # Esto es para evitar correr este codigo en Joiplay
 	  pbFillUpdaterConfig()
 	  if GameVersion::POKE_UPDATER_CONFIG && GameVersion::POKE_UPDATER_CONFIG
-		  pbValidateGameVersion()
+		  pbValidateGameVersion(from_update_button)
 	  end
 	end
 end
@@ -138,6 +140,13 @@ def pbValidateVersion(url, update=false, from_update_button=false)
 				Kernel.pbMessage(_INTL("#{pbGetUpdaterText('JOIPLAY_UPDATE')}"))
 				return
 			end
+
+      if !pbConfirmMessage(_INTL("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}"))
+        return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
+        Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}"))
+        Kernel.exit!
+      end
+
 			if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
 			  if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
 				  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}"))
