@@ -90,6 +90,10 @@ def pbGetPokeUpdaterText(textName, variable=nil)
       return 'No tienes conexión a internet o se encontró una nueva versión del juego.'
     when 'NO_PASTEBIN_URL'
       return 'No hay una URL al pastebin en el archivo de configuración, repórtalo con el creador del juego.'
+    when 'ASK_FOR_UPDATE'
+      return '¿Deseas actualizar el juego?'
+    when 'FORCE_UPDATE_ON'
+      return 'La actualización del juego es obligatoria, el juego se cerrará.'
   end
 end
 
@@ -106,20 +110,20 @@ def pbValidateGameVersionAndUpdate()
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG 
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-	Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
-	return
+    Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
+    return
   end
-  pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true)
+  VersionCheck::Connection.validateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true)
 end
 
-def pbValidateGameVersion()
+def pbValidateGameVersion(from_update_button=false)
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG 
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
 	Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
 	return
   end
-  pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false)
+  VersionCheck::Connection.validateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false, from_update_button)
 end
 
 def major_version
