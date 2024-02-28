@@ -2,7 +2,7 @@
 
 ---
 
-**¡Ahora puedes descargar los archivos de la última [versión](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest)!**
+**¡Ahora puedes descargar los archivos de la última [versión](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/tag/V1.1.7)!**
 
 Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Mediafire, Dropbox o Google Drive.
 
@@ -16,7 +16,7 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 
 ## Guía rápida
 
-1. Descargar el archivo `PokeUpdater_1.1.5_PE16-18.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
+1. Descargar el archivo `PokeUpdater_1.1.7_PE16-18.zip` del [este release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/tag/V1.1.7).
 2. Extraer los archivos `pu_locales`, `pu_config` y la carpeta `poke_updater` al directorio del juego.
 3. Copiar los scripts `VersionCheck.rb` y `GameVersion.rb` junto con el resto de los scripts del juego, antes del script llamado `Main`.
 4. Agregar el llamado al control de versiones como se indica en la sección [Mantenimiento de tus scripts de RPG Maker XP](#mantenimiento-de-tus-scripts-de-rpg-maker-xp).
