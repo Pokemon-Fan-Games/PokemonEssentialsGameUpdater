@@ -145,6 +145,8 @@ def pbValidateVersion(url, update=false, from_update_button=false)
         return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
         Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}"))
         Kernel.exit!
+      else
+        update = true
       end
 
 			if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update

@@ -2,11 +2,11 @@ import requests
 from mega import Mega
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
-from crypto import (base64_to_a32, base64_url_decode, decrypt_attr, a32_to_str, get_chunks, str_to_a32)
+from crypto import (base64_to_a32, base64_url_decode, decrypt_attr, a32_to_str)
 import json
 from locales import *
-from tenacity import retry, wait_exponential, retry_if_exception_type
 from bs4 import BeautifulSoup
+from tenacity import retry, wait_exponential, retry_if_exception_type
 import random
 import re
 import os
@@ -32,16 +32,17 @@ class Download():
         self.kill = kill
         if self.mega:
             self.mega.set_kill(kill)
+
     def start_download(self, url):
         host = None
         try:
             host = self._get_file_host(url)
             
             if host == Host.MEGA:
-                self.mega = self._MegaDownload(self.app, self.wait, self.kill)
+                self.mega = self._MegaDownload(self.app)
                 self.mega.download_url(url, self.path)
-            # elif host == Host.GOOGLE_DRIVE:
-            #     self._download_file_from_google_drive(url)
+            elif host == Host.GOOGLE_DRIVE:
+                self._download_file_from_google_drive(url)
             elif host == Host.MEDIAFIRE:
                 download_url = BeautifulSoup(requests.get(url).content, 'html.parser').find(id="downloadButton")["href"]
                 self._download_from_mediafire(download_url)
@@ -60,8 +61,8 @@ class Download():
     def _get_file_host(self, url):
         if "mega.nz" in url:
             return Host.MEGA
-        elif "drive.google.com" in url:
-            return Host.GOOGLE_DRIVE
+        # elif "drive.google.com" in url:
+        #     return Host.GOOGLE_DRIVE
         elif "mediafire.com" in url:
             return Host.MEDIAFIRE
         elif "anonfiles.com" in url:
@@ -158,12 +159,7 @@ class Download():
             self.mega.login()
             self.wait = False
             self.kill = False
-        
-        def set_wait(self, wait):
-            self.wait = wait
-        def set_kill(self, kill):
-            self.kill = kill
-        
+            
         def download_url(self, url, dest_path=None, dest_filename=None):
             path = self._parse_url(url).split('!')
             file_id = path[0]
@@ -176,6 +172,11 @@ class Download():
                 is_public=True,
             )
         
+        def set_wait(self, wait):
+            self.wait = wait
+        def set_kill(self, kill):
+            self.kill = kill
+
         @retry(retry=retry_if_exception_type(RuntimeError),
         wait=wait_exponential(multiplier=2, min=2, max=60))
         def _api_request(self, data):
@@ -214,7 +215,6 @@ class Download():
             return json_resp[0]
         
         def _download_file(self, file_handle, file_key, dest_path=None, dest_filename=None, is_public=False, file=None):
-            global wait, kill
             if file is None:
                 if is_public:
                     file_key = base64_to_a32(file_key)
