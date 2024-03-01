@@ -21,7 +21,6 @@ from worker import create_worker
 
 wait = False
 kill = False
-download = None
 is_extracting = False
 
 # Determine if application is a script file or exe
@@ -41,16 +40,20 @@ LANGUAGE = user_locale.split("_")[0] if '_' in user_locale else user_locale
 SETTINGS_FILE = "pu_config"
 TEMP_PATH = "temp"
 current_step = None
-
+download = None
 
 def remove_updater(poke_updater_from_zip):
-    command = f'ping localhost -n 5 & rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}" ' \
-            f'& move "{poke_updater_from_zip}" "{path_to_use}" ' \
-            f'& rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
+    if not poke_updater_from_zip: 
+        command = f'ping localhost -n 2 & rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
+    else:
+        command = f'ping localhost -n 5 & rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}" ' \
+                f'& move "{poke_updater_from_zip}" "{path_to_use}" ' \
+                f'& rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
     Popen(command, stdin=PIPE, stderr=PIPE, stdout=PIPE, shell=True)
 
 def main():
     global current_step, is_extracting, download
+    poke_updater_from_zip = None
     try: 
         # Retrieve game version and download link from settings file
         current_step = Step.RETRIEVING
@@ -87,12 +90,9 @@ def main():
             app.show_error(ExceptionMessage.NO_INTERNET[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
             return
 
-        
-        # Delete temp folder if exists before downloading
+        # Download new version
         if os.path.exists(os.path.join(path_to_use, TEMP_PATH)):
             shutil.rmtree(os.path.join(path_to_use, TEMP_PATH))
-        
-        # Download new version
         current_step = Step.DOWNLOADING
         app.step_label.config(text=Step.DOWNLOADING[1][LANGUAGE])
         app.progressbar['value'] = 0
@@ -274,11 +274,12 @@ class App(tk.Tk):
                 messagebox.showinfo(Reversal.REVERSAL_TEXT[3][LANGUAGE][0], Reversal.REVERSAL_TEXT[3][LANGUAGE][1])
             while is_extracting:
                 pass  # Freeze app after showing a message while files are extracting to be able to reverse
+            # self.main_thread.resume()
             kill = True
             download.set_kill(True)
             self.main_thread.stop()
-            app.destroy()
             Reversal.reverse(current_step, os.path.join(path_to_use, TEMP_PATH))
+            app.destroy()
         else:
             wait = False
             self.main_thread.resume()
