@@ -50,8 +50,8 @@ module VersionCheck
           if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
             newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
             
-            Kernel.pbMessage(_INTL("#{newVersionText}"))
-            if !Kernel.pbConfirmMessage(_INTL("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}"))
+            Kernel.pbMessage("#{newVersionText}")
+            if !Kernel.pbConfirmMessage("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}")
               return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
               Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}"))
               Kernel.exit!
@@ -61,24 +61,24 @@ module VersionCheck
 
             if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
               if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
-                Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}"))
+                Kernel.pbMessage("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}")
               else
-                Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}"))
+                Kernel.pbMessage("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}")
               end
               return
             end
             
             if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
               if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
-                Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}"))
+                Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}")
                 return
               end
-              Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATE')}"))
+              Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATE')}")
               IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
               Kernel.exit!
             end
           else
-            Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_NEW_VERSION'))) if from_update_button
+            Kernel.pbMessage(pbGetPokeUpdaterText('NO_NEW_VERSION')) if from_update_button
           end 
         end
      end

@@ -110,7 +110,7 @@ def pbValidateGameVersionAndUpdate()
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG 
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-    Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
+    Kernel.pbMessage(pbGetPokeUpdaterText('NO_PASTEBIN_URL'))
     return
   end
   VersionCheck::Connection.validateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true)
@@ -120,7 +120,7 @@ def pbValidateGameVersion(from_update_button=false)
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG 
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-	Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL')))
+	Kernel.pbMessage(pbGetPokeUpdaterText('NO_PASTEBIN_URL'))
 	return
   end
   VersionCheck::Connection.validateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false, from_update_button)

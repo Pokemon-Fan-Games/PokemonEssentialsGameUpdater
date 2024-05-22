@@ -102,7 +102,7 @@ def pbValidateGameVersionAndUpdate(from_update_button=false)
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-    Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL'))) if from_update_button
+    Kernel.pbMessage(pbGetPokeUpdaterText('NO_PASTEBIN_URL')) if from_update_button
     return
   end
   pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], true, from_update_button)
@@ -112,7 +112,7 @@ def pbValidateGameVersion(from_update_button=false)
   pbFillUpdaterConfig if !GameVersion::POKE_UPDATER_CONFIG
   return if !GameVersion::POKE_UPDATER_CONFIG 
   if !GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] || GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'] == ''
-	  Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_PASTEBIN_URL'))) if from_update_button
+	  Kernel.pbMessage(pbGetPokeUpdaterText('NO_PASTEBIN_URL')) if from_update_button
 	  return
   end
   pbValidateVersion(GameVersion::POKE_UPDATER_CONFIG['VERSION_PASTEBIN'], false, from_update_button)
@@ -135,15 +135,15 @@ def pbValidateVersion(url, update=false, from_update_button=false)
 		  if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
 			newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
 			
-			Kernel.pbMessage(_INTL("#{newVersionText}"))
+			Kernel.pbMessage("#{newVersionText}")
 			if $joiplay
-				Kernel.pbMessage(_INTL("#{pbGetUpdaterText('JOIPLAY_UPDATE')}"))
+				Kernel.pbMessage("#{pbGetUpdaterText('JOIPLAY_UPDATE')}")
 				return
 			end
 
-      if !pbConfirmMessage(_INTL("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}"))
+      if !pbConfirmMessage("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}")
         return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
-        Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}"))
+        Kernel.pbMessage("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}")
         Kernel.exit!
       else
         update = true
@@ -151,28 +151,28 @@ def pbValidateVersion(url, update=false, from_update_button=false)
 
 			if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
 			  if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
-				  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}"))
+				  Kernel.pbMessage("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}")
 			  else
-				  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}"))
+				  Kernel.pbMessage("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}")
 			  end
         return
 			end
 			
 			if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
         if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
-          Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}"))
+          Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}")
           return
         end
-			  Kernel.pbMessage(_INTL("#{pbGetPokeUpdaterText('UPDATE')}"))
+			  Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATE')}")
 			  IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
 			  Kernel.exit!
 			end
 		  else
-			  Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_NEW_VERSION'))) if from_update_button
+			  Kernel.pbMessage(pbGetPokeUpdaterText('NO_NEW_VERSION')) if from_update_button
 		  end 
 		end
 	else
-	  Kernel.pbMessage(_INTL(pbGetPokeUpdaterText('NO_NEW_VERSION_OR_INTERNET')))
+	  Kernel.pbMessage(pbGetPokeUpdaterText('NO_NEW_VERSION_OR_INTERNET'))
 	  return
 	end
 end
