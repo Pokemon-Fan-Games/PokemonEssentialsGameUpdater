@@ -44,7 +44,8 @@ module VersionCheck
         ICH.call(open_url)
         
         sleep(0.001)
-        
+        splitted_data = txt.split("\n")[0]
+        return if !splitted_data || splitted_data.empty? || splitted_data.strip.split("=").length < 2
         newVersion = txt.split("\n")[0].strip.split("=")[1].strip.to_f
         if GameVersion::POKE_UPDATER_CONFIG
           if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']

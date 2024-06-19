@@ -130,7 +130,10 @@ end
 def pbValidateVersion(url, update=false, from_update_button=false)
 	data = pbDownloadData(url)
 	if data
-	  newVersion = data.split("\n")[0].strip.split("=")[1].strip.to_f
+    # check that the first line has the version number
+    splitted_data = data.split("\n")[0]
+	  newVersion = splitted_data&.strip&.split("=")[1]&.strip&.to_f
+    return if !newVersion
 		if GameVersion::POKE_UPDATER_CONFIG
 		  if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
 			newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
