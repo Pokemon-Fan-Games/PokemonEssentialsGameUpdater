@@ -45,6 +45,10 @@ module VersionCheck
         
         sleep(0.001)
         splitted_data = txt.split("\n")[0]
+        if !splitted_data.include?("GAME_VERSION")
+          Kernel.pbMessage("#{pbGetUpdaterText('UPDATER_MISCONFIGURATION')}")
+          return
+        end
         return if !splitted_data || splitted_data.empty? || splitted_data.strip.split("=").length < 2
         newVersion = txt.split("\n")[0].strip.split("=")[1].strip.to_f
         if GameVersion::POKE_UPDATER_CONFIG

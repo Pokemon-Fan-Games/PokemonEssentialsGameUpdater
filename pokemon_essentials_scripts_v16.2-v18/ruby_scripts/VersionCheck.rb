@@ -74,26 +74,30 @@ def pbGetPokeUpdaterText(textName, variable=nil)
     return GameVersion::POKE_UPDATER_LOCALES[textName][lang]
   end
   case textName
-    when 'NEW_VERSION'
-      return "¡Version #{variable} disponible!"
-    when 'BUTTON_UPDATE'
-      return "Para actualizar utilice el botón disponible en el menú."
-    when 'MANUAL_UPDATE'
-      return "Por favor actualice el juego entrando a la red social del creador"
-    when 'UPDATE'
-      return "El juego se actualizará y reiniciará automáticamente. Esto puede demorar unos minutos. Tus partidas guardadas NO se verán afectadas durante la actualización."
-    when 'NO_NEW_VERSION'
-      return "Estás en la última versión"
-    when 'UPDATER_NOT_FOUND'
-      return 'No se ha encontrado el actualizador del juego.'
-    when 'NO_NEW_VERSION_OR_INTERNET'
-      return 'No tienes conexión a internet o se encontró una nueva versión del juego.'
-    when 'NO_PASTEBIN_URL'
-      return 'No hay una URL al pastebin en el archivo de configuración, repórtalo con el creador del juego.'
-    when 'ASK_FOR_UPDATE'
-      return '¿Deseas actualizar el juego?'
-    when 'FORCE_UPDATE_ON'
-      return 'La actualización del juego es obligatoria, el juego se cerrará.'
+  when 'NEW_VERSION'
+    return "¡Version #{variable} disponible!"
+  when 'BUTTON_UPDATE'
+    return "Para actualizar utilice el botón disponible en el menú."
+  when 'MANUAL_UPDATE'
+    return "Por favor actualice el juego entrando a la red social del creador"
+  when 'UPDATE'
+    return "El juego se actualizará y reiniciará automáticamente. Esto puede demorar unos minutos. Tus partidas guardadas NO se verán afectadas durante la actualización."
+  when 'NO_NEW_VERSION'
+    return "Estás en la última versión"
+  when 'JOIPLAY_UPDATE'
+    return "Estás jugando en joiplay por favor entra a la red social del creador para descargar la última versión del juego."
+  when 'UPDATER_NOT_FOUND'
+    return 'No se ha encontrado el actualizador del juego.'
+  when 'NO_NEW_VERSION_OR_INTERNET'
+    return 'No tienes conexión a internet o se encontró una nueva versión del juego.'
+  when 'NO_PASTEBIN_URL'
+    return 'No hay una URL al pastebin en el archivo de configuración, repórtalo con el creador del juego.'
+  when 'ASK_FOR_UPDATE'
+    return '¿Deseas actualizar el juego?'
+  when 'FORCE_UPDATE_ON'
+    return 'La actualización del juego es obligatoria, el juego se cerrará.'
+  when 'UPDATER_MISCONFIGURATION'
+    return 'Hay errores en la configuración del updater, repórtalo con el creador del juego.'
   end
 end
 

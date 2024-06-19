@@ -94,6 +94,8 @@ def pbGetPokeUpdaterText(textName, variable=nil)
     return '¿Deseas actualizar el juego?'
   when 'FORCE_UPDATE_ON'
     return 'La actualización del juego es obligatoria, el juego se cerrará.'
+  when 'UPDATER_MISCONFIGURATION'
+    return 'Hay errores en la configuración del updater, repórtalo con el creador del juego.'
   end
 end
 
@@ -132,6 +134,10 @@ def pbValidateVersion(url, update=false, from_update_button=false)
 	if data
     # check that the first line has the version number
     splitted_data = data.split("\n")[0]
+    if !splitted_data.include?("GAME_VERSION")
+      Kernel.pbMessage("#{pbGetUpdaterText('UPDATER_MISCONFIGURATION')}")
+      return
+    end
 	  newVersion = splitted_data&.strip&.split("=")[1]&.strip&.to_f
     return if !newVersion
 		if GameVersion::POKE_UPDATER_CONFIG
