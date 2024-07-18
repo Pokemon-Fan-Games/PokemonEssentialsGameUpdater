@@ -44,13 +44,25 @@ module VersionCheck
         ICH.call(open_url)
         
         sleep(0.001)
-        splitted_data = txt.split("\n")[0]
-        if !splitted_data.include?("GAME_VERSION")
+        return if !txt || txt.empty?
+        newVersion = nil
+        # check that the pastebin has the GAME_VERSION value
+        lines = txt.split("\n")
+        for line in lines
+          if line.include?("GAME_VERSION")
+            line_split = line.strip.split("=")
+            if line_split.length > 1
+              newVersion = line.strip.split("=")[1].strip.to_f
+              break
+            end
+          end
+        end
+    
+        if !newVersion
           Kernel.pbMessage("#{pbGetUpdaterText('UPDATER_MISCONFIGURATION')}")
           return
         end
-        return if !splitted_data || splitted_data.empty? || splitted_data.strip.split("=").length < 2
-        newVersion = txt.split("\n")[0].strip.split("=")[1].strip.to_f
+    
         if GameVersion::POKE_UPDATER_CONFIG
           if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
             newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
@@ -87,5 +99,5 @@ module VersionCheck
           end 
         end
      end
-   end
+  end
 end

@@ -131,15 +131,22 @@ end
 
 def pbValidateVersion(url, update=false, from_update_button=false)
 	data = pbDownloadData(url)
+  newVersion = nil
 	if data
-    # check that the first line has the version number
-    splitted_data = data.split("\n")[0]
-    if !splitted_data.include?("GAME_VERSION")
+    # check that the pastebin has the GAME_VERSION value
+    lines = data.split("\n")
+    for line in lines
+      if line.include?("GAME_VERSION")
+        newVersion = line&.strip&.split("=")[1]&.strip&.to_f
+        break
+      end
+    end
+
+    if !newVersion
       Kernel.pbMessage("#{pbGetUpdaterText('UPDATER_MISCONFIGURATION')}")
       return
     end
-	  newVersion = splitted_data&.strip&.split("=")[1]&.strip&.to_f
-    return if !newVersion
+
 		if GameVersion::POKE_UPDATER_CONFIG
 		  if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
 			newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
