@@ -467,6 +467,54 @@ class ExceptionMessage():
         'el': 'Το αρχείο δεν ήταν προσβάσιμο ή δεν υπάρχει. Επικοινωνήστε με τον προγραμματιστή του παιχνιδιού για περισσότερες πληροφορίες.',
         'he': 'לא ניתן לגשת לקובץ או שהוא לא קיים. צור קשר עם מפתח המשחק לקבלת מידע נוסף.'
     }
+    NO_INTERNET = {
+        'en': 'No internet connection detected. Please check your internet connection and try again.',
+        'es': 'No se detectó conexión a internet. Verifique su conexión a internet e inténtelo de nuevo.',
+        'fr': "Aucune connexion Internet détectée. Veuillez vérifier votre connexion Internet et réessayer.",
+        'pt': 'Nenhuma conexão com a internet detectada. Verifique sua conexão com a internet e tente novamente.',
+        'it': "Nessuna connessione a Internet rilevata. Controlla la tua connessione Internet e riprova.",
+        'de': 'Keine Internetverbindung erkannt. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.',
+        'ru': 'Не обнаружено подключение к Интернету. Проверьте подключение к Интернету и повторите попытку.',
+        'ja': 'インターネット接続が検出されませんでした。インターネット接続を確認して、もう一度やり直してください。',
+        'zh': '未检测到互联网连接。请检查您的互联网连接，然后重试。',
+        'ko': '인터넷 연결이 감지되지 않았습니다. 인터넷 연결을 확인하고 다시 시도하십시오.',
+        'ar': 'لم يتم اكتشاف اتصال بالإنترنت. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.',
+        'tr': 'İnternet bağlantısı algılanmadı. İnternet bağlantınızı kontrol edin ve yeniden deneyin.',
+        'pl': 'Nie wykryto połączenia z Internetem. Sprawdź swoje połączenie z Internetem i spróbuj ponownie.',
+        'nl': 'Geen internetverbinding gedetecteerd. Controleer uw internetverbinding en probeer het opnieuw.',
+        'sv': 'Ingen internetanslutning upptäckt. Kontrollera din internetanslutning och försök igen.',
+        'da': 'Ingen internetforbindelse registreret. Kontroller din internetforbindelse og prøv igen.',
+        'fi': 'Internet-yhteyttä ei havaittu. Tarkista Internet-yhteytesi ja yritä uudelleen.',
+        'no': 'Ingen internettforbindelse oppdaget. Sjekk internettforbindelsen din og prøv igjen.',
+        'cs': 'Nebylo zjištěno žádné připojení k Internetu. Zkontrolujte své připojení k Internetu a zkuste to znovu.',
+        'hu': 'Nem észlelt internetkapcsolat. Ellenőrizze az internetkapcsolatát, majd próbálja újra.',
+        'el': 'Δεν ανιχνεύθηκε σύνδεση στο internet. Ελέγξτε τη σύνδεσή σας στο internet και δοκιμάστε ξανά.',
+        'he': 'לא זוהתה חיבור לאינטרנט. נא לבדוק את חיבור האינטרנט שלך ולנסות שוב.'
+    }
+    INVALID_VERSION_NUMBER = {
+        'en': 'Invalid version number, please report this error to the game maker.',
+        'es': 'El número de versión es inválido, por favor informe de este error al creador del juego.',
+        'fr': 'Le numéro de version est invalide, veuillez signaler cet erreur au maitre du jeu.',
+        'pt': 'O número da versão é inválido, por favor relá este erro ao criador.',
+        'it': 'Il numero di versione non è valido, si prega di segnalare questo errore al creatore.',
+        'de': 'Die Versionsnummer ist ungültig, bitte melden Sie diesen Fehler an den Ersteller.',
+        'ru': 'Неверный номер версии, пожалуйста, сообщите об этом обратной связь.',
+        'ja': '不正なベージョン番号です。エラーを報告してください。',
+        'zh': '无效的版本号, 请向开发者报告此错误。',
+        'ko': '이 튜브번호가 없음. 이쪽에 소개를 통해 오류를 가지고 있습니다.',
+        'ar': 'رقم الأصلة غير صحيح، يرجى تقديم هذا الخطأ للمصمم.',
+        'tr': 'Gecersiz bir versiyon numarası, lütfen bu hata için çözüm oluşturucu ile gönderin.',
+        'pl': 'Nieprawidłowy numer wersji, pros(DBG).',
+        'nl': 'Ongeldige versie nummer,meld dit fout aan de maker.',
+        'sv': 'Felaktig versionsnummer, ange detta fel till utvecklaren.',
+        'da': 'Ugyldig version nummer, venligst melde fejl til udvikler.',
+        'fi': 'Virheellinen versio-numero, ilmoita taas virheen.',
+        'no': 'Ugyldig versjonsnummer, vennligst melde feil til utvikler.',
+        'cs': 'Neplatný číslo verze, prosím zkontrolujte chybu.',
+        'hu': 'Ehhez a verzióhoz nem tartozó bejegyzés. Kezeljen a hiba és.',
+        'el': 'Απόλέγας αριθμός εκδοτέριας. Παρακαλούστε να αναφέρετε αυτή τη σφάλμα σας στο παραγγελίο.',
+        'he': 'מספר גירסה אינו תקני, אנא צרו קשר עם הפונקציה שלך.'
+    }
 
 class ProgressLabel():
     UNKNOWN_TIME = {

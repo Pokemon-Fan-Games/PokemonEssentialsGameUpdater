@@ -78,12 +78,30 @@ def main():
             return
 
         try:
-            response = requests.get(pastebin_url, timeout=5)
+            response = requests.get(pastebin_url, timeout=15)
             if response.status_code != 200:
                 app.show_error(ExceptionMessage.NO_PASTEBIN_CONTENT[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                 return
-            newVersion = float(response.text.split("\n")[0].strip().split("=")[1].strip())
-            if not downloaded_version or newVersion <= float(downloaded_version):
+            new_version = None
+            game_url = None
+            lines = response.text.split("\n")
+            for line in lines:
+                line = line.strip()
+                if new_version and game_url:
+                    break
+                if "GAME_VERSION" in line:
+                    split_line = line.split("=")
+                    if len(split_line) > 1:
+                        try:
+                            new_version = float(split_line[1].strip())
+                        except ValueError:
+                            app.show_error(ExceptionMessage.INVALID_VERSION_NUMBER[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
+                            return
+                    new_version = float(line.split("=")[1].strip())
+                elif "DOWNLOAD_URL" in line:
+                    game_url = line.split("=", maxsplit=1)[1].strip()
+            # newVersion = float(response.text.split("\n")[0].strip().split("=")[1].strip())
+            if not downloaded_version or new_version <= float(downloaded_version):
                 app.show_error(ExceptionMessage.NO_NEW_VERSION[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                 return
         except requests.ConnectionError:
@@ -96,7 +114,7 @@ def main():
         current_step = Step.DOWNLOADING
         app.step_label.config(text=Step.DOWNLOADING[1][LANGUAGE])
         app.progressbar['value'] = 0
-        game_url = response.text.split("\n")[1].strip().split("=", maxsplit=1)[1].strip()
+        # game_url = response.text.split("\n")[1].strip().split("=", maxsplit=1)[1].strip()
 
         if not os.path.exists(os.path.join(path_to_use, TEMP_PATH)):
             os.mkdir(os.path.join(path_to_use, TEMP_PATH))
