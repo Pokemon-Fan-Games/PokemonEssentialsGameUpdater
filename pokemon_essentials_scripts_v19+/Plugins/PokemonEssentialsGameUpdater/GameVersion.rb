@@ -19,7 +19,7 @@ def pbFillUpdaterConfig()
       if trueValues.include?(splittedLine[1].downcase) || falseValues.include?(splittedLine[1].downcase)
         GameVersion::POKE_UPDATER_CONFIG[splittedLine[0].strip] = true ? trueValues.include?(splittedLine[1].downcase) : false        
       elsif splittedLine[1].strip.match(/\d+\.\d+/)
-        GameVersion::POKE_UPDATER_CONFIG[splittedLine[0].strip] = splittedLine[1].strip.to_f
+        GameVersion::POKE_UPDATER_CONFIG[splittedLine[0].strip] = splittedLine[1].strip
       end
     }
       
