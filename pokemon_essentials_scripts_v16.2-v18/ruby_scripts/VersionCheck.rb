@@ -3,7 +3,6 @@ module GameVersion
   # Constantes requeridas para validación / actualización del juego
   POKE_UPDATER_CONFIG = {}
   POKE_UPDATER_LOCALES = {}
-  updateThread = nil
 end
 def pbFillUpdaterConfig()
   trueValues = ['true', 'y', 'si', 'yes', 's']
