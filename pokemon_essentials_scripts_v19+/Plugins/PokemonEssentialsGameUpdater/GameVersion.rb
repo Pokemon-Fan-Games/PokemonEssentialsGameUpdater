@@ -131,66 +131,93 @@ end
 
 def pbValidateVersion(url, update=false, from_update_button=false)
 	data = pbDownloadData(url)
-  newVersion = nil
+  	newVersion = nil
 	if data
-    # check that the pastebin has the GAME_VERSION value
-    lines = data.split("\n")
-    for line in lines
-      if line.include?("GAME_VERSION")
-        newVersion = line&.strip&.split("=")[1]&.strip&.to_f
-        break
-      end
-    end
+		# check that the pastebin has the GAME_VERSION value
+		lines = data.split("\n")
+		for line in lines
+			if line.include?("GAME_VERSION")
+				newVersion = line&.strip&.split("=")[1]&.strip
+				break
+			end
+		end
 
-    if !newVersion
-      Kernel.pbMessage("#{pbGetUpdaterText('UPDATER_MISCONFIGURATION')}")
-      return
-    end
+		if !newVersion
+			Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_MISCONFIGURATION')}")
+			return
+		end
 
 		if GameVersion::POKE_UPDATER_CONFIG
-		  if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
-			newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
-			
-			Kernel.pbMessage("#{newVersionText}")
+      		newVersion = newVersion.gsub!(/(?!^[.0-9]*$)/, '')
+			if !newVersion
+				Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_MISCONFIGURATION')}")
+				return
+			end
+      		
+			currentVersion = GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION'].gsub!(/(?!^[.0-9]*$)/, '')
+			if !currentVersion
+				Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_MISCONFIGURATION')}")
+				return
+			end
+
+		  	if compare_versions(newVersion, currentVersion)
+				newVersionText = pbGetPokeUpdaterText('NEW_VERSION', newVersion)  
+				Kernel.pbMessage("#{newVersionText}")
+
 			if $joiplay
 				Kernel.pbMessage("#{pbGetUpdaterText('JOIPLAY_UPDATE')}")
 				return
 			end
 
-      if !pbConfirmMessage("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}")
-        return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
-        Kernel.pbMessage("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}")
-        Kernel.exit!
-      else
-        update = true
-      end
+			if !pbConfirmMessage("#{pbGetPokeUpdaterText('ASK_FOR_UPDATE')}")
+				return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
+				Kernel.pbMessage("#{pbGetPokeUpdaterText('FORCE_UPDATE_ON')}")
+				Kernel.exit!
+			else
+				update = true
+			end
 
 			if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
-			  if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
-				  Kernel.pbMessage("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}")
-			  else
-				  Kernel.pbMessage("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}")
-			  end
-        return
+				if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
+					Kernel.pbMessage("#{pbGetPokeUpdaterText('BUTTON_UPDATE')}")
+				else
+					Kernel.pbMessage("#{pbGetPokeUpdaterText('MANUAL_UPDATE')}")
+				end
+				return
 			end
-			
+        
 			if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
-        if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
-          Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}")
-          return
-        end
-			  Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATE')}")
-			  IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
-			  Kernel.exit!
+				if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
+					Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATER_NOT_FOUND')}")
+					return
+				end
+				Kernel.pbMessage("#{pbGetPokeUpdaterText('UPDATE')}")
+				IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
+				Kernel.exit!
 			end
-		  else
-			  Kernel.pbMessage(pbGetPokeUpdaterText('NO_NEW_VERSION')) if from_update_button
-		  end 
+			else
+				Kernel.pbMessage(pbGetPokeUpdaterText('NO_NEW_VERSION')) if from_update_button
+			end 
 		end
 	else
 	  Kernel.pbMessage(pbGetPokeUpdaterText('NO_NEW_VERSION_OR_INTERNET'))
 	  return
 	end
+end
+
+def compare_versions(new_version, current_version)
+	old_version_split = current_version.split('.')
+	new_version_split = new_version.split('.')
+	
+	version_len = [new_version_split.length, old_version_split.length].min
+	
+	(0...version_len).each do |i|
+	  return true if new_version_split[i] > old_version_split[i]
+	end
+	
+	# Version number is the same when comparing shorter version number, validate if this is a smaller patch with a non-standard versioning format
+	# If there is no difference found, then version number is the same
+	return new_version_split.length > old_version_split.length
 end
 
 def major_version
