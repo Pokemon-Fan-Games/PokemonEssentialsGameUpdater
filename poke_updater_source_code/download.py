@@ -36,13 +36,13 @@ class Download():
     def start_download(self, url):
         host = None
         try:
-            host = self._get_file_host(url)
+            host = self.get_file_host(url)
             
             if host == Host.MEGA:
                 self.mega = self._MegaDownload(self.app)
                 self.mega.download_url(url, self.path)
-            elif host == Host.GOOGLE_DRIVE:
-                self._download_file_from_google_drive(url)
+            # elif host == Host.GOOGLE_DRIVE:
+            #     self._download_file_from_google_drive(url)
             elif host == Host.MEDIAFIRE:
                 download_url = BeautifulSoup(requests.get(url).content, 'html.parser').find(id="downloadButton")["href"]
                 self._download_from_mediafire(download_url)
@@ -58,7 +58,7 @@ class Download():
         except Exception as e:
             raise e
 
-    def _get_file_host(self, url):
+    def get_file_host(self, url):
         if "mega.nz" in url:
             return Host.MEGA
         # elif "drive.google.com" in url:
@@ -84,8 +84,8 @@ class Download():
                     f.write(chunk)
                     current_size=os.path.getsize(filename) 
                     percentage=round((int(current_size)/int(content_length))*100)
-                    self.app.progress_label.config(text=str(percentage) + "%")
-                    self.app.progressbar['value'] = percentage
+                    self.app.progress_label.configure(text=str(percentage) + "%")
+                    self.app.progressbar.set(percentage / 100)
 
     # Mediafire
     def _download_from_mediafire(self, url):
@@ -93,8 +93,8 @@ class Download():
         content = requests.get(url, stream=True)
         filename = os.path.join(self.path, filename)
         self._stream_to_file(filename, content)
-        self.app.progress_label.config(text="100%")
-        self.app.progressbar['value'] = 100
+        self.app.progress_label.configure(text="100%")
+        self.app.progressbar.set(1)
 
     # Dropbox
     def _download_from_dropbox(self, url):
@@ -106,8 +106,8 @@ class Download():
         content = requests.get(url, stream=True)
         filename = os.path.join(self.path, url.split('/')[6].split('?')[0])
         self._stream_to_file(filename, content)
-        self.app.progress_label.config(text="100%")
-        self.app.progressbar['value'] = 100
+        self.app.progress_label.configure(text="100%")
+        self.app.progressbar.set(1)
     
     # Google Drive
     def _download_file_from_google_drive(self, url):
@@ -143,8 +143,8 @@ class Download():
         self._stream_to_file(filename, response)
         if self.kill:
             return
-        self.app.progress_label.config(text="100%")
-        self.app.progressbar['value'] = 100
+        self.app.progress_label.configure(text="100%")
+        self.app.progressbar.set(1)
 
     # Mega
     class _MegaDownload():
@@ -272,8 +272,8 @@ class Download():
                         f.write(chunk)
                         current_size=os.path.getsize(filepath) 
                         percentage=round((int(current_size)/int(file_size))*100)
-                        self.app.progress_label.config(text=str(percentage) + "%")
-                        self.app.progressbar['value'] = percentage
+                        self.app.progress_label.configure(text=str(percentage) + "%")
+                        self.app.progressbar.set(percentage / 100)
 
         def _parse_url(self, url):
             """Parse file id and key from url."""

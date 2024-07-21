@@ -8,18 +8,18 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 
 **No está previsto el soporte de actualización para Joiplay. Con Pokémon Essentials v19 en adelante, el control de versiones está soportado.**
 
-![](/previews/preview.gif)
+![gif preview](/previews/preview.gif)
 
-#### Muchas gracias a [@Eric_Lostie](https://twitter.com/Eric_Lostie) en Twitter por permitirnos usar su juego, Pokémon Añil, como ejemplo para este proyecto.
+#### Muchas gracias a [@Eric_Lostie](https://twitter.com/Eric_Lostie) en Twitter por permitirnos usar su juego, Pokémon Añil, como ejemplo para este proyecto
 
 # Implementación
 
 ## Guía rápida
 
-1. Descargar el archivo `PokeUpdater_1.1.5_PE19+.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
+1. Descargar el archivo `PokeUpdater_x.x.x_PE19+.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
 2. Copiar los archivos `pu_locales`, `pu_config` y las carpetas `Plugins` y `poke_updater` al directorio del juego.
 3. Agregar el llamado al control de versiones como se indica en la sección [Mantenimiento de tus scripts de RPG Maker XP](#mantenimiento-de-tus-scripts-de-rpg-maker-xp).
-4. Iniciar sesión en http://pastebin.com.
+4. Iniciar sesión en [pastebin](https://pastebin.com).
 5. Crear un nuevo archivo de Pastebin con el formato indicado en la sección [Configuración y mantenimiento del archivo de Pastebin](#configuración-y-mantenimiento-del-archivo-de-pastebin) y conseguir la URL RAW del mismo.
 6. Editar el archivo `pu_config` en un bloc de notas, y colocar el valor correcto a las variables `CURRENT_GAME_VERSION` y `VERSION_PASTEBIN`.
 
@@ -134,13 +134,16 @@ GAME_VERSION=
 DOWNLOAD_URL=
 ```
 
+El campo DOWNLOAD_URL se puede repetir N veces para tener varios hosts de descarga. El jugador podrá elegir que host utilizar al actualizar el juego.
+
+
 <br>
 Ver debajo para una explicación de cada variable:<br><br>
 
 | Variable       | Descripción                                                                                                                                                                                        | Valores aceptados                                                                                            |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `GAME_VERSION` | Última versión del juego. Debe coincidir con el `CURRENT_GAME_VERSION` del archivo de configuración al lanzar una nueva versión (ver [Al lanzar una nueva versión](#al-lanzar-una-nueva-versión)). | Cualquier número de versión con el formato x.x (por ejemplo: `1.0`, `2.5`, `23.03`, `23.10`).                |
-| `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, Mediafire y Google Drive. |
+| `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, Mediafire y Dropbox. |
 
 Una vez creado, una URL para este archivo de Pastebin será generada. Se necesitará la URL al formato RAW para el archivo de Pastebin. Para conseguirla, se debe hacer click en el botón que dice `raw` arriba de la primera línea del nuevo archivo generado.
 
@@ -220,7 +223,7 @@ R. El actualizador está pensado para ser usado únicamente con RPG Maker XP.
 
 #### P. ¿Qué versiones de Pokémon Essentials son soportadas por los scripts?
 
-R. A pesar de que el actualizador ha sido desarrollado y probado en PokéEssentials versión 16.2, es probable que esto sea un absoluto mínimo y que cualquier otra nueva versión sea también soportada. De no ser este el caso, por favor reportarlo a través de un [reporte de bug](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=reporte-de-error.md&title=%5BBUG%5D).
+R. El actualizador se desarrollo y probó con essentials 16.2 y 21.1 pero debería funcionar con cualquier versión de essentials superior a 16.2. De no ser este el caso, por favor reportarlo a través de un [reporte de bug](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=reporte-de-error.md&title=%5BBUG%5D).
 
 #### P. ¿Es necesario instalar Python para correr el actualizador?
 
@@ -228,7 +231,7 @@ R. No. El ejecutable está pensado para ser usado por un usuario final sin entra
 
 #### P. Un usuario reporta que no pueden descargar el archivo de juego o que su descarga es inusualmente lenta, ¿qué está pasando?
 
-R. MEGA y Mediafire ambos tienen un límite en la cuota de transferencia que puede ser libremente utilizada. Al ser consumida la cuota, MEGA no permitirá que una descarga continúe y Mediafire reducirá la velocidad de descarga significativamente. Esto es algo que no podemos evitar. El usuario deberá esperar a que su cuota de descarga esté disponible nuevamente.
+R. MEGA y Mediafire ambos tienen un límite en la cuota de transferencia que puede ser libremente utilizada. Al ser consumida la cuota, MEGA no permitirá que una descarga continúe y Mediafire reducirá la velocidad de descarga significativamente. Esto es algo que no podemos evitar. El usuario deberá esperar a que su cuota de descarga esté disponible nuevamente o si hay multiples hosts de desarcarga en el pastebin puede probar con otro host.
 
 #### P. Un usuario de <INGRESE PAÍS AQUÍ\> no puede acceder a mi juego a través de la página de descarga debido a restricciones regionales. ¿Puede actualizar el juego a través de PokéUpdater de todas maneras?
 
@@ -240,7 +243,7 @@ R. Si los scripts se han implementado como especificado en la sección [Mantenim
 
 #### P. No quiero hacer uso del ejecutable del PokéUpdater pero aún así quiero notificar a mis usarios del lanzamiento de una nueva versión. ¿Es posible hacer esto con los scripts provistos?
 
-R. ¡Sí! Al configurar la variable `FORCE_VERSION_CHECK` a un valor `verdadero` y la variable `FORCE_UPDATE` a un valor `falso` y manteniendo el archivo de Pastebin actualizado, el juego levantará un mensaje notificando al usuario que una nueva versión está disponible pero el ejecutable no se correrá. Si ésta es la única función requerida, entonces no es obligatorio descargar y copíar el archivo `poke_updater.exe` junto con el juego.
+R. ¡Sí! Al configurar la variable `FORCE_VERSION_CHECK` a un valor `verdadero` y la variable `FORCE_UPDATE` a un valor `falso` y manteniendo el archivo de Pastebin actualizado, el juego levantará un mensaje notificando al usuario que una nueva versión está disponible pero el ejecutable no se correrá. Si ésta es la única función requerida, entonces no es obligatorio descargar y copiar la carpeta `poke_updater` junto con el juego.
 
 #### P. Los textos en el juego se visualizan en español, pero los necesito en otro idioma, ¿no hay traducciones disponibles?
 
@@ -248,7 +251,7 @@ R. Esto es causado probablemente por no tener el archivo `pu_locales` en la carp
 
 #### P. ¿Se verán afectadas las partidas existentes del usuario?
 
-R. No. El proceso de actualizaciónb trabaja únicamente dentro de la carpeta del juego y no afectará NINGÚN otro archivo en la PC del usuario. Como las partidas se guardan en la ruta `C:/Usuarios/NOMBRE/SavedGames/NOMBRE_DEL_JUEGO`, no se verán afectadas.
+R. No. El proceso de actualizaciónb trabaja únicamente dentro de la carpeta del juego y no afectará NINGÚN otro archivo en la PC del usuario. Como las partidas se guardan en la ruta `C:/Usuarios/NOMBRE/AppData/Roaming/NOMBRE_DEL_JUEGO`, no se verán afectadas.
 
 #### P. Mi antivirus detecta el archivo `poke_updater.exe` como un potencial virus, ¿por qué es eso?
 

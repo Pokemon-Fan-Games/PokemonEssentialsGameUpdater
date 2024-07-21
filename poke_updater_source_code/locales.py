@@ -2,10 +2,26 @@ from enum import Enum
 
 class Host(Enum):
     MEGA=1
-    GOOGLE_DRIVE=2
+    # GOOGLE_DRIVE=2
     MEDIAFIRE=3
     DROPBOX=4
     ANONFILES=5
+
+class HostNames():
+    # Get the host name from the host enum 
+    @staticmethod
+    def get_name(host):
+        if host == Host.MEGA:
+            return 'Mega'
+        # elif host == Host.GOOGLE_DRIVE:
+        #     return 'Google Drive'
+        elif host == Host.MEDIAFIRE:
+            return 'MediaFire'
+        elif host == Host.DROPBOX:
+            return 'Dropbox'
+        elif host == Host.ANONFILES:
+            return 'AnonFiles'
+
 
 class QuitBoxTitle():
     TITLE = {
@@ -31,6 +47,104 @@ class QuitBoxTitle():
         'hu': 'Kilépés',
         'el': 'Αποχώρηση',
         'he': 'יציאה'
+    }
+    OPTIONS = {
+        'YES': {
+            'en': 'Yes',
+            'es': 'Si',
+            'fr': 'Oui',
+            'pt': 'Sim',
+            'it': 'Si',
+            'de': 'Ja',
+            'ru': 'Да',
+            'ja': 'はい',
+            'zh': '是',
+            'ko': '是',
+            'ar': 'نعم',
+            'tr': 'Evet',
+            'pl': 'Tak',
+            'nl': 'Ja',
+            'sv': 'Ja',
+            'da': 'Ja',
+            'fi': 'Kyllä',
+            'no': 'Ja',
+            'cs': 'Ano',
+            'hu': 'Igen',
+            'el': 'Ναι',
+            'he': 'כן'
+        },
+        'NO': {
+            'en': 'No',
+            'es': 'No',
+            'fr': 'Non',
+            'pt': 'Não',
+            'it': 'No',
+            'de': 'Nein',
+            'ru': 'Нет',
+            'ja': 'いいえ',
+            'zh': '否',
+            'ko': '否',
+            'ar': 'لا',
+            'tr': 'Hayır',
+            'pl': 'Nie',
+            'nl': 'Nee',
+            'sv': 'Nej',
+            'da': 'Nej',
+            'fi': 'Ei',
+            'no': 'Nei',
+            'cs': 'Ne',
+            'hu': 'Nem',
+            'el': 'Οχι',
+            'he': 'לא'
+        },
+        'CANCEL': {
+            'en': 'Cancel',
+            'es': 'Cancelar',
+            'fr': 'Annuler',
+            'pt': 'Cancelar',
+            'it': 'Annulla',
+            'de': 'Abbrechen',
+            'ru': 'Отмена',
+            'ja': 'キャンセル',
+            'zh': '取消',
+            'ko': '취소',
+            'ar': 'يلغي',
+            'tr': 'İptal',
+            'pl': 'Anuluj',
+            'nl': 'Annuleren',
+            'sv': 'Avbryt',
+            'da': 'Annuller',
+            'fi': 'Peruuta',
+            'no': 'Avbryt',
+            'cs': 'Zrušit',
+            'hu': 'Mögse',
+            'el': 'Ακυρωση',
+            'he': 'ביטול'
+        },
+        'QUIT': {
+            'en': 'Quit',
+            'es': 'Salir',
+            'fr': 'Quitter',
+            'pt': 'Sair',
+            'it': 'Esci',
+            'de': 'Beenden',
+            'ru': 'Выход',
+            'ja': 'やめる',
+            'zh': '退出',
+            'ko': '종료',
+            'ar': 'الخروج',
+            'tr': 'Çıkış',
+            'pl': 'Wyjdź',
+            'nl': 'Stoppen',
+            'sv': 'Avsluta',
+            'da': 'Afslut',
+            'fi': 'Lopeta',
+            'no': 'Avslutt',
+            'cs': 'Opustit',
+            'hu': 'Kilépés',
+            'el': 'Αποχώρηση',
+            'he': 'יציאה'
+        },
     }
 
 class Step():
@@ -275,6 +389,28 @@ class ExceptionMessage():
         'el': 'Οικοδεσπότης αρχείων δεν υποστηρίζεται',
         'he': 'מארח הקובץ אינו נתמך'
         }
+    NO_VALID_FILE_HOST={
+        'en': 'Eventhough you may have download urls in the pastebin, none of them are from a valid host you must use, MEGA, Mediafire or Dropbox',
+        'es': 'Aunque podrías tener URLs de descarga en pastebin, ninguna de ellas es de un host válido. Debes usar MEGA, Mediafire o Dropbox',
+        'fr': 'Pourtant, vous pourriez avoir des URLs de téléchargement dans pastebin, aucune d\'elle n\'est d\'un hôte valide. Vous devez utiliser MEGA, Mediafire ou Dropbox',
+        'pt': 'Ainda que possa ter URLs de download no pastebin, nenhuma destas não é de um host válido. Deve usar MEGA, Mediafire ou Dropbox',
+        'it': 'Anzi, potresti avere URLs di download in pastebin, nessuna di esse provenire da un host valido. Deve usare MEGA, Mediafire o Dropbox',
+        'de': 'Ob sie URLs von Pastebin mitgeben, kann keine davon von einem gültigen Hosten genutzt werden. Bitte MEGA, Mediafire oder Dropbox verwenden',
+        'ru': 'Потому, что вы можете использовать в пастбине URL загрузки, вы должны использовать MEGA, Mediafire или Dropbox',
+        'ja': 'パステブインにダウンロードのURLがあるので、それらが有効なホストである必要があります。 MEGA、Mediafire、Dropboxを使用してください',
+        'zh': '因为您可能会在pastebin中找到下载链接，所以您必须使用MEGA，Mediafire或Dropbox',
+        'ko': 'pastebin에서 다음 URL의 다음가 없음. MEGA, Mediafire, Dropbox를 사용하는必要があります',
+        'ar': 'فيما يلي لديك URL للتحميل في pastebin. لا يجب عليك استخدام MEGA, Mediafire او Dropbox',
+        'tr': 'Pastebinde indirmek istediğiniz herhangi bir URL var. MEGA, Mediafire, Dropbox kullanmanız gerekmektedir',
+        'pl': 'Wystarczy, ze masz w pastebinie linki do pobrania, a nawet niektóre nie sa zgodne z zasadami hosta. Musisz użyc MEGA, Mediafire lub Dropbox',
+        'nl': 'Ook, u kunt download URLs in de pastebin vinden, maar niet allemaal van een geldige host. U moet MEGA, Mediafire of Dropbox gebruiken',
+        'sv': 'Men du kan ha länkar till nedladdningar i pastebin, kan inget av dem vara giltiga. Du måste använda MEGA, Mediafire eller Dropbox',
+        'da': 'Men du kan have download-URLs i pastebin, kan ingen af dem være gyldige. Du skal bruge MEGA, Mediafire eller Dropbox',
+        'fi': 'Mutta voit olla ladata ladattuja tiedostoja pastebinissa, mutta ne eivät ole oikeellisia. Sinun pitää olla MEGA, Mediafire tai Dropbox',
+        'no': 'Men du kan ha nedlastings-URLer i pastebin, kan ingen av dem være gyldige. Du måste bruke MEGA, Mediafire eller Dropbox',
+        'et': 'Täitlusele, et see on pastebinis kasutatav, mitte ainult see, kellele on oige v\u00f5i. Sa pead kasutama MEGA, Mediafire vo\u00f5i Dropbox',
+        'id': 'Maka anda dapat mengunduh URL yang ada di pastebin, tidak ada yang tidak valid. Anda harus menggunakan MEGA, Mediafire atau Dropbox',
+    }
     NO_PASTEBIN_CONTENT={
         'en': 'Could not get pastebin content', 
         'es': 'No se pudo obtener el contenido de pastebin', 

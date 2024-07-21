@@ -8,15 +8,15 @@ Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface devel
 
 **Due to technical limitation in Pokémon Essentials versions prior to v19, Joiplay support is not currently planned.**
 
-![](/previews/preview_en.gif)
+![gif preview](/previews/preview_en.gif)
 
-#### Big thanks to [@Eric_Lostie](https://twitter.com/Eric_Lostie) on twitter for allowing us to use his game, Pokémon Añil, as an example for this project.
+#### Big thanks to [@Eric_Lostie](https://twitter.com/Eric_Lostie) on twitter for allowing us to use his game, Pokémon Añil, as an example for this project
 
 # Implementation
 
 ## Quick start
 
-1. Download file `PokeUpdater_1.1.5_PE16-18.zip` from the [latest release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/readme).
+1. Download file `PokeUpdater_x.x.x_PE16-18.zip` from the [latest release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
 2. Extract files `pu_locales`, `pu_config` and the `poke_updater` folder to the game directory.
 3. Copy scripts `VersionCheck.rb` and `GameVersion.rb` alongside the rest of the game's scripts, before the script named `Main`.
 4. Add the code for the version check as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section.
@@ -136,13 +136,15 @@ GAME_VERSION=
 DOWNLOAD_URL=
 ```
 
+The DOWNLOAD_URL field can be repeated N times to have multiple download hosts, but there can only be one DOWNLOAD_URL for each host. The player will be able to choose which host to download the game from.
+
 <br>
 See below for an explanation on each of the variables:<br><br>
 
 | Variable       | Description                                                                                                                                                                               | Accepted values                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `GAME_VERSION` | Latest game version. Should coincide with the configuration file's `CURRENT_GAME_VERSION` when releasing a new version (see [Releasing a new game update](#releasing-a-new-game-update)). | Any version number in format x.x (e.g. `1.0`, `2.5`, `23.03`, `23.10`).                       |
-| `DOWNLOAD_URL` | URL for the downloadable ZIP with the game files.                                                                                                                                         | Any URL for a downloadable file. Accepted hosting sites are MEGA, Mediafire and Google Drive. |
+| `DOWNLOAD_URL` | URL for the downloadable ZIP with the game files.                                                                                                                                         | Any URL for a downloadable file. Accepted hosting sites are MEGA, Mediafire and Dropbox. |
 
 When created, a URL for this Pastebin will be generated. You will need the RAW format URL for the Pastebin. This can be retrieved by clicking on the `raw` button above the first line of your newly generated file.
 
@@ -167,7 +169,7 @@ See below for an explanation on each of the variables:<br><br>
 | `VERSION_PASTEBIN`     | The URL to your raw Pastebin file. This will be the URL from where the new version details will be validated.                                             | A **RAW** Pastebin URL. If a non RAW Pastebin URL is passed, values will not be properly determined. | Empty              |
 | `UPDATER_FILENAME`     | The PokéUpdater executable name. It doesn't need to be changed, but if it is, then it must be maintained in this variable.                                | Any valid filename                                                                                   | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Flag to forcibly validate if a new version is available based on Pastebin data on game launch.                                                            | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
-| `FORCE_UPDATE`         | Flag to forcibly download and update the game retrieving the new version from the indicated URL in the Pastebin data.                                     | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
+| `FORCE_UPDATE`         | If this flag is sent to true and the user chooses not to update the game when prompted the a message will be shown informing that the update is requiered and the game will close. | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
 
 After setting the required values for all variables, the file does not need to be changed unless a new version is released.
 
@@ -222,7 +224,7 @@ A. The updater is thought to only be used in RPG Maker XP
 
 #### Q. Which Pokémon Essentials does the updater support?
 
-A. Although the updater has been developed and tested in PokéEssentials version 16.2, it is likely that this is a bare minimum and that any later version is also supported. If this is not the case, please report this [through an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D).
+A. The updater was developed and tested for essentials 16.2 and 21.1 but it should work in any version higher than 16.2. If this is not the case, please report this [through an issue](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/issues/new?assignees=&labels=&projects=&template=bug-report-english.md&title=%5BBUG%5D).
 
 #### Q. Is Python required to be installed to run the updater?
 
@@ -230,7 +232,7 @@ A. No. The executable is thought to be used by an end user with no extra input o
 
 #### Q. A user is reporting that they cannot download the game file or that their download is unusually slow, what's going on?
 
-A. MEGA and Mediafire both have a limited transfer quota that can be freely used. After this quota has been consumed, MEGA will not allow any download to continue and Mediafire will reduce the download speed significantly. This is something which we cannot circumvent. The user will need to wait for their download quota to become available again.
+A. MEGA and Mediafire both have a limited transfer quota that can be freely used. After this quota has been consumed, MEGA will not allow any download to continue and Mediafire will reduce the download speed significantly. This is something which we cannot circumvent. The user will need to wait for their download quota to become available again or if you have added multiple download hosts to the pastebin they could try a different host.
 
 #### Q. A user from <INSERT COUNTRY HERE\> cannot access my game file through the host page because of regional restrictions. Can they update the game using the PokéUpdater anyway?
 
