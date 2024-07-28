@@ -1,3 +1,9 @@
+#########################################################################################
+# CREDITS/CRÉDITOS:                                                                     #
+# DPertierra, Iansson                                                                   #                
+# https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater                     #
+# Version: 2.0.3                                                                        #
+#########################################################################################
 module GameVersion
   # Required constants for game validation / update
   # Constantes requeridas para validación / actualización del juego

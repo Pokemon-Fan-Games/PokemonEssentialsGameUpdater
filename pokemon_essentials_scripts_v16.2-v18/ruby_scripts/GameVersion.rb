@@ -1,3 +1,9 @@
+#########################################################################################
+# CREDITS/CRÉDITOS:                                                                     #
+# DPertierra, Iansson                                                                   #                
+# https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater                     #
+# Version: 2.0.3                                                                        #
+#########################################################################################
 module VersionCheck
   W='wininet'
   SPC=Win32API.new('kernel32','SetPriorityClass','pi','i').call(-1,128)
