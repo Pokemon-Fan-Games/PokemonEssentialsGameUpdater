@@ -18,7 +18,6 @@ from patoolib import extract_archive
 from reversal import Reversal
 from worker import create_worker
 import customtkinter
-import darkdetect
 
 wait = False
 kill = False
@@ -52,6 +51,20 @@ def remove_updater(poke_updater_from_zip):
                 f'& move "{poke_updater_from_zip}" "{path_to_use}" ' \
                 f'& rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
     Popen(command, stdin=PIPE, stderr=PIPE, stdout=PIPE, shell=True)
+
+def compare_versions(new_version, old_version):
+    old_version_split = old_version.split('.')
+    new_version_split = new_version.split('.')
+    
+    version_len = min(len(new_version_split), len(old_version_split))
+
+    for i in range(0, version_len):
+        if new_version_split[i] > old_version_split[i]:
+            return True
+    
+    # Version number is the same when comparing shorter version number, validate if this is a smaller patch with a non-standard versioning format
+    # If there is no difference found, then version number is the same
+    return len(new_version_split) > len(old_version_split)
 
 def main():
     global current_step, is_extracting, download
@@ -96,11 +109,11 @@ def main():
                     split_line = line.split("=")
                     if len(split_line) > 1:
                         try:
-                            new_version = float(split_line[1].strip())
+                            new_version = split_line[1].strip()
                         except ValueError:
                             app.show_error(ExceptionMessage.INVALID_VERSION_NUMBER[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                             return
-                    new_version = float(line.split("=")[1].strip())
+                    new_version = line.split("=")[1].strip()
                 elif "DOWNLOAD_URL" in line:
                     game_url = line.split("=", maxsplit=1)[1].strip()
                     try:
@@ -113,7 +126,7 @@ def main():
             if not download_hosts:
                 app.show_error(ExceptionMessage.NO_VALID_FILE_HOST[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                 return
-            if not downloaded_version or new_version <= float(downloaded_version):
+            if not downloaded_version or not compare_versions(new_version, downloaded_version):
                 app.show_error(ExceptionMessage.NO_NEW_VERSION[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                 return
         except requests.ConnectionError:
@@ -242,6 +255,8 @@ def main():
                 if os.path.isdir(os.path.join(extracted_folder, file)):
                     file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
                     moved_files += file_tree_count
+                elif '.git' in file: # ignore git files:
+                    continue
                 else:
                     moved_files += 1
                 shutil.move(os.path.join(extracted_folder, file), path_to_use)
@@ -271,12 +286,14 @@ class ToplevelWindow(customtkinter.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.focus()
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.geometry("300x200")
         self.resizable(False, False)
 
         self.label = customtkinter.CTkLabel(self, text="Elija el host para la descarga")
         self.label.pack(padx=10, pady=10)
-        self.combobox = customtkinter.CTkComboBox(self, values=list(download_hosts.keys()))
+        self.combobox = customtkinter.CTkComboBox(self, values=list(download_hosts.keys()), state="readonly")
+        self.combobox.set(list(download_hosts.keys())[0])
         self.combobox.pack(padx=10, pady=10)
 
         self.button = customtkinter.CTkButton(self, text="OK", command=self.on_ok)
@@ -287,6 +304,10 @@ class ToplevelWindow(customtkinter.CTkToplevel):
         url = download_hosts[host]
         app.set_download_host(url)
         self.destroy()
+    
+    def on_closing(self):
+        # self.destroy()
+        app.on_closing()
 
 class App(customtkinter.CTk):
     ERROR_COLOR = '#cc3030'
@@ -340,6 +361,7 @@ class App(customtkinter.CTk):
         download.set_wait(True)
         self.main_thread.pause()
         if messagebox.askokcancel(QuitBoxTitle.TITLE[LANGUAGE], Reversal.getMessageText(current_step, LANGUAGE), icon=messagebox.WARNING):
+            self.second_window.destroy()
             if is_extracting:
                 messagebox.showinfo(Reversal.REVERSAL_TEXT[3][LANGUAGE][0], Reversal.REVERSAL_TEXT[3][LANGUAGE][1])
             while is_extracting:
