@@ -31,8 +31,8 @@ if getattr(sys, 'frozen', False):
 elif __file__:
     REAL_PATH = os.path.dirname(__file__)
 
-TEST_PATH = r"C:\\Users\\Diego\\Documents\\RPGXP\\PokemonZ"
-test = True
+TEST_PATH = r""
+test = False
 path_to_use = TEST_PATH if test else REAL_PATH
 
 # Get user language for messages
