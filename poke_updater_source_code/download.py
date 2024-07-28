@@ -5,6 +5,7 @@ from Crypto.Util import Counter
 from crypto import (base64_to_a32, base64_url_decode, decrypt_attr, a32_to_str)
 import json
 from locales import *
+from exceptions import *
 from bs4 import BeautifulSoup
 from tenacity import retry, wait_exponential, retry_if_exception_type
 import random
@@ -55,6 +56,8 @@ class Download():
                 raise Exception(ExceptionMessage.DOWNLOAD_ERROR_MEGA[self.language])
             else:
                 raise Exception(ExceptionMessage.DOWNLOAD_ERROR[self.language])
+        except BandwithExceededError:
+            raise BandwithExceededError
         except Exception as e:
             raise e
 
@@ -252,6 +255,9 @@ class Download():
 
             response = requests.get(file_url, stream=True)
 
+            if response.status_code == 509:
+                raise BandwithExceededError()
+
             if dest_path is None:
                 dest_path = ''
             else:
@@ -274,6 +280,8 @@ class Download():
                         percentage=round((int(current_size)/int(file_size))*100)
                         self.app.progress_label.configure(text=str(percentage) + "%")
                         self.app.progressbar.set(percentage / 100)
+                else:
+                    raise ConnectionResetError
 
         def _parse_url(self, url):
             """Parse file id and key from url."""

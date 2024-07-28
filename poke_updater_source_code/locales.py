@@ -650,6 +650,30 @@ class ExceptionMessage():
         'hu': 'Ehhez a verzióhoz nem tartozó bejegyzés. Kezeljen a hiba és.',
         'el': 'Απόλέγας αριθμός εκδοτέριας. Παρακαλούστε να αναφέρετε αυτή τη σφάλμα σας στο παραγγελίο.',
         'he': 'מספר גירסה אינו תקני, אנא צרו קשר עם הפונקציה שלך.'
+    },
+    BANDWIDTH_EXCEEDED = {
+        'en': 'Bandwidth exceeded, please try again later or try using a different host if available',
+        'es': 'Se superó el tamaño de bajada, por favor vuelve a intentarlo más tarde o intenta utilizar un host diferente si hay disponible',
+        'fr': 'Le taux de transfert est dés Ĕlémentaire, veuillez reessayer plus tard ou utiliser un autre hôte si disponible',
+        'pt': 'A bateria de rede foi excedida, por favor tente novamente mais tarde ou tente utilizar um host diferente se houver disponível',
+        'it': 'La velocità di trasferimento è superata, per favore riprova più tardi o tente utilizzare un altro host se disponibile',
+        'de': 'Die Bandbreite wurde überschritten, bitte versuchen Sie es zurück oder versuchen Sie eine andere Festnetz-Hostung, wenn verfügbar ist',
+        'ru': 'Превышен битрейт, пожалуйста, попробуйте ещё раз позже или попробуйте другой хостинг, если он доступен',
+        'ja': 'バンドワードが超えました。後でもう一度やり直してください。',
+        'zh': '流量超限, 请稍后再试或尝试使用其他主机',
+        'ko': '바바리이가 없음. 이쪽에 소개를 통해 오류를 가지고 있습니다.',
+        'ar': 'الشبكة تمت الأرتفاع بالفعل. الرجاء المحاولة مرة اخرى في وقت لاحق.',
+        'tr': 'Bandwidth sınırına ulasarak tekrar deneyin',
+        'pl': 'Przekroczono połącześć. Proszę sproboować ponownie połączenie lub sproboć innego hostingu, jeśli jest dostępny',
+        'nl': 'Bandbreedte overschreden, probeer het nog eens',
+        'sv': 'Bandygden ovanfält. Probnar igen senare',
+        'da': 'Bandbredde overskredet. Prøv igen senere',
+        'fi': 'Päivitys epäonnistui, yritä uudelleen',
+        'no': 'Bredde overskredet. Pråbål om igjen senere',
+        'cs': 'Bandwidth ovlivnilo. Zkuste to znovu pozdeji',
+        'hu': 'A bájtáválasztás meghaladta. Proba ujra',
+        'el': 'Η βάτα παραβλέψεται. Παρακαλούστε ξανά τάρα.',
+        'he': 'הגבלות כרגע נמצאות. אנא נסה שוב מאוחר יותר'
     }
 
 class ProgressLabel():

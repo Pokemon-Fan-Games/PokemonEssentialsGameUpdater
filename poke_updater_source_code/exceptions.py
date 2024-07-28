@@ -1,0 +1,2 @@
+class BandwithExceededError(Exception):
+    pass

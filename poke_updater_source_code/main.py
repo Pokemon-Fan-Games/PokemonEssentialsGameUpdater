@@ -11,6 +11,7 @@ import pathlib
 import ctypes
 from locales import *
 from download import *
+from exceptions import *
 import locale
 from download import Download
 from subprocess import Popen, DETACHED_PROCESS, PIPE
@@ -154,6 +155,9 @@ def main():
         except ConnectionResetError:
             app.show_error(ExceptionMessage.DOWNLOAD_ERROR[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
             return
+        except BandwithExceededError:
+            app.show_error(ExceptionMessage.BANDWIDTH_EXCEEDED[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
+            return
         except Exception as e:
             print(e)
             app.show_error(ExceptionMessage.DOWNLOAD_ERROR[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
@@ -194,39 +198,52 @@ def main():
         current_step = Step.DELETING
         app.step_label.configure(text=Step.DELETING[1][LANGUAGE])
         app.progress_label.configure(text=ProgressLabel.A_FEW_SECONDS[LANGUAGE])
-        items_to_remove = os.listdir(path_to_use)
-        items_to_ignore = []
+        # items_to_remove = os.listdir(path_to_use)
+        # items_to_ignore = []
         total_files = 0
-        for root, _,  files in os.walk(path_to_use):
-            if 'poke_updater' in root:
-                for file in files:
-                    items_to_ignore.append(file)
-            total_files+= len(files)
-        #total_files = sum([len(files) for _, _, files in os.walk(path_to_use)])
+        # for root, folder,  files in os.walk(path_to_use):
+        #     if 'poke_updater' in root:
+        #         for file in files:
+        #             items_to_ignore.append(file)
+        #     total_files+= len(files)
+        total_files = sum([len(files) for _, _, files in os.walk(path_to_use)])
         deleted_items = 0
-        for file in items_to_remove:
+        for root, folders, files in os.walk(path_to_use):
+        # for file in items_to_remove:
             while wait:
                 if kill: return
-            if file.startswith(".") or file == TEMP_PATH: continue
-            app.progressbar.set(deleted_items/total_files)
-            app.progress_label.configure(text=str(round(app.progressbar.get() * 100)) + "%")
-            if "poke_updater" not in file and file not in items_to_ignore:
+            if 'poke_updater' in root or TEMP_PATH in root: continue
+            for folder in folders:
+                deleted_tree_count = sum([len(files_aux) for _, _, files_aux in os.walk(os.path.join(root, folder))])
+                if folder.startswith(".") or folder == TEMP_PATH or "poke_updater" in folder: continue
+                shutil.rmtree(os.path.join(root, folder))
+                deleted_items += deleted_tree_count
+                app.progressbar.set(deleted_items/total_files)
+            for file in files:
+                if file.startswith(".") or file == TEMP_PATH: continue
+                # app.progressbar.set(deleted_items/total_files)
+                app.progress_label.configure(text=str(round(app.progressbar.get() * 100)) + "%")
+                # deleted_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(root, file))])
                 file_to_remove = os.path.join(path_to_use,file)
-                if os.path.isdir(file_to_remove):
-                    deleted_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, file_to_remove))])
-                    shutil.rmtree(file_to_remove)
-                    deleted_items += deleted_tree_count
-                else:
-                    os.remove(file_to_remove)
-                    deleted_items += 1
+                os.remove(file_to_remove)
+                deleted_items += 1
+                app.progressbar.set(deleted_items/total_files)
+                    # file_to_remove = os.path.join(path_to_use,file)
+                    # if os.path.isdir(file_to_remove):
+                    #     deleted_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, file_to_remove))])
+                    #     shutil.rmtree(file_to_remove)
+                    #     deleted_items += deleted_tree_count
+                    # else:
+                    #     os.remove(file_to_remove)
+                    #     deleted_items += 1
         app.progress_label.configure(text="")
 
         # Move files
         current_step = Step.MOVING
         app.step_label.configure(text=Step.MOVING[1][LANGUAGE])
-        app.progressbar.configure(mode="determinate")
         app.progressbar.set(0)
-        app.progress_label.configure(text=ProgressLabel.UNKNOWN_TIME[LANGUAGE])
+        app.progressbar.configure(mode="indeterminate")
+        # app.progress_label.configure(text=ProgressLabel.UNKNOWN_TIME[LANGUAGE])
 
         extracted_path = os.path.join(path_to_use, TEMP_PATH)
         for file in os.listdir(extracted_path):
@@ -266,6 +283,7 @@ def main():
         app.progress_label.configure(text="")
 
         # Post update
+        app.progressbar.configure(mode="determinate")
         for i in range(5):
             app.step_label.configure(text=f'{ProgressLabel.DONE[LANGUAGE]} {str(5-i)} {ProgressLabel.SECONDS[LANGUAGE]}')
             sleep(1)
