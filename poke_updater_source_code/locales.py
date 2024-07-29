@@ -725,6 +725,30 @@ class ProgressLabel():
         'el': 'Λίγα δευτερόλεπτα παραμένουν',
         'he': 'נשארו כמה שניות'
     }
+    A_FEW_SECONDS_SHORT = {
+        'en': 'a few seconds',
+        'es': 'unos segundos',
+        'fr': 'quelques secondes',
+        'pt': 'alguns segundos',
+        'it': 'alcuni secondi',
+        'de': 'einige Sekunden',
+        'ru': 'несколько секунд',
+        'ja': 'わずかな秒',
+        'zh': '几秒',
+        'ko': '몇 초 남음',
+        'ar': 'بضع ثوانٍ',
+        'tr': 'birkaç saniye',
+        'pl': 'kilka sekund',
+        'nl': 'nog een paar seconden',
+        'sv': 'några sekunder',
+        'da': 'nogle må sekunder',
+        'fi': 'muutama sekunti',
+        'no': 'noen må sekunder',
+        'cs': 'zbývají několik sekund',
+        'hu': 'néhás másodperc',
+        'el': 'λίγα δευτερόλεπτα',
+        'he': 'נשארו כמה שניות'
+    }
     DONE = {
         'en': 'Done! Launching game in ',
         'es': '¡Hecho! Iniciando el juego en ',
@@ -796,4 +820,28 @@ class ProgressLabel():
         'el': 'Δεν υπάρχει σύνδεση στο internet',
         'he': 'אין חיבור לאינטרנט',
         'en': 'No internet connection'
-    }
+    },
+    LAUNCH = {
+        'en': 'the game will launch in',
+        'es': 'el juego se iniciará en',
+        'fr': 'le jeu se lancera dans',
+        'pt': 'o jogo inicará em',
+        'it': 'il gioco iniziera in',
+        'de': 'das Spiel wird gestartet in',
+        'ru': 'игра начнет запускаться в',
+        'ja': 'ゲームが起動します',
+        'zh': '游戏将在',
+        'ko': '게임을 실행하는',
+        'ar': 'لللعبة سيتم تشغيلها في',
+        'tr': 'oyun başlatılıyor',
+        'pl': 'gra uruchomie się w',
+        'nl': 'het spel zal starten in',
+        'sv': 'spel kommer att startas in',
+        'da': 'spil vil starte i',
+        'fi': 'pelä aloitetaan',
+        'no': 'spill vil starte i',
+        'cs': 'hry se spustí v',
+        'hu': 'a játék indítása',
+        'el': 'το παιχνιδι θα εκκινήσει στο',
+        'he': 'המשחק θα εκκινήσει ב',
+        }

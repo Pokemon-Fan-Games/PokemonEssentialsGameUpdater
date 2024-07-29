@@ -31,7 +31,7 @@ if getattr(sys, 'frozen', False):
 elif __file__:
     REAL_PATH = os.path.dirname(__file__)
 
-TEST_PATH = r""
+TEST_PATH = os.path.join('C:', os.sep, 'Users', 'Diego', 'Documents', 'GitHub', 'LA BASE DE SKY') #r"C:\\Users\\Diego\\Downloads\\PkmOlympus-m-"
 test = False
 path_to_use = TEST_PATH if test else REAL_PATH
 
@@ -45,13 +45,30 @@ current_step = None
 download = None
 
 def remove_updater(poke_updater_from_zip):
+    # Define the flag for hiding the window
+    CREATE_NO_WINDOW = 0x08000000
+    ROBOCOPY_PARAMS = "/e /dcopy:da /ns /nc /nfl /ndl /np /njh /njs"
     if not poke_updater_from_zip: 
         command = f'ping localhost -n 2 & rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
+        Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
     else:
-        command = f'ping localhost -n 5 & rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}" ' \
-                f'& move "{poke_updater_from_zip}" "{path_to_use}" ' \
-                f'& rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
-    Popen(command, stdin=PIPE, stderr=PIPE, stdout=PIPE, shell=True)
+        batch_commands = f"""@echo off
+timeout /t 5
+taskkill /f /im poke_updater.exe
+rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}"
+start "" "{os.path.join(path_to_use, 'Game.exe')}"
+robocopy "{poke_updater_from_zip}" "{os.path.join(path_to_use, 'poke_updater')}" {ROBOCOPY_PARAMS}
+rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"
+DEL "%~f0"
+"""
+        batch_file_path = os.path.join(path_to_use, 'cleanup.bat')
+
+        # Write the batch file
+        with open(batch_file_path, 'w') as batch_file:
+            batch_file.write(batch_commands)
+            print(batch_commands)
+    
+        Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
 
 def compare_versions(new_version, old_version):
     old_version_split = old_version.split('.')
@@ -104,8 +121,6 @@ def main():
             lines = response.text.split("\n")
             for line in lines:
                 line = line.strip()
-                # if new_version and game_url:
-                #     break
                 if "GAME_VERSION" in line and not new_version:
                     split_line = line.split("=")
                     if len(split_line) > 1:
@@ -123,12 +138,11 @@ def main():
                         continue
                     host_name = HostNames.get_name(host)
                     download_hosts[host_name] = game_url
-            # newVersion = float(response.text.split("\n")[0].strip().split("=")[1].strip())
             if not download_hosts:
                 app.show_error(ExceptionMessage.NO_VALID_FILE_HOST[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                 return
             if not downloaded_version or not compare_versions(new_version, downloaded_version):
-                app.show_error(ExceptionMessage.NO_NEW_VERSION[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
+                app.show_info(ExceptionMessage.NO_NEW_VERSION[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
                 return
         except requests.ConnectionError:
             app.show_error(ExceptionMessage.NO_INTERNET[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
@@ -140,7 +154,6 @@ def main():
         current_step = Step.DOWNLOADING
         app.step_label.configure(text=Step.DOWNLOADING[1][LANGUAGE])
         app.progressbar.set(0)
-        # game_url = response.text.split("\n")[1].strip().split("=", maxsplit=1)[1].strip()
 
         if not os.path.exists(os.path.join(path_to_use, TEMP_PATH)):
             os.mkdir(os.path.join(path_to_use, TEMP_PATH))
@@ -193,57 +206,35 @@ def main():
         os.remove(file_to_extract)
         app.progress_label.configure(text="")
         app.progressbar.stop()
+        app.progressbar.set(0)
+        app.progressbar.configure(mode="indeterminate")
 
         # Delete old files
         current_step = Step.DELETING
         app.step_label.configure(text=Step.DELETING[1][LANGUAGE])
         app.progress_label.configure(text=ProgressLabel.A_FEW_SECONDS[LANGUAGE])
-        # items_to_remove = os.listdir(path_to_use)
-        # items_to_ignore = []
-        total_files = 0
-        # for root, folder,  files in os.walk(path_to_use):
-        #     if 'poke_updater' in root:
-        #         for file in files:
-        #             items_to_ignore.append(file)
-        #     total_files+= len(files)
-        total_files = sum([len(files) for _, _, files in os.walk(path_to_use)])
-        deleted_items = 0
+        app.progressbar.set(0)
+        app.progressbar.start()
         for root, folders, files in os.walk(path_to_use):
-        # for file in items_to_remove:
             while wait:
                 if kill: return
             if 'poke_updater' in root or TEMP_PATH in root: continue
             for folder in folders:
-                deleted_tree_count = sum([len(files_aux) for _, _, files_aux in os.walk(os.path.join(root, folder))])
                 if folder.startswith(".") or folder == TEMP_PATH or "poke_updater" in folder: continue
                 shutil.rmtree(os.path.join(root, folder))
-                deleted_items += deleted_tree_count
-                app.progressbar.set(deleted_items/total_files)
             for file in files:
                 if file.startswith(".") or file == TEMP_PATH: continue
-                # app.progressbar.set(deleted_items/total_files)
-                app.progress_label.configure(text=str(round(app.progressbar.get() * 100)) + "%")
-                # deleted_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(root, file))])
                 file_to_remove = os.path.join(path_to_use,file)
                 os.remove(file_to_remove)
-                deleted_items += 1
-                app.progressbar.set(deleted_items/total_files)
-                    # file_to_remove = os.path.join(path_to_use,file)
-                    # if os.path.isdir(file_to_remove):
-                    #     deleted_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, file_to_remove))])
-                    #     shutil.rmtree(file_to_remove)
-                    #     deleted_items += deleted_tree_count
-                    # else:
-                    #     os.remove(file_to_remove)
-                    #     deleted_items += 1
-        app.progress_label.configure(text="")
+        app.progressbar.stop()
 
         # Move files
         current_step = Step.MOVING
         app.step_label.configure(text=Step.MOVING[1][LANGUAGE])
         app.progressbar.set(0)
-        app.progressbar.configure(mode="indeterminate")
-        # app.progress_label.configure(text=ProgressLabel.UNKNOWN_TIME[LANGUAGE])
+        app.progressbar.configure(mode="interminate")
+        app.progress_label.configure(text="")
+        
 
         extracted_path = os.path.join(path_to_use, TEMP_PATH)
         for file in os.listdir(extracted_path):
@@ -257,43 +248,34 @@ def main():
             app.show_error(ExceptionMessage.NO_VALID_FOLDER_FOUND[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
             return
 
-        total_files = sum([len(files) for _, _, files in os.walk(extracted_folder)])
-        moved_files = 0
+        app.progress_label.configure(text=ProgressLabel.A_FEW_SECONDS[LANGUAGE])
+        app.progressbar.start()
         for file in os.listdir(extracted_folder):
             while wait:
                 if kill: return
-            app.progressbar.set(moved_files/total_files)
-            app.progress_label.configure(text=str(round(app.progressbar.get() * 100)) + "%")
-            if "poke_updater" in file and os.path.isdir(file):
-                file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
-                moved_files += file_tree_count
+            if "poke_updater" in file:
                 poke_updater_from_zip = os.path.join(extracted_folder, file)
             elif os.path.join(path_to_use, file) != os.path.join(path_to_use, TEMP_PATH):
-                if os.path.isdir(os.path.join(extracted_folder, file)):
-                    file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
-                    moved_files += file_tree_count
-                elif '.git' in file: # ignore git files:
+                if '.git' in file: # ignore git files:
                     continue
-                else:
-                    moved_files += 1
                 shutil.move(os.path.join(extracted_folder, file), path_to_use)
-            else:
-                file_tree_count = sum([len(files) for _, _, files in os.walk(os.path.join(path_to_use, extracted_folder, file))])
-                moved_files += file_tree_count
+        app.progressbar.stop()
         app.progress_label.configure(text="")
 
         # Post update
+        app.progress_label.configure(text="")
         app.progressbar.configure(mode="determinate")
-        for i in range(5):
-            app.step_label.configure(text=f'{ProgressLabel.DONE[LANGUAGE]} {str(5-i)} {ProgressLabel.SECONDS[LANGUAGE]}')
-            sleep(1)
-        
-        Popen(os.path.join(path_to_use,"Game.exe"), stdin=PIPE, stderr=PIPE, stdout=PIPE, creationflags=DETACHED_PROCESS)
-        if getattr(sys, 'frozen', False):
+        app.step_label.configure(text=f'{ProgressLabel.DONE[LANGUAGE]} {ProgressLabel.LAUNCH[LANGUAGE]} {ProgressLabel.A_FEW_SECONDS_SHORT[LANGUAGE]}')
+        sleep(1)
+        app.progressbar.set(1)
+        sleep(1)
+
+        if getattr(sys, 'frozen', False) or test:
             remove_updater(poke_updater_from_zip)
 
-        app.quit()
         app.main_thread.stop()
+        app.quit()
+        sys.exit()
     except Exception as e: 
         print(e)
         app.show_error(ExceptionMessage.UNEXPECTED_ERROR[LANGUAGE], e)
@@ -372,21 +354,28 @@ class App(customtkinter.CTk):
     def show_error(self, step_text, label_text):
         self.step_label.configure(text=step_text, text_color=App.ERROR_COLOR)
         self.label.configure(text=label_text, text_color=App.ERROR_COLOR)
+
+    def show_info(self, step_text, label_text):
+        self.step_label.configure(text=step_text)
+        self.label.configure(text=label_text)
     
     def on_closing(self):
         global wait, kill, is_extracting, download
         wait = True
-        download.set_wait(True)
+        if download:
+            download.set_wait(True)
         self.main_thread.pause()
         if messagebox.askokcancel(QuitBoxTitle.TITLE[LANGUAGE], Reversal.getMessageText(current_step, LANGUAGE), icon=messagebox.WARNING):
-            self.second_window.destroy()
+            if self.second_window:
+                self.second_window.destroy()
             if is_extracting:
                 messagebox.showinfo(Reversal.REVERSAL_TEXT[3][LANGUAGE][0], Reversal.REVERSAL_TEXT[3][LANGUAGE][1])
             while is_extracting:
                 pass  # Freeze app after showing a message while files are extracting to be able to reverse
             # self.main_thread.resume()
             kill = True
-            download.set_kill(True)
+            if download:
+                download.set_kill(True)
             self.main_thread.stop()
             Reversal.reverse(current_step, os.path.join(path_to_use, TEMP_PATH))
             app.destroy()
