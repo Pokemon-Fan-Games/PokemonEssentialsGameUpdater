@@ -130,8 +130,12 @@ def pbCheckForUpdates(from_update_button=false)
 end
 
 def pbValidateVersion(url, update=false, from_update_button=false)
-	data = pbDownloadData(url)
-  	newVersion = nil
+  begin
+		data = pbDownloadToString(url)
+	rescue MKXPError
+		Kernel.pbMessage("#{pbGetPokeUpdaterText('NO_NEW_VERSION_OR_INTERNET')}")
+		return
+	end
 	if data
 		# check that the pastebin has the GAME_VERSION value
 		lines = data.split("\n")

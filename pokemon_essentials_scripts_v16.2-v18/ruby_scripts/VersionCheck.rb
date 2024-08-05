@@ -1,6 +1,6 @@
 #########################################################################################
 # CREDITS/CRÉDITOS:                                                                     #
-# DPertierra, Iansson                                                                   #                
+# DPertierra, Iansson                                                                   #
 # https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater                     #
 # Version: 2.0.3                                                                        #
 #########################################################################################
