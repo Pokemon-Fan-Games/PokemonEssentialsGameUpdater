@@ -8,7 +8,7 @@
 
 #### Muchas gracias a [@Eric_Lostie](https://twitter.com/Eric_Lostie) en Twitter por permitirnos usar su juego, Pokémon Añil, como ejemplo para este proyecto.
 
-Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Mediafire, Dropbox o Google Drive.
+Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Dropbox o GitHub.
 
 Se ha decidido solo soportar Essentias 16.2 y 21.1.
 
@@ -21,7 +21,7 @@ Si se quiere implementar el actualizador a un juego corriendo sobre Pokémon Ess
 
 #### Big thanks to [@Eric_Lostie](https://twitter.com/Eric_Lostie) on twitter for allowing us to use his game, Pokémon Añil, as an example for this project.
 
-Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire, Dropbox or Google Drive.
+Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Dropbox or GitHub.
 
 From now on only essentials 16.2 and 21.1 will be supported.
 

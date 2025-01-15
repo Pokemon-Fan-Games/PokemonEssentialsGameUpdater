@@ -4,7 +4,7 @@
 
 **¡Ahora puedes descargar los archivos de la última [versión](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest)!**
 
-Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Mediafire, Dropbox o Google Drive.
+Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Dropbox o GitHub.
 
 **Por limitaciones técnicas de versiones de Pokémon Essentials previas a V19, no está previsto el soporte para Joiplay.**
 
@@ -16,7 +16,7 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 
 ## Guía rápida
 
-1. Descargar el archivo `PokeUpdater_x.x.x_PE16-18.zip` del [este release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
+1. Descargar el archivo `PokeUpdater_x.x.x_PE16_BES.zip` del [este release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
 2. Extraer los archivos `pu_locales`, `pu_config` y la carpeta `poke_updater` al directorio del juego.
 3. Copiar los scripts `VersionCheck.rb` y `GameVersion.rb` junto con el resto de los scripts del juego, antes del script llamado `Main`.
 4. Agregar el llamado al control de versiones como se indica en la sección [Mantenimiento de tus scripts de RPG Maker XP](#mantenimiento-de-tus-scripts-de-rpg-maker-xp).
@@ -147,7 +147,7 @@ Ver debajo para una explicación de cada variable:<br><br>
 | Variable       | Descripción                                                                                                                                                                                        | Valores aceptados                                                                                            |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `GAME_VERSION` | Última versión del juego. Debe coincidir con el `CURRENT_GAME_VERSION` del archivo de configuración al lanzar una nueva versión (ver [Al lanzar una nueva versión](#al-lanzar-una-nueva-versión)). | Cualquier número de versión con el formato x.x (por ejemplo: `1.0`, `2.5`, `23.03`, `23.10`).                |
-| `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, Mediafire y Dropbox. |
+| `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, GitHub y Dropbox. |
 
 Una vez creado, una URL para este archivo de Pastebin será generada. Se necesitará la URL al formato RAW para el archivo de Pastebin. Para conseguirla, se debe hacer click en el botón que dice `raw` arriba de la primera línea del nuevo archivo generado.
 
@@ -235,7 +235,7 @@ R. No. El ejecutable está pensado para ser usado por un usuario final sin entra
 
 #### P. Un usuario reporta que no pueden descargar el archivo de juego o que su descarga es inusualmente lenta, ¿qué está pasando?
 
-R. MEGA y Mediafire ambos tienen un límite en la cuota de transferencia que puede ser libremente utilizada. Al ser consumida la cuota, MEGA no permitirá que una descarga continúe y Mediafire reducirá la velocidad de descarga significativamente. Esto es algo que no podemos evitar. El usuario deberá esperar a que su cuota de descarga esté disponible nuevamente o si hay multiples hosts de desarcarga en el pastebin puede probar con otro host.
+R. MEGA tiene un límite en la cuota de transferencia que puede ser libremente utilizada. Al ser consumida la cuota, MEGA no permitirá que una descarga continúe. Esto es algo que no podemos evitar. El usuario deberá esperar a que su cuota de descarga esté disponible nuevamente o si hay multiples hosts de desarcarga en el pastebin puede probar con otro host.
 
 #### P. Un usuario de <INGRESE PAÍS AQUÍ\> no puede acceder a mi juego a través de la página de descarga debido a restricciones regionales. ¿Puede actualizar el juego a través de PokéUpdater de todas maneras?
 

@@ -4,7 +4,7 @@
 
 **You can now download the files for the latest [release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest)!**
 
-Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Mediafire, Dropbox or Google Drive.
+Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface developed in Python with the aim to provide a seamless transition for players to newer version of the game without requiring any manual steps. Current release supports over 20 languages and file hosting / downloading from MEGA, Dropbox or GitHub.
 
 **Due to technical limitation in Pokémon Essentials versions prior to v19, Joiplay support is not currently planned.**
 
@@ -16,7 +16,7 @@ Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface devel
 
 ## Quick start
 
-1. Download file `PokeUpdater_x.x.x_PE16-18.zip` from the [latest release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
+1. Download file `PokeUpdater_x.x.x_PE16_BES.zip` from the [latest release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
 2. Extract files `pu_locales`, `pu_config` and the `poke_updater` folder to the game directory.
 3. Copy scripts `VersionCheck.rb` and `GameVersion.rb` alongside the rest of the game's scripts, before the script named `Main`.
 4. Add the code for the version check as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section.
@@ -144,7 +144,7 @@ See below for an explanation on each of the variables:<br><br>
 | Variable       | Description                                                                                                                                                                               | Accepted values                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `GAME_VERSION` | Latest game version. Should coincide with the configuration file's `CURRENT_GAME_VERSION` when releasing a new version (see [Releasing a new game update](#releasing-a-new-game-update)). | Any version number in format x.x (e.g. `1.0`, `2.5`, `23.03`, `23.10`).                       |
-| `DOWNLOAD_URL` | URL for the downloadable ZIP with the game files.                                                                                                                                         | Any URL for a downloadable file. Accepted hosting sites are MEGA, Mediafire and Dropbox. |
+| `DOWNLOAD_URL` | URL for the downloadable ZIP with the game files.                                                                                                                                         | Any URL for a downloadable file. Accepted hosting sites are MEGA, GitHub and Dropbox. |
 
 When created, a URL for this Pastebin will be generated. You will need the RAW format URL for the Pastebin. This can be retrieved by clicking on the `raw` button above the first line of your newly generated file.
 
@@ -232,7 +232,7 @@ A. No. The executable is thought to be used by an end user with no extra input o
 
 #### Q. A user is reporting that they cannot download the game file or that their download is unusually slow, what's going on?
 
-A. MEGA and Mediafire both have a limited transfer quota that can be freely used. After this quota has been consumed, MEGA will not allow any download to continue and Mediafire will reduce the download speed significantly. This is something which we cannot circumvent. The user will need to wait for their download quota to become available again or if you have added multiple download hosts to the pastebin they could try a different host.
+A. MEGA has a limited transfer quota that can be freely used. After this quota has been consumed, MEGA will not allow any download to continue. This is something which we cannot circumvent. The user will need to wait for their download quota to become available again or if you have added multiple download hosts to the pastebin they could try a different host.
 
 #### Q. A user from <INSERT COUNTRY HERE\> cannot access my game file through the host page because of regional restrictions. Can they update the game using the PokéUpdater anyway?
 
