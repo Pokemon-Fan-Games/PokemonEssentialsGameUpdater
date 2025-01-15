@@ -1,5 +1,0 @@
-Name       = Pokemon Essentials Game Updater
-Version    = 2.0.3
-Essentials = 19,19.1,20.1,21.1
-Website    = https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater
-Credits    = [dpertierra, iansson]
