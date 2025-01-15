@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from time import sleep
 import sys
@@ -19,6 +18,7 @@ from patoolib import extract_archive
 from reversal import Reversal
 from worker import create_worker
 import customtkinter
+import subprocess
 
 wait = False
 kill = False
@@ -31,7 +31,7 @@ if getattr(sys, 'frozen', False):
 elif __file__:
     REAL_PATH = os.path.dirname(__file__)
 
-TEST_PATH = os.path.join('C:', os.sep, 'Users', 'Diego', 'Documents', 'GitHub', 'LA BASE DE SKY') #r"C:\\Users\\Diego\\Downloads\\PkmOlympus-m-"
+TEST_PATH = os.path.join('C:', os.sep, 'Users', 'Diego', 'Downloads')
 test = False
 path_to_use = TEST_PATH if test else REAL_PATH
 
@@ -54,7 +54,7 @@ def remove_updater(poke_updater_from_zip):
     else:
         batch_commands = f"""@echo off
 timeout /t 5
-taskkill /f /im poke_updater.exe
+taskkill /f /im poke_updater.exe 2>nul 
 rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}"
 start "" "{os.path.join(path_to_use, 'Game.exe')}"
 robocopy "{poke_updater_from_zip}" "{os.path.join(path_to_use, 'poke_updater')}" {ROBOCOPY_PARAMS}
@@ -66,9 +66,9 @@ DEL "%~f0"
         # Write the batch file
         with open(batch_file_path, 'w') as batch_file:
             batch_file.write(batch_commands)
-            print(batch_commands)
-    
-        Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
+        
+        subprocess.Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
+        subprocess.Popen('taskkill /f /im poke_updater.exe', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def compare_versions(new_version, old_version):
     old_version_split = old_version.split('.')
@@ -223,7 +223,7 @@ def main():
                 if folder.startswith(".") or folder == TEMP_PATH or "poke_updater" in folder: continue
                 shutil.rmtree(os.path.join(root, folder))
             for file in files:
-                if file.startswith(".") or file == TEMP_PATH: continue
+                if (file.startswith(".") and file != ".nomedia") or file == TEMP_PATH: continue
                 file_to_remove = os.path.join(path_to_use,file)
                 os.remove(file_to_remove)
         app.progressbar.stop()
@@ -242,6 +242,11 @@ def main():
                 if kill: return
             if os.path.isdir(os.path.join(extracted_path, file)) and not file.startswith("."):
                 extracted_folder = os.path.join(extracted_path, file)
+                # If there is not a folder inside the zip
+                # And the contents are just loose there
+                # Use extracted_path as extracted_folder
+            elif file == "Game.exe":
+                extracted_folder = extracted_path
                 break
         
         if not extracted_folder:

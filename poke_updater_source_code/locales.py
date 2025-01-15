@@ -3,9 +3,10 @@ from enum import Enum
 class Host(Enum):
     MEGA=1
     # GOOGLE_DRIVE=2
-    MEDIAFIRE=3
+    # MEDIAFIRE=3
     DROPBOX=4
     ANONFILES=5
+    GITHUB=6
 
 class HostNames():
     # Get the host name from the host enum 
@@ -15,8 +16,10 @@ class HostNames():
             return 'Mega'
         # elif host == Host.GOOGLE_DRIVE:
         #     return 'Google Drive'
-        elif host == Host.MEDIAFIRE:
-            return 'MediaFire'
+        # elif host == Host.MEDIAFIRE:
+        #     return 'MediaFire'
+        elif host == Host.GITHUB:
+            return 'GitHub'
         elif host == Host.DROPBOX:
             return 'Dropbox'
         elif host == Host.ANONFILES:

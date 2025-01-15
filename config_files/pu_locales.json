@@ -1,0 +1,98 @@
+{
+	"NEW_VERSION": {
+		"es": "¡Nueva versión #{variable} disponible!",
+		"ja": "新バージョン#{variable}が利用可能",
+		"en": "New version #{variable} available!",
+		"fr": "Nouvelle version #{variable} disponible",
+		"it": "Nuova versione #{variable} disponibile",
+		"de": "Neue Version #{variable} verfügbar"
+	},
+	"BUTTON_UPDATE": {
+		"es": "Para actualizar utilice el botón disponible en el menú.",
+		"ja": "更新するには、メニューにあるボタンを使用します。",
+		"en": "To update the game use the button on the loading screen menu",
+		"fr": "Pour mettre à jour, utilisez le bouton disponible dans le menu.",
+		"it": "Per aggiornare, utilizzare il pulsante Aggiorna gioco nel menu.",
+		"de": "Verwenden Sie zum Aktualisieren die im Menü verfügbare Schaltfläche."
+	},
+	"MANUAL_UPDATE": {
+		"es": "Por favor ingrese al perfil de la red social del creador para descargar la última versión del juego.",
+		"ja": "最新バージョンをダウンロードするには、クリエイターのSNSプロフィールにログインしてください。",
+		"en": "Please check the maker social network to donwload and update the game",
+		"fr": "Veuillez vous connecter au profil de réseau social du créateur pour télécharger la dernière version du jeu.",
+		"it": "Per scaricare l'ultima versione del gioco, accedere al profilo del creatore del social network.",
+		"de": "Bitte aktualisieren Sie das Spiel, indem Sie sich im sozialen Netzwerk des Erstellers anmelden."
+	},
+	"UPDATE": {
+		"es": "El juego se actualizará y reiniciará automáticamente. Esto puede demorar unos minutos. Tus partidas guardadas NO se verán afectadas durante la actualización.",
+		"ja": "ゲームは自動的にアップデートされ、再起動します。これには数分かかる場合があります。アップデート中、ゲームのセーブは影響を受けません。",
+		"en": "The game will auto update and the updated version will start automatically, this can take a few minutes. Your saves WON'T be affected during the update.",
+		"fr": "Le jeu sera automatiquement mis à jour et redémarré. Cela peut prendre quelques minutes. Vos sauvegardes de jeu ne seront PAS affectées par la mise à jour.",
+		"it": "Il gioco si aggiornerà automaticamente e si riavvierà. L'operazione potrebbe richiedere alcuni minuti. I salvataggi del gioco NON saranno interessati dall'aggiornamento.",
+		"de": "Das Spiel wird automatisch aktualisiert und neu gestartet. Dies kann ein paar Minuten dauern. Ihre Spielstände sind von der Aktualisierung NICHT betroffen."
+	},
+	"NO_NEW_VERSION": {
+		"es": "Estás en la última versión del juego.",
+		"ja": "あなたはゲームの最新バージョンを使っている。",
+		"en": "You are on the latest version of the game",
+		"fr": "Vous êtes sur la dernière version du jeu.",
+		"it": "Sei nella versione più recente del gioco.",
+		"de": "Sie haben die neueste Version des Spiels."
+	},
+	"JOIPLAY_UPDATE": {
+		"es": "Estás jugando en joiplay por favor entra a la red social del creador para descargar la última versión del juego.",
+		"ja": "あなたはjoiplayでプレイしていますゲームの最新バージョンをダウンロードするには、作成者のソーシャルネットワークにログインしてください。",
+		"en": "You are playing on joiplay to update the game please check the maker's social networks.",
+		"fr": "Vous jouez sur joiplay, veuillez vous connecter au réseau social du créateur pour télécharger la dernière version du jeu.",
+		"it": "Stai giocando su joiplay, accedi al social network del creatore per scaricare l'ultima versione del gioco.",
+		"de": "Du spielst auf joiplay. Bitte melde dich im sozialen Netzwerk des Erstellers an, um die neueste Version des Spiels herunterzuladen."
+	},
+	"UPDATER_NOT_FOUND": {
+		"es": "No se ha encontrado el actualizador del juego.",
+		"ja": "ゲームのアップデータが見つかりません。",
+		"en": "The game updater was not found",
+		"fr": "Le programme de mise à jour du jeu n'a pas été trouvé.",
+		"it": "L'aggiornamento del gioco non è stato trovato",
+		"de": "Das Spiel-Update-Programm wurde nicht gefunden."
+	},
+	"NO_NEW_VERSION_OR_INTERNET": {
+		"es": "No tienes conexión a internet o se encontró una nueva versión del juego.",
+		"ja": "インターネットに接続していないか、ゲームの新しいバージョンが見つかりました。",
+		"en": "You don`t have an internet connection on there is not a new version available.",
+		"fr": "Vous n'avez pas de connexion internet ou une nouvelle version du jeu a été trouvée.",
+		"it": "Non si dispone di una connessione a Internet o è stata trovata una nuova versione del gioco.",
+		"de": "Sie haben keine Internetverbindung oder es wurde eine neue Version des Spiels gefunden."
+	},
+	"NO_PASTEBIN_URL": {
+		"es": "No hay una URL al pastebin en el archivo de configuración, repórtalo con el creador del juego.",
+		"ja": "設定ファイルにpastebinへのURLがないので、ゲーム作成者に報告してください。",
+		"en": "There isn't a pastebin URL in the configuration file, please report this error to the game maker.",
+		"fr": "Il n'y a pas d'URL vers le pastebin dans le fichier de configuration, signalez-le au créateur du jeu.",
+		"it": "Non c'è un URL al pastebin nel file di configurazione, segnalatelo al creatore del gioco.",
+		"de": "Es gibt keine URL zum Pastebin in der Konfigurationsdatei, melde es dem Spieleersteller."
+	},
+	"ASK_FOR_UPDATE": {
+		"es": "¿Deseas actualizar el juego?",
+		"ja": "アップデートをしますか？",
+		"en": "Would you like to update the game?",
+		"fr": "Voulez-vous mettre à jour le jeu ?",
+		"it": "Vuoi aggiornare il gioco?",
+		"de": "Willst du das Spiel aktualisieren?"
+	},
+	"FORCE_UPDATE_ON": {
+		"es": "La actualización del juego es obligatoria, el juego se cerrará.",
+		"ja": "アップデートは必須です。",
+		"en": "The update is mandatory the game will close.",
+		"fr": "La mise à jour du jeu est obligatoire, sinon le jeu sera fermé.",
+		"it": "L'aggiornamento del gioco è obbligatorio, il gioco verrà chiuso.",
+		"de": "Die Aktualisierung des Spiels ist obligatorisch, das Spiel wird geschlossen."
+	},
+	"UPDATER_MISCONFIGURATION": {
+		"es": "Error de configuración del actualizador, por favor reporta éste error con el creador del juego.",
+		"ja": "アップデータの設定エラーです。ゲームの作成者に報告してください。",
+		"en": "Updater misconfiguration error, please report this error to the game creator.",
+		"fr": "Erreur de configuration de l'updater, veuillez signaler cette erreur au créateur du jeu.",
+		"it": "Errore di configurazione dell'aggiornamento, segnalare questo errore al creatore del gioco.",
+		"de": "Updater-Konfigurationsfehler, bitte melden Sie diesen Fehler dem Spielentwickler."
+	}
+}

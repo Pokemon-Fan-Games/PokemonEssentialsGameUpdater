@@ -11,6 +11,7 @@ from tenacity import retry, wait_exponential, retry_if_exception_type
 import random
 import re
 import os
+# import mediafire_api
 
 
 CHUNK_SIZE = 32768  # 32 Kb
@@ -44,11 +45,16 @@ class Download():
                 self.mega.download_url(url, self.path)
             # elif host == Host.GOOGLE_DRIVE:
             #     self._download_file_from_google_drive(url)
-            elif host == Host.MEDIAFIRE:
-                download_url = BeautifulSoup(requests.get(url).content, 'html.parser').find(id="downloadButton")["href"]
-                self._download_from_mediafire(download_url)
+            # elif host == Host.MEDIAFIRE:
+                # pass
+                # request_data = requests.get(url = url, allow_redirects = True)
+                # download_url = BeautifulSoup(request_data.content, 'html.parser').find(id="downloadButton")["href"]
+                # download_url = mediafire_api.get_download_link(url)
+                # self._download_from_mediafire(download_url)
             elif host == Host.DROPBOX:
                 self._download_from_dropbox(url)
+            elif host == Host.GITHUB:
+                self._download_from_github(url)
             else:
                 raise Exception(ExceptionMessage.NO_FILE_HOST)
         except ConnectionResetError:
@@ -93,6 +99,14 @@ class Download():
     # Mediafire
     def _download_from_mediafire(self, url):
         filename = url.split("/")[-1].replace('+', ' ')
+        content = requests.get(url, stream=True)
+        filename = os.path.join(self.path, filename)
+        self._stream_to_file(filename, content)
+        self.app.progress_label.configure(text="100%")
+        self.app.progressbar.set(1)
+
+    def _download_from_github(self, url):
+        filename = url.split("/")[-1]
         content = requests.get(url, stream=True)
         filename = os.path.join(self.path, filename)
         self._stream_to_file(filename, content)
@@ -280,8 +294,7 @@ class Download():
                         percentage=round((int(current_size)/int(file_size))*100)
                         self.app.progress_label.configure(text=str(percentage) + "%")
                         self.app.progressbar.set(percentage / 100)
-                else:
-                    raise ConnectionResetError
+            return filepath
 
         def _parse_url(self, url):
             """Parse file id and key from url."""
