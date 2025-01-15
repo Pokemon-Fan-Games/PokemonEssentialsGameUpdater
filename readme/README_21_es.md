@@ -16,7 +16,7 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 
 ## Guía rápida
 
-1. Descargar el archivo `PokeUpdater_x.x.x_PE21.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
+1. Descargar el archivo `PokeUpdater_x.x.x_PE21_LBDS.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
 2. Copiar los archivos `pu_locales`, `pu_config` y las carpetas `Plugins` y `poke_updater` al directorio del juego.
 3. Agregar el llamado al control de versiones como se indica en la sección [Mantenimiento de tus scripts de RPG Maker XP](#mantenimiento-de-tus-scripts-de-rpg-maker-xp).
 4. Iniciar sesión en [pastebin](https://pastebin.com).
