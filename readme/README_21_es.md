@@ -4,9 +4,9 @@
 
 **¡Ahora puedes descargar los archivos de la última [versión](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest)!**
 
-Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Mediafire, Dropbox o Google Drive.
+Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrollada en Python con el objetivo de proporcionar una transición sin problemas para jugadores a una versión más reciente del juego sin requerir pasos manuales. La versión actual de PokéUpdater es compatible con más de 20 idiomas y permite descargar desde MEGA, Dropbox o GitHub.
 
-**No está previsto el soporte de actualización para Joiplay. Con Pokémon Essentials v19 en adelante, el control de versiones está soportado.**
+**No está previsto el soporte de actualización para Joiplay. Aunque si se puede mostrar que hay una versión mas nueva del juego.**
 
 ![gif preview](/previews/preview.gif)
 
@@ -16,7 +16,7 @@ Pokémon Essentials Game Updater (PokéUpdater) es una interfaz liviana desarrol
 
 ## Guía rápida
 
-1. Descargar el archivo `PokeUpdater_x.x.x_PE19+.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
+1. Descargar el archivo `PokeUpdater_x.x.x_PE21.zip` del [último release](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/releases/latest).
 2. Copiar los archivos `pu_locales`, `pu_config` y las carpetas `Plugins` y `poke_updater` al directorio del juego.
 3. Agregar el llamado al control de versiones como se indica en la sección [Mantenimiento de tus scripts de RPG Maker XP](#mantenimiento-de-tus-scripts-de-rpg-maker-xp).
 4. Iniciar sesión en [pastebin](https://pastebin.com).
@@ -36,10 +36,10 @@ El PokéUpdater consiste de un plugin de Ruby llamado `PokemonEssentialsGameUpda
 Para que el juego valide si hay nuevas actualizaciones en la pantalla de carga, se debe agregar la siguiente línea al principio del método `pbStartLoadScreen` en el script `UI_Load` en la sección de `UI`:
 
 ```ruby
-pbCheckForUpdates()
+check_for_updates
 ```
 
-De ser necesario validar la versión del juego en cualquier otro punto del juego, es posible agregar este llamado al método `pbCheckForUpdates()` donde sea requerido.
+De ser necesario validar la versión del juego en cualquier otro punto del juego, es posible agregar este llamado al método `check_for_updates` donde sea requerido.
 
 ### Extractos de código opcionales
 
@@ -112,7 +112,7 @@ def pbStartLoadScreen(savenum=0,auto=nil,savename="Partida 1")
         . . .
       # PokeUpdater Code
       when cmd_update
-        pbValidateGameVersionAndUpdate(true)
+        validate_game_version_and_update(true)
       # End of PokeUpdater Code
       when cmd_quit
         . . .
@@ -143,7 +143,7 @@ Ver debajo para una explicación de cada variable:<br><br>
 | Variable       | Descripción                                                                                                                                                                                        | Valores aceptados                                                                                            |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `GAME_VERSION` | Última versión del juego. Debe coincidir con el `CURRENT_GAME_VERSION` del archivo de configuración al lanzar una nueva versión (ver [Al lanzar una nueva versión](#al-lanzar-una-nueva-versión)). | Cualquier número de versión con el formato x.x (por ejemplo: `1.0`, `2.5`, `23.03`, `23.10`).                |
-| `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, Mediafire y Dropbox. |
+| `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, GitHub y Dropbox. |
 
 Una vez creado, una URL para este archivo de Pastebin será generada. Se necesitará la URL al formato RAW para el archivo de Pastebin. Para conseguirla, se debe hacer click en el botón que dice `raw` arriba de la primera línea del nuevo archivo generado.
 
@@ -231,7 +231,7 @@ R. No. El ejecutable está pensado para ser usado por un usuario final sin entra
 
 #### P. Un usuario reporta que no pueden descargar el archivo de juego o que su descarga es inusualmente lenta, ¿qué está pasando?
 
-R. MEGA y Mediafire ambos tienen un límite en la cuota de transferencia que puede ser libremente utilizada. Al ser consumida la cuota, MEGA no permitirá que una descarga continúe y Mediafire reducirá la velocidad de descarga significativamente. Esto es algo que no podemos evitar. El usuario deberá esperar a que su cuota de descarga esté disponible nuevamente o si hay multiples hosts de desarcarga en el pastebin puede probar con otro host.
+R. MEGA tiene un límite en la cuota de transferencia que puede ser libremente utilizada. Al ser consumida la cuota, MEGA no permitirá que una descarga continúe. Esto es algo que no podemos evitar. El usuario deberá esperar a que su cuota de descarga esté disponible nuevamente o si hay multiples hosts de desarcarga en el pastebin puede probar con otro host.
 
 #### P. Un usuario de <INGRESE PAÍS AQUÍ\> no puede acceder a mi juego a través de la página de descarga debido a restricciones regionales. ¿Puede actualizar el juego a través de PokéUpdater de todas maneras?
 
@@ -247,7 +247,7 @@ R. ¡Sí! Al configurar la variable `FORCE_VERSION_CHECK` a un valor `verdadero`
 
 #### P. Los textos en el juego se visualizan en español, pero los necesito en otro idioma, ¿no hay traducciones disponibles?
 
-R. Esto es causado probablemente por no tener el archivo `pu_locales` en la carpeta del juego. Si el archivo `pu_locales` no se encuentra en el directorio del juego, los mensajes serán fijados en español que se encuentran en el método `pbGetPokeUpdaterText` de la clase `GameVersion.rb`. Tener en cuenta, que únicamente aquellos idiomas soportados por Pokémon Essentials 16.2 se tienen en cuenta. Las traducciones existentes pueden modificarse actualizando el archivo `pu_locales`.
+R. Esto es causado probablemente por no tener el archivo `pu_locales` en la carpeta del juego. Si el archivo `pu_locales` no se encuentra en el directorio del juego, los mensajes serán fijados en español que se encuentran en el método `get_poke_updater_text` de la clase `GameVersion.rb`. Tener en cuenta, que únicamente aquellos idiomas soportados por Pokémon Essentials 16.2 se tienen en cuenta. Las traducciones existentes pueden modificarse actualizando el archivo `pu_locales`.
 
 #### P. ¿Se verán afectadas las partidas existentes del usuario?
 
