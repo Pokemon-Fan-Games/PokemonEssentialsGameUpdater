@@ -2,7 +2,16 @@ module GameVersion
 	# Required constants for game validation / update
 	# Constantes requeridas para validación / actualización del juego
 	POKE_UPDATER_CONFIG = {}
-	poke_updater_locales = {}
+	@poke_updater_locales = {}
+
+	def self.poke_updater_locales=(value)
+		@poke_updater_locales = value
+	end
+
+	def self.poke_updater_locales
+		@poke_updater_locales
+	end
+
 end
 
 def fill_updater_config()
@@ -37,9 +46,9 @@ def fill_updater_config()
 			end
 		end
 		if json_library_available
-			GameVersion::poke_updater_locales = JSON.parse(File.read('pu_locales'))
+			GameVersion.poke_updater_locales = JSON.parse(File.read('pu_locales'))
 		else
-			GameVersion::poke_updater_locales = eval(File.read('pu_locales'))
+			GameVersion.poke_updater_locales = eval(File.read('pu_locales'))
 		end
 end
 	
@@ -50,13 +59,13 @@ end
 	
 def get_poke_updater_text(text_name, variable=nil)
 	lang = get_lang()
-	if GameVersion::poke_updater_locales && GameVersion::poke_updater_locales[text_name] && GameVersion::poke_updater_locales[text_name][lang] && GameVersion::poke_updater_locales[text_name][lang] != ""
-		if GameVersion::poke_updater_locales[text_name][lang].include?('#{variable}')
-			textToReturn = GameVersion::poke_updater_locales[text_name][lang]
+	if GameVersion.poke_updater_locales && GameVersion.poke_updater_locales[text_name] && GameVersion.poke_updater_locales[text_name][lang] && GameVersion.poke_updater_locales[text_name][lang] != ""
+		if GameVersion.poke_updater_locales[text_name][lang].include?('#{variable}')
+			textToReturn = GameVersion.poke_updater_locales[text_name][lang]
 			textToReturn['#{variable}'] = variable.to_s
 			return textToReturn
 		end
-		return GameVersion::poke_updater_locales[text_name][lang]
+		return GameVersion.poke_updater_locales[text_name][lang]
 	end
 	case text_name
 	when 'NEW_VERSION'
