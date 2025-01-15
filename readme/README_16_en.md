@@ -1,4 +1,4 @@
-[![es](https://img.shields.io/badge/Idioma-Español-yellow.svg)](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/readme/README_1618_es.md)
+[![es](https://img.shields.io/badge/Idioma-Español-yellow.svg)](https://github.com/Pokemon-Fan-Games/PokemonEssentialsGameUpdater/blob/main/readme/README_16_es.md)
 
 ---
 
