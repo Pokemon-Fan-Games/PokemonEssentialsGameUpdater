@@ -144,7 +144,7 @@ def new_version?(new_version, current_version)
   new_version_nums = new_version.split('.').map(&:to_i)
 
   # Compare version numbers using spaceship operator
-  new_version_nums <=> old_version_nums == 1
+  (new_version_nums <=> old_version_nums) == 1
 end
 
 def validate_version(url, update=false, from_update_button=false)
