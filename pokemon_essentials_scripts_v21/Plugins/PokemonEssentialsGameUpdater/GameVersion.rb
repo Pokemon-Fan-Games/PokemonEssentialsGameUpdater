@@ -37,7 +37,7 @@ def fill_updater_config()
 		if trueValues.include?(splitted_line[1].downcase) || falseValues.include?(splitted_line[1].downcase)
 			config[splitted_line[0].strip] = true ? trueValues.include?(splitted_line[1].downcase) : false        
 		elsif splitted_line[1].strip.match(/\d+\.\d+/)
-			config[splitted_line[0].strip] = splitted_line[1].strip.to_f
+			config[splitted_line[0].strip] = splitted_line[1].strip
 		end
 	}
 	
@@ -139,18 +139,21 @@ end
 
 
 def new_version?(new_version, current_version)
-	old_version_split = current_version.split('.')
-	new_version_split = new_version.split('.')
-	
-	version_len = [new_version_split.length, old_version_split.length].min
-	
-	(0...version_len).each do |i|
-	  return true if new_version_split[i] > old_version_split[i]
-	end
-	
-	# Version number is the same when comparing shorter version number, validate if this is a smaller patch with a non-standard versioning format
-	# If there is no difference found, then version number is the same
-	return new_version_split.length > old_version_split.length
+  # Split version strings into arrays of integers
+  old_version_nums = current_version.split('.').map(&:to_i)
+  new_version_nums = new_version.split('.').map(&:to_i)
+  
+  # Compare version numbers from most to least significant
+  min_length = [new_version_nums.length, old_version_nums.length].min
+  
+  min_length.times do |i|
+    return true if new_version_nums[i] > old_version_nums[i]
+    return false if new_version_nums[i] < old_version_nums[i]
+  end
+
+  # If all numbers match up to min_length, longer version is newer
+  # e.g. 1.0.1 is newer than 1.0
+  return new_version_nums.length > old_version_nums.length
 end
 
 def validate_version(url, update=false, from_update_button=false)
