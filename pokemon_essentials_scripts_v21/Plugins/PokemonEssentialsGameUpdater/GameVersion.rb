@@ -116,6 +116,20 @@ def check_for_updates(from_update_button=false)
 	end
 end
 
+def new_version?(new_version, current_version)
+	old_version_split = current_version.split('.')
+	new_version_split = new_version.split('.')
+	
+	version_len = [new_version_split.length, old_version_split.length].min
+	
+	(0...version_len).each do |i|
+	  return true if new_version_split[i] > old_version_split[i]
+	end
+	
+	# Version number is the same when comparing shorter version number, validate if this is a smaller patch with a non-standard versioning format
+	# If there is no difference found, then version number is the same
+	return new_version_split.length > old_version_split.length
+end
 
 def validate_version(url, update=false, from_update_button=false)
 	begin
@@ -127,39 +141,39 @@ def validate_version(url, update=false, from_update_button=false)
 	if data
 		newVersion = data.split("\n")[0].strip.split("=")[1].strip.to_f
 		if GameVersion::POKE_UPDATER_CONFIG
-			if newVersion > GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION']
-			newVersionText = get_poke_updater_text('NEW_VERSION', newVersion)  
-			
-			Kernel.pbMessage(_INTL("#{newVersionText}"))
-			if $joiplay
-				Kernel.pbMessage(_INTL("#{get_poke_updater_text('JOIPLAY_UPDATE')}"))
-				return
-			end
-
-			if !pbConfirmMessage(_INTL("#{get_poke_updater_text('ASK_FOR_UPDATE')}"))
-				return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
-				Kernel.pbMessage(_INTL("#{get_poke_updater_text('FORCE_UPDATE_ON')}"))
-				Kernel.exit!
-			end
-
-			if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
-				if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
-					Kernel.pbMessage(_INTL("#{get_poke_updater_text('BUTTON_UPDATE')}"))
-				else
-					Kernel.pbMessage(_INTL("#{get_poke_updater_text('MANUAL_UPDATE')}"))
-				end
-				return
-			end
-			
-			if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
-				if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
-					Kernel.pbMessage(_INTL("#{get_poke_updater_text('UPDATER_NOT_FOUND')}"))
+			if new_version?(newVersion, GameVersion::POKE_UPDATER_CONFIG['CURRENT_GAME_VERSION'])
+				newVersionText = get_poke_updater_text('NEW_VERSION', newVersion)  
+				
+				Kernel.pbMessage(_INTL("#{newVersionText}"))
+				if $joiplay
+					Kernel.pbMessage(_INTL("#{get_poke_updater_text('JOIPLAY_UPDATE')}"))
 					return
 				end
-				Kernel.pbMessage(_INTL("#{get_poke_updater_text('UPDATE')}"))
-				IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
-				Kernel.exit!
-			end
+	
+				if !pbConfirmMessage(_INTL("#{get_poke_updater_text('ASK_FOR_UPDATE')}"))
+					return if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE']
+					Kernel.pbMessage(_INTL("#{get_poke_updater_text('FORCE_UPDATE_ON')}"))
+					Kernel.exit!
+				end
+	
+				if !GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] && !update
+					if GameVersion::POKE_UPDATER_CONFIG['HAS_UPDATE_BUTTON'] 
+						Kernel.pbMessage(_INTL("#{get_poke_updater_text('BUTTON_UPDATE')}"))
+					else
+						Kernel.pbMessage(_INTL("#{get_poke_updater_text('MANUAL_UPDATE')}"))
+					end
+					return
+				end
+				
+				if GameVersion::POKE_UPDATER_CONFIG['FORCE_UPDATE'] || update
+					if !File.exists?(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
+						Kernel.pbMessage(_INTL("#{get_poke_updater_text('UPDATER_NOT_FOUND')}"))
+						return
+					end
+					Kernel.pbMessage(_INTL("#{get_poke_updater_text('UPDATE')}"))
+					IO.popen(GameVersion::POKE_UPDATER_CONFIG['UPDATER_FILENAME'])
+					Kernel.exit!
+				end
 			else
 				Kernel.pbMessage(_INTL(get_poke_updater_text('NO_NEW_VERSION'))) if from_update_button
 			end 
@@ -171,13 +185,13 @@ def validate_version(url, update=false, from_update_button=false)
 end
 
 def major_version
-ret = 0
-if defined?(Essentials)
-	ret = Essentials::VERSION.split(".")[0].to_i
-elsif defined?(ESSENTIALS_VERSION)
-	ret = ESSENTIALS_VERSION.split(".")[0].to_i
-elsif defined?(ESSENTIALSVERSION)
-	ret = ESSENTIALSVERSION.split(".")[0].to_i
-end
-return ret
+	ret = 0
+	if defined?(Essentials)
+		ret = Essentials::VERSION.split(".")[0].to_i
+	elsif defined?(ESSENTIALS_VERSION)
+		ret = ESSENTIALS_VERSION.split(".")[0].to_i
+	elsif defined?(ESSENTIALSVERSION)
+		ret = ESSENTIALSVERSION.split(".")[0].to_i
+	end
+	return ret
 end
