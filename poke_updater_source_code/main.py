@@ -70,23 +70,14 @@ DEL "%~f0"
         subprocess.Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
         subprocess.Popen('taskkill /f /im poke_updater.exe', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-def compare_versions(new_version, old_version):
-    # Convert version strings to arrays of integers
-    old_version_nums = [int(x) for x in old_version.split('.')]
-    new_version_nums = [int(x) for x in new_version.split('.')]
+def new_version(new_version, current_version):
+    # Split version strings into tuples of integers
+    old_version_nums = tuple(map(int, current_version.split('.')))
+    new_version_nums = tuple(map(int, new_version.split('.')))
     
-    # Compare version numbers from most to least significant
-    min_length = min(len(new_version_nums), len(old_version_nums))
-    
-    for i in range(min_length):
-        if new_version_nums[i] > old_version_nums[i]:
-            return True
-        elif new_version_nums[i] < old_version_nums[i]:
-            return False
-            
-    # If all numbers match up to min_length, longer version is newer
-    # e.g. 1.0.1 is newer than 1.0
-    return len(new_version_nums) > len(old_version_nums)
+    # Compare version numbers directly
+    return new_version_nums > old_version_nums
+
     
 def main():
     global current_step, is_extracting, download
