@@ -70,7 +70,7 @@ DEL "%~f0"
         subprocess.Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
         subprocess.Popen('taskkill /f /im poke_updater.exe', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-def new_version(new_version, current_version):
+def compare_versions(new_version, current_version):
     # Split version strings into tuples of integers
     old_version_nums = tuple(map(int, current_version.split('.')))
     new_version_nums = tuple(map(int, new_version.split('.')))
