@@ -71,19 +71,23 @@ DEL "%~f0"
         subprocess.Popen('taskkill /f /im poke_updater.exe', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def compare_versions(new_version, old_version):
-    old_version_split = old_version.split('.')
-    new_version_split = new_version.split('.')
+    # Convert version strings to arrays of integers
+    old_version_nums = [int(x) for x in old_version.split('.')]
+    new_version_nums = [int(x) for x in new_version.split('.')]
     
-    version_len = min(len(new_version_split), len(old_version_split))
-
-    for i in range(0, version_len):
-        if new_version_split[i] > old_version_split[i]:
+    # Compare version numbers from most to least significant
+    min_length = min(len(new_version_nums), len(old_version_nums))
+    
+    for i in range(min_length):
+        if new_version_nums[i] > old_version_nums[i]:
             return True
+        elif new_version_nums[i] < old_version_nums[i]:
+            return False
+            
+    # If all numbers match up to min_length, longer version is newer
+    # e.g. 1.0.1 is newer than 1.0
+    return len(new_version_nums) > len(old_version_nums)
     
-    # Version number is the same when comparing shorter version number, validate if this is a smaller patch with a non-standard versioning format
-    # If there is no difference found, then version number is the same
-    return len(new_version_split) > len(old_version_split)
-
 def main():
     global current_step, is_extracting, download
     poke_updater_from_zip = None
