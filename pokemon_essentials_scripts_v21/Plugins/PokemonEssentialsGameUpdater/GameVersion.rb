@@ -161,9 +161,7 @@ def validate_version(url, update=false, from_update_button=false)
 		return
 	end
 	if data
-		newVersion = data.split("\n")[0].strip.split("=")[1].strip.to_f
-		echoln "new version #{newVersion}"
-		echoln "current version #{GameVersion.poke_updater_config['CURRENT_GAME_VERSION']}"
+		newVersion = data.split("\n")[0].strip.split("=")[1].strip
 		if GameVersion.poke_updater_config
 			if new_version?(newVersion, GameVersion.poke_updater_config['CURRENT_GAME_VERSION'])
 				newVersionText = get_poke_updater_text('NEW_VERSION', newVersion)  
