@@ -142,18 +142,9 @@ def new_version?(new_version, current_version)
   # Split version strings into arrays of integers
   old_version_nums = current_version.split('.').map(&:to_i)
   new_version_nums = new_version.split('.').map(&:to_i)
-  
-  # Compare version numbers from most to least significant
-  min_length = [new_version_nums.length, old_version_nums.length].min
-  
-  min_length.times do |i|
-    return true if new_version_nums[i] > old_version_nums[i]
-    return false if new_version_nums[i] < old_version_nums[i]
-  end
 
-  # If all numbers match up to min_length, longer version is newer
-  # e.g. 1.0.1 is newer than 1.0
-  return new_version_nums.length > old_version_nums.length
+  # Compare version numbers using spaceship operator
+  new_version_nums <=> old_version_nums == 1
 end
 
 def validate_version(url, update=false, from_update_button=false)
