@@ -1,6 +1,7 @@
 import os
 from time import sleep
 import sys
+import io
 import requests
 import tkinter as tk
 from tkinter import ttk
@@ -15,6 +16,7 @@ import locale
 from download import Download
 from subprocess import Popen, DETACHED_PROCESS, PIPE
 from patoolib import extract_archive
+import zipfile
 from reversal import Reversal
 from worker import create_worker
 import customtkinter
@@ -70,19 +72,13 @@ DEL "%~f0"
         subprocess.Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
         subprocess.Popen('taskkill /f /im poke_updater.exe', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-def compare_versions(new_version, old_version):
-    old_version_split = old_version.split('.')
-    new_version_split = new_version.split('.')
+def compare_versions(new_version, current_version):
+    # Split version strings into tuples of integers
+    old_version_nums = tuple(map(int, current_version.split('.')))
+    new_version_nums = tuple(map(int, new_version.split('.')))
     
-    version_len = min(len(new_version_split), len(old_version_split))
-
-    for i in range(0, version_len):
-        if new_version_split[i] > old_version_split[i]:
-            return True
-    
-    # Version number is the same when comparing shorter version number, validate if this is a smaller patch with a non-standard versioning format
-    # If there is no difference found, then version number is the same
-    return len(new_version_split) > len(old_version_split)
+    # Compare version numbers directly
+    return new_version_nums > old_version_nums
 
 def main():
     global current_step, is_extracting, download
@@ -185,23 +181,42 @@ def main():
         app.progress_label.configure(text=ProgressLabel.A_FEW_SECONDS[LANGUAGE])
         app.progressbar.start()
         found_file = False
+        # Redirect stdout and stderr if they are None (happens with WIN32GUI)
+        if sys.stdout is None:
+            sys.stdout = io.StringIO()
+        if sys.stderr is None:
+            sys.stderr = io.StringIO()
         for file in os.listdir(os.path.join(path_to_use, TEMP_PATH)):
             file_suffix = pathlib.Path(file).suffix
             if file_suffix in [".zip", ".rar", ".7z", ".tar.gz"]:
                 found_file = True
                 file_to_extract = os.path.join(path_to_use, TEMP_PATH, file)
-                is_extracting = True
-                outdir = os.path.join(path_to_use, TEMP_PATH)
-                extract_archive(file_to_extract, outdir=outdir)
                 break
+        
+        if not found_file:
+            app.show_error(ExceptionMessage.NO_VALID_FILE_FOUND[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
+            return
+        
+        is_extracting = True
+        outdir = os.path.join(path_to_use, TEMP_PATH)
+        if file_suffix == ".zip":
+            try:
+                with zipfile.ZipFile(file_to_extract, 'r') as zip_ref:
+                    zip_ref.extractall(outdir)
+            except zipfile.BadZipFile:
+                app.show_error(ExceptionMessage.INVALID_ZIP_FILE[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
+                return
+            except Exception as e:
+                print(e)
+                app.show_error(ExceptionMessage.UNEXPECTED_ERROR[LANGUAGE], e)
+        else:
+            extract_archive(file_to_extract, outdir=outdir)
         
         is_extracting = False
         while wait:
             if kill: return
 
-        if not found_file:
-            app.show_error(ExceptionMessage.NO_VALID_FILE_FOUND[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
-            return
+
 
         os.remove(file_to_extract)
         app.progress_label.configure(text="")
