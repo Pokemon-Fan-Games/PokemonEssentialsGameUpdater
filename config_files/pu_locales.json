@@ -16,12 +16,12 @@
 		"de": "Verwenden Sie zum Aktualisieren die im Menü verfügbare Schaltfläche."
 	},
 	"MANUAL_UPDATE": {
-		"es": "Por favor ingrese al perfil de la red social del creador para descargar la última versión del juego.",
-		"ja": "最新バージョンをダウンロードするには、クリエイターのSNSプロフィールにログインしてください。",
-		"en": "Please check the maker social network to donwload and update the game",
-		"fr": "Veuillez vous connecter au profil de réseau social du créateur pour télécharger la dernière version du jeu.",
-		"it": "Per scaricare l'ultima versione del gioco, accedere al profilo del creatore del social network.",
-		"de": "Bitte aktualisieren Sie das Spiel, indem Sie sich im sozialen Netzwerk des Erstellers anmelden."
+		"es": "Por favor ingrese al perfil #{variable} del creador para descargar la última versión del juego.",
+		"ja": "最新バージョンをダウンロードするには、クリエイターの#{variable}プロフィールにログインしてください。",
+		"en": "Please check the maker profile #{variable} to download and update the game",
+		"fr": "Veuillez vous connecter au profil #{variable} du créateur pour télécharger la dernière version du jeu.",
+		"it": "Per scaricare l'ultima versione del gioco, accedere al profilo #{variable} del creatore.",
+		"de": "Bitte melden Sie sich im #{variable}-Profil des Erstellers an, um das Spiel zu aktualisieren."
 	},
 	"UPDATE": {
 		"es": "El juego se actualizará y reiniciará automáticamente. Esto puede demorar unos minutos. Tus partidas guardadas NO se verán afectadas durante la actualización.",
@@ -94,5 +94,13 @@
 		"fr": "Erreur de configuration de l'updater, veuillez signaler cette erreur au créateur du jeu.",
 		"it": "Errore di configurazione dell'aggiornamento, segnalare questo errore al creatore del gioco.",
 		"de": "Updater-Konfigurationsfehler, bitte melden Sie diesen Fehler dem Spielentwickler."
+	},
+	"MANUAL_DOWNLOAD_CONFIRM": {
+		"es": "¿Desea abrir el link de descarga?",
+		"ja": "ダウンロードリンクを開きますか？",
+		"en": "Would you like to open the download link?",
+		"fr": "Voulez-vous ouvrir le lien de téléchargement?",
+		"it": "Vuoi aprire il link di download?",
+		"de": "Möchten Sie den Download-Link öffnen?"
 	}
 }

@@ -91,7 +91,7 @@ def get_poke_updater_text(text_name, variable=nil)
 	when 'NO_NEW_VERSION'
 		return "Estás en la última versión"
 	when 'JOIPLAY_UPDATE'
-		return "Estás jugando en joiplay por favor entra a la red social del creador para descargar la última versión del juego."
+		return "Estás jugando en joiplay, por favor entra a la red social del creador para descargar la última versión del juego."
 	when 'UPDATER_NOT_FOUND'
 		return 'No se ha encontrado el actualizador del juego.'
 	when 'NO_NEW_VERSION_OR_INTERNET'
@@ -104,6 +104,8 @@ def get_poke_updater_text(text_name, variable=nil)
 		return 'La actualización del juego es obligatoria, el juego se cerrará.'
 	when 'UPDATER_MISCONFIGURATION'
     return 'Hay errores en la configuración del updater, repórtalo con el creador del juego.'
+	when 'MANUAL_DOWNLOAD_CONFIRM'
+		return "¿Desea abrir el link de descarga?"
 	end
 end
 
@@ -112,20 +114,20 @@ def validate_game_version_and_update(from_update_button=false)
 	fill_updater_config if !GameVersion.poke_updater_config || !GameVersion.poke_updater_config['VERSION_PASTEBIN']
 	return if !GameVersion.poke_updater_config
 	if !GameVersion.poke_updater_config['VERSION_PASTEBIN'] || GameVersion.poke_updater_config['VERSION_PASTEBIN'] == ''
-		Kernel.pbMessage(_INTL(get_poke_updater_text('NO_PASTEBIN_URL'))) if from_update_button
+		Kernel.pbMessage(get_poke_updater_text('NO_PASTEBIN_URL')) if from_update_button
 		return
 	end
-	validate_version(GameVersion.poke_updater_config['VERSION_PASTEBIN'], true, from_update_button)
+	validate_version(GameVersion.poke_updater_config['VERSION_PASTEBIN'], from_update_button)
 end
 
 def validate_game_version(from_update_button=false)
 	fill_updater_config if !GameVersion.poke_updater_config || !GameVersion.poke_updater_config['VERSION_PASTEBIN']
 	return if !GameVersion.poke_updater_config 
 	if !GameVersion.poke_updater_config['VERSION_PASTEBIN'] || GameVersion.poke_updater_config['VERSION_PASTEBIN'] == ''
-		Kernel.pbMessage(_INTL(get_poke_updater_text('NO_PASTEBIN_URL'))) if from_update_button
+		Kernel.pbMessage(get_poke_updater_text('NO_PASTEBIN_URL')) if from_update_button
 		return
 	end
-	validate_version(GameVersion.poke_updater_config['VERSION_PASTEBIN'], false, from_update_button)
+	validate_version(GameVersion.poke_updater_config['VERSION_PASTEBIN'], from_update_button)
 end
 
 def check_for_updates(from_update_button=false)
@@ -147,7 +149,7 @@ def new_version?(new_version, current_version)
   (new_version_nums <=> old_version_nums) == 1
 end
 
-def validate_version(url, update=false, from_update_button=false)
+def validate_version(url, from_update_button=false, update=true)
 	begin
 		data = pbDownloadToString(url)
 	rescue MKXPError
@@ -170,42 +172,55 @@ def validate_version(url, update=false, from_update_button=false)
 			if new_version?(newVersion, GameVersion.poke_updater_config['CURRENT_GAME_VERSION'])
 				newVersionText = get_poke_updater_text('NEW_VERSION', newVersion)  
 			
-				Kernel.pbMessage(_INTL("#{newVersionText}"))
+				Kernel.pbMessage("#{newVersionText}")
 				if $joiplay
-					Kernel.pbMessage(_INTL("#{get_poke_updater_text('JOIPLAY_UPDATE')}"))
+					Kernel.pbMessage("#{get_poke_updater_text('JOIPLAY_UPDATE')}")
 					return
 				end
 
-				if !pbConfirmMessage(_INTL("#{get_poke_updater_text('ASK_FOR_UPDATE')}"))
+				if !pbConfirmMessage("#{get_poke_updater_text('ASK_FOR_UPDATE')}")
 					return if !GameVersion.poke_updater_config['FORCE_UPDATE']
-					Kernel.pbMessage(_INTL("#{get_poke_updater_text('FORCE_UPDATE_ON')}"))
+					Kernel.pbMessage("#{get_poke_updater_text('FORCE_UPDATE_ON')}")
 					Kernel.exit!
 				end
 
 				if !GameVersion.poke_updater_config['FORCE_UPDATE'] && !update
+					if !File.exists?(GameVersion.poke_updater_config['UPDATER_FILENAME'])
+						Kernel.pbMessageBlack("#{get_poke_updater_text('MANUAL_UPDATE', GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'])}")
+						if !GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'].empty? && pbConfirmMessageBlack("#{get_poke_updater_text('MANUAL_DOWNLOAD_CONFIRM')}")
+							System.launch(GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'])
+						end
+						return
+					end
 					if GameVersion.poke_updater_config['HAS_UPDATE_BUTTON'] 
-						Kernel.pbMessage(_INTL("#{get_poke_updater_text('BUTTON_UPDATE')}"))
+						Kernel.pbMessage("#{get_poke_updater_text('BUTTON_UPDATE')}")
 					else
-						Kernel.pbMessage(_INTL("#{get_poke_updater_text('MANUAL_UPDATE')}"))
+						Kernel.pbMessage("#{get_poke_updater_text('MANUAL_UPDATE', GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'])}")
+						if !GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'].empty? && pbConfirmMessage("#{get_poke_updater_text('MANUAL_DOWNLOAD_CONFIRM')}")
+							System.launch(GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'])
+						end
 					end
 					return
 				end
 				
 				if GameVersion.poke_updater_config['FORCE_UPDATE'] || update
 					if !File.exists?(GameVersion.poke_updater_config['UPDATER_FILENAME'])
-						Kernel.pbMessage(_INTL("#{get_poke_updater_text('UPDATER_NOT_FOUND')}"))
+						Kernel.pbMessage("#{get_poke_updater_text('MANUAL_UPDATE', GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'])}")
+						if !GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'].empty? && pbConfirmMessage("#{get_poke_updater_text('MANUAL_DOWNLOAD_CONFIRM')}")
+							System.launch(GameVersion.poke_updater_config['MANUAL_DOWNLOAD_LINK'])
+						end
 						return
 					end
-					Kernel.pbMessage(_INTL("#{get_poke_updater_text('UPDATE')}"))
+					Kernel.pbMessage(get_poke_updater_text('UPDATE'))
 					IO.popen(GameVersion.poke_updater_config['UPDATER_FILENAME'])
 					Kernel.exit!
 				end
 			else
-				Kernel.pbMessage(_INTL(get_poke_updater_text('NO_NEW_VERSION'))) if from_update_button
+				Kernel.pbMessage(get_poke_updater_text('NO_NEW_VERSION')) if from_update_button
 			end 
 		end
 	else
-		Kernel.pbMessage(_INTL(get_poke_updater_text('NO_NEW_VERSION_OR_INTERNET')))
+		Kernel.pbMessage(get_poke_updater_text('NO_NEW_VERSION_OR_INTERNET'))
 		return
 	end
 end
