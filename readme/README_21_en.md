@@ -152,6 +152,7 @@ VERSION_PASTEBIN=
 UPDATER_FILENAME=./poke_updater/poke_updater.exe
 FORCE_VERSION_CHECK=true
 FORCE_UPDATE=true
+MANUAL_DOWNLOAD_LINK=
 ```
 
 <br>
@@ -164,6 +165,7 @@ See below for an explanation on each of the variables:<br><br>
 | `UPDATER_FILENAME`     | The PokéUpdater executable name. It doesn't need to be changed, but if it is, then it must be maintained in this variable.                                | Any valid filename                                                                                   | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Flag to forcibly validate if a new version is available based on Pastebin data on game launch.                                                            | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
 | `FORCE_UPDATE`         | If this flag is sent to true and the user chooses not to update the game when prompted the a message will be shown informing that the update is requiered and the game will close.     | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `false`             |
+| `MANUAL_DOWNLOAD_LINK` | The URL to the manual download link. If you maintain this variable, you can ignore the poke_updater.exe and this plugin will work as a notifier of new versions, when a new version is realeased it will ask the user to open this URL in their web browser to manually download the new version of the game.| This will be the URL where an user can enter in their browser to manually download the new version of the game | Empty              |
 
 After setting the required values for all variables, the file does not need to be changed unless a new version is released.
 

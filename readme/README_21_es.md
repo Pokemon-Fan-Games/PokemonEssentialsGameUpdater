@@ -157,6 +157,7 @@ VERSION_PASTEBIN=
 UPDATER_FILENAME=./poke_updater/poke_updater.exe
 FORCE_VERSION_CHECK=true
 FORCE_UPDATE=true
+MANUAL_DOWNLOAD_LINK=
 ```
 
 <br>
@@ -169,6 +170,7 @@ Ver debajo para una explicación de cada variable:<br><br>
 | `UPDATER_FILENAME`     | El nombre del ejecutable del PokéUpdater. No necesita ser cambiado, pero si se cambia también debe ser mantenido en esta variable.                                            | Cualquier nombre de archivo válido que corresponda con el nombre del ejecutable.                                                                       | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Booleano para validar obligatoriamente si una nueva versión está disponible basada en la información configurada en el archivo de Pastebin al iniciar el juego.               | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                | `true`             |
 | `FORCE_UPDATE`         | Booleano si el usuario elige que no cuando se le pregunta si quiere actualizar el juego, se le mostrará un mensaje informando que la actualización es obligatoria y el juego se cerrará                              | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                | `false`             |
+| `MANUAL_DOWNLOAD_LINK` | La URL al enlace de descarga manual. Si mantiene esta variable, podrá no incluir el poke_updater.exe y este plugin funcionará como un notificador de nuevas versiones, cuando se lance una nueva versión, se le preguntará al usuario si desea abrir esta URL en su navegador web para descargar manualmente la nueva versión del juego. | Esta será la URL en la que un usuario puede entrar en su navegador para descargar manualmente la nueva versión del juego | Empty              |
 
 Luego de poner los valores requeridos a todas las variables, no es necesario modificar el archivo a menos que una nueva versión sea lanzada.
 
