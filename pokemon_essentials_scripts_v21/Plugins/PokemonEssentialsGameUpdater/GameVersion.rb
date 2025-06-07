@@ -162,8 +162,8 @@ def validate_version(url, from_update_button=false, update=true)
 		lines.each do |line|
 			if line.include?("GAME_VERSION")
 				line_split = line.strip.split("=")
-				if line_split.length > 1
-					newVersion = line.strip.split("=")[1].strip
+				if line_split.length > 1 && line_split[1]
+					newVersion = line_split[1].strip
 					break
 				end
 			end
