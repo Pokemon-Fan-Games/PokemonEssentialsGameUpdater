@@ -46,6 +46,183 @@ TEMP_PATH = "temp"
 current_step = None
 download = None
 
+def find_game_exe_recursive(root_path):
+    """
+    Recursively search for Game.exe in the directory structure.
+    Returns the directory containing Game.exe, or None if not found.
+    """
+    for root, dirs, files in os.walk(root_path):
+        if "Game.exe" in files:
+            return root
+    return None
+
+def copy_directory_contents_recursively(src_root, dst_root, src_base_path, exclude_paths=None):
+    """
+    Recursively copy contents from src_root to dst_root, maintaining directory structure.
+    
+    Args:
+        src_root: Source directory to copy from
+        dst_root: Destination directory to copy to
+        src_base_path: Base path used to calculate relative paths
+        exclude_paths: Set of paths to exclude from copying
+    """
+    if exclude_paths is None:
+        exclude_paths = set()
+    
+    for root, dirs, files in os.walk(src_root):
+        # Calculate relative path from the base source path
+        rel_path = os.path.relpath(root, src_base_path)
+        
+        # Skip if this path should be excluded
+        if root in exclude_paths:
+            continue
+        
+        # Create destination directory if it doesn't exist
+        if rel_path != '.':
+            dst_dir = os.path.join(dst_root, rel_path)
+            os.makedirs(dst_dir, exist_ok=True)
+        else:
+            dst_dir = dst_root
+        
+        # Copy files
+        for file in files:
+            if file.startswith(".") and file != ".nomedia":
+                continue
+            if "poke_updater" in file:
+                continue
+            if '.git' in file:
+                continue
+                
+            src_file = os.path.join(root, file)
+            dst_file = os.path.join(dst_dir, file)
+            
+            # Remove destination file if it exists
+            if os.path.exists(dst_file):
+                os.remove(dst_file)
+            
+            shutil.move(src_file, dst_file)
+
+def handle_complex_directory_structure(extracted_path, destination_path):
+    """
+    Handle complex directory structures where Game.exe might be nested.
+    Accounts for the fact that the updater runs from inside the game directory.
+    """
+    # First, verify that Game.exe exists somewhere in the structure
+    game_exe_dir = find_game_exe_recursive(extracted_path)
+    
+    if not game_exe_dir:
+        return False, None
+    
+    poke_updater_from_zip = None
+    
+    # Get the name of the directory containing Game.exe
+    game_dir_name = os.path.basename(game_exe_dir)
+    
+    # Get parent directory (where sibling folders should go)
+    parent_destination = os.path.dirname(destination_path)
+    
+    # Process all items in the extracted path
+    for item in os.listdir(extracted_path):
+        src_item = os.path.join(extracted_path, item)
+        
+        # Skip hidden files except .nomedia
+        if item.startswith(".") and item != ".nomedia":
+            continue
+        
+        # Skip git files
+        if '.git' in item:
+            continue
+        
+        # Skip temp directory
+        if item == TEMP_PATH:
+            continue
+        
+        if os.path.isdir(src_item):
+            # Check if this is a poke_updater directory - save path for batch file
+            if "poke_updater" in item:
+                poke_updater_from_zip = src_item
+                continue
+                
+            # Check if this is the directory containing Game.exe
+            if item == game_dir_name and src_item == game_exe_dir:
+                # Copy contents of this directory to the current destination (where updater runs)
+                for root, dirs, files in os.walk(src_item):
+                    # Calculate relative path from the game directory
+                    rel_path = os.path.relpath(root, src_item)
+                    
+                    # Determine destination directory
+                    if rel_path == '.':
+                        dst_dir = destination_path
+                    else:
+                        dst_dir = os.path.join(destination_path, rel_path)
+                        os.makedirs(dst_dir, exist_ok=True)
+                    
+                    # Process files
+                    for file in files:
+                        # Skip hidden files except .nomedia
+                        if file.startswith(".") and file != ".nomedia":
+                            continue
+                        
+                        # Skip git files
+                        if '.git' in file:
+                            continue
+                        
+                        src_file = os.path.join(root, file)
+                        
+                        # Handle poke_updater files specially
+                        if "poke_updater" in file:
+                            poke_updater_from_zip = src_file
+                            continue
+                        
+                        dst_file = os.path.join(dst_dir, file)
+                        
+                        # Skip updating poke_updater directory contents during move phase
+                        # These will be handled by the batch file after the process exits
+                        if "poke_updater" in dst_file:
+                            continue
+                        
+                        # Remove destination file if it exists (for replacement)
+                        if os.path.exists(dst_file):
+                            if os.path.isdir(dst_file):
+                                shutil.rmtree(dst_file)
+                            else:
+                                os.remove(dst_file)
+                        
+                        # Move the file
+                        shutil.move(src_file, dst_file)
+            else:
+                # This is a sibling directory - copy it to the parent directory
+                dst_item = os.path.join(parent_destination, item)
+                
+                # Skip poke_updater directories - they will be handled by batch file
+                if "poke_updater" in item:
+                    continue
+                
+                # Remove destination directory if it exists
+                if os.path.exists(dst_item):
+                    shutil.rmtree(dst_item)
+                
+                # Move the directory
+                shutil.move(src_item, dst_item)
+        
+        elif os.path.isfile(src_item):
+            # Handle individual files at root level
+            if "poke_updater" in item:
+                poke_updater_from_zip = src_item
+                continue
+            
+            # Copy file to parent directory (as a sibling to the game directory)
+            dst_item = os.path.join(parent_destination, item)
+            
+            # Remove destination file if it exists
+            if os.path.exists(dst_item):
+                os.remove(dst_item)
+            
+            # Move the file
+            shutil.move(src_item, dst_item)
+    
+    return True, poke_updater_from_zip
+
 def remove_updater(poke_updater_from_zip):
     # Define the flag for hiding the window
     CREATE_NO_WINDOW = 0x08000000
@@ -54,13 +231,27 @@ def remove_updater(poke_updater_from_zip):
         command = f'ping localhost -n 2 & rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"'
         Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
     else:
+        # Get the absolute paths for the batch file
+        game_exe_path = os.path.join(path_to_use, 'Game.exe')
+        poke_updater_dir = os.path.join(path_to_use, 'poke_updater')
+        temp_path = os.path.join(path_to_use, TEMP_PATH)
+        
+        # Get the directory where the current executable is located
+        # This should be deleted after copying the new updater
+        if getattr(sys, 'frozen', False):
+            # Running as executable
+            current_updater_dir = os.path.dirname(os.path.realpath(sys.executable))
+        else:
+            # Running as script (for development)
+            current_updater_dir = os.path.dirname(os.path.realpath(__file__))
+        
         batch_commands = f"""@echo off
 timeout /t 5
 taskkill /f /im poke_updater.exe 2>nul 
-rmdir /s /q "{os.path.dirname(os.path.realpath(sys.executable))}"
-start "" "{os.path.join(path_to_use, 'Game.exe')}"
-robocopy "{poke_updater_from_zip}" "{os.path.join(path_to_use, 'poke_updater')}" {ROBOCOPY_PARAMS}
-rmdir /s /q "{os.path.join(path_to_use, TEMP_PATH)}"
+rmdir /s /q "{current_updater_dir}"
+start "" "{game_exe_path}"
+robocopy "{poke_updater_from_zip}" "{poke_updater_dir}" {ROBOCOPY_PARAMS}
+rmdir /s /q "{temp_path}"
 DEL "%~f0"
 """
         batch_file_path = os.path.join(path_to_use, 'cleanup.bat')
@@ -69,8 +260,14 @@ DEL "%~f0"
         with open(batch_file_path, 'w') as batch_file:
             batch_file.write(batch_commands)
         
+        # Start the cleanup batch file
         subprocess.Popen(['cmd.exe', '/c', batch_file_path], creationflags=CREATE_NO_WINDOW)
-        subprocess.Popen('taskkill /f /im poke_updater.exe', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+        # Give the batch file a moment to start
+        sleep(0.5)
+        
+        # Exit cleanly to release file locks as soon as possible
+        sys.exit(0)
 
 def compare_versions(new_version, current_version):
     # Split version strings into tuples of integers
@@ -95,7 +292,7 @@ def main():
             while line := file.readline():
                 if "CURRENT_GAME_VERSION" in line:
                     downloaded_version = line.split("=")[1].strip()
-                if "VERSION_PASTEBIN" in line:
+                if "PASTEBIN_URL" in line:
                     pastebin_url = line.split("=")[1].strip().replace('"', '')
                 if downloaded_version and pastebin_url:
                     break 
@@ -252,33 +449,16 @@ def main():
         
 
         extracted_path = os.path.join(path_to_use, TEMP_PATH)
-        for file in os.listdir(extracted_path):
-            while wait:
-                if kill: return
-            if os.path.isdir(os.path.join(extracted_path, file)) and not file.startswith("."):
-                extracted_folder = os.path.join(extracted_path, file)
-                # If there is not a folder inside the zip
-                # And the contents are just loose there
-                # Use extracted_path as extracted_folder
-            elif file == "Game.exe":
-                extracted_folder = extracted_path
-                break
-        
-        if not extracted_folder:
-            app.show_error(ExceptionMessage.NO_VALID_FOLDER_FOUND[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
-            return
-
         app.progress_label.configure(text=ProgressLabel.A_FEW_SECONDS[LANGUAGE])
         app.progressbar.start()
-        for file in os.listdir(extracted_folder):
-            while wait:
-                if kill: return
-            if "poke_updater" in file:
-                poke_updater_from_zip = os.path.join(extracted_folder, file)
-            elif os.path.join(path_to_use, file) != os.path.join(path_to_use, TEMP_PATH):
-                if '.git' in file: # ignore git files:
-                    continue
-                shutil.move(os.path.join(extracted_folder, file), path_to_use)
+        
+        # Use the new complex directory structure handler
+        success, poke_updater_from_zip = handle_complex_directory_structure(extracted_path, path_to_use)
+        
+        if not success:
+            app.show_error(ExceptionMessage.NO_VALID_FOLDER_FOUND[LANGUAGE], ExceptionMessage.CLOSE_WINDOW[LANGUAGE])
+            return
+        
         app.progressbar.stop()
         app.progress_label.configure(text="")
 

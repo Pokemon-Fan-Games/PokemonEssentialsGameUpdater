@@ -21,7 +21,7 @@ Pokémon Essentials Game Updater (PokéUpdater) is a lightweight interface devel
 3. Add the code for the version check as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section.
 4. Log in to [http://pastebin.com](http://pastebin.com/).
 5. Create a new Pastebin file with the format specified in section [Set up and maintain the Pastebin file](#set-up-and-maintain-the-pastebin-file) and retrieve its RAW URL.
-6. Edit file `pu_config` with notepad, and set the correct values for variables `CURRENT_GAME_VERSION` and `VERSION_PASTEBIN`.
+6. Edit file `pu_config` with notepad, and set the correct values for variables `CURRENT_GAME_VERSION` and `PASTEBIN_URL`.
 
 ## Maintaining your RPG Maker XP scripts
 
@@ -125,8 +125,9 @@ When the scripts have been implemented in your RPG Maker XP project, you will ne
 While logged in you will need to create a new file with the following format:
 
 ```
-GAME_VERSION=
-DOWNLOAD_URL=
+GAME_VERSION =
+DOWNLOAD_URL =
+FORCE_UPDATE = false
 ```
 
 The DOWNLOAD_URL field can be repeated N times to have multiple download hosts, but there can only be one DOWNLOAD_URL for each host. The player will be able to choose which host to download the game from.
@@ -139,6 +140,7 @@ See below for an explanation on each of the variables:<br><br>
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `GAME_VERSION` | Latest game version. Should coincide with the configuration file's `CURRENT_GAME_VERSION` when releasing a new version (see [Releasing a new game update](#releasing-a-new-game-update)). | Any version number in format x.x (e.g. `1.0`, `2.5`, `23.03`, `23.10`).                       |
 | `DOWNLOAD_URL` | URL for the downloadable ZIP with the game files.                                                                                                                                         | Any URL for a downloadable file. Accepted hosting sites are MEGA, GitHub and Dropbox. |
+| `FORCE_UPDATE` | If this flag is set to true and the user chooses not to update the game when prompted the a message will be shown informing that the update is requiered and the game will close.     | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `false`             |
 
 When created, a URL for this Pastebin will be generated. You will need the RAW format URL for the Pastebin. This can be retrieved by clicking on the `raw` button above the first line of your newly generated file.
 
@@ -151,7 +153,6 @@ CURRENT_GAME_VERSION=1.0
 VERSION_PASTEBIN=
 UPDATER_FILENAME=./poke_updater/poke_updater.exe
 FORCE_VERSION_CHECK=true
-FORCE_UPDATE=true
 ```
 
 <br>
@@ -160,10 +161,9 @@ See below for an explanation on each of the variables:<br><br>
 | Variable               | Description                                                                                                                                               | Accepted values                                                                                      | Default value      |
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------ |
 | `CURRENT_GAME_VERSION` | Game's current version. When validating if an update is available, this variable will be checked against the `GAME_VERSION` set up in your Pastebin file. | Any version number in format x.x (e.g.: `1.0`, `2.5`, `23.10`, etc.).                                | `1.0`              |
-| `VERSION_PASTEBIN`     | The URL to your raw Pastebin file. This will be the URL from where the new version details will be validated.                                             | A **RAW** Pastebin URL. If a non RAW Pastebin URL is passed, values will not be properly determined. | Empty              |
+| `PASTEBIN_URL`     | The URL to your raw Pastebin file. This will be the URL from where the new version details will be validated.                                             | A **RAW** Pastebin URL. If a non RAW Pastebin URL is passed, values will not be properly determined. | Empty              |
 | `UPDATER_FILENAME`     | The PokéUpdater executable name. It doesn't need to be changed, but if it is, then it must be maintained in this variable.                                | Any valid filename                                                                                   | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Flag to forcibly validate if a new version is available based on Pastebin data on game launch.                                                            | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `true`             |
-| `FORCE_UPDATE`         | If this flag is sent to true and the user chooses not to update the game when prompted the a message will be shown informing that the update is requiered and the game will close.     | Upper or lower case:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                | `false`             |
 
 After setting the required values for all variables, the file does not need to be changed unless a new version is released.
 
@@ -234,7 +234,7 @@ A. The PokéUpdater cannot bypass any regional / content restrictions set by the
 
 #### Q. Will my released updates be optional / mandatory?
 
-A. If the scripts have been implemented as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section, it is possible to control whether the version checking / updating will be forcibly done when showing the game load screen by setting the parameters `FORCE_VERSION_CHECK` and `FORCE_UPDATE` of the `pu_config` file. Note that if `FORCE_UPDATE` is set to a `false` value, then the update logic will have to be called somewhere else, for example, a menu button as exemplified in section [Optional code snippets](#optional-code-snippets). Also note that setting `FORCE_VERSION_CHECK` to a `false` value will deactivate the PokéUpdater unless the version validation is performed elsewhere.
+A. If the scripts have been implemented as specified in the [Maintaining your RPG Maker XP Scripts](#maintaining-your-rpg-maker-xp-scripts) section, it is possible to control whether the version checking / updating will be forcibly done when showing the game load screen by setting the parameters `FORCE_VERSION_CHECK` and `FORCE_UPDATE` of the `pu_config` file. Note that setting `FORCE_VERSION_CHECK` to a `false` value will deactivate the PokéUpdater unless the version validation is performed elsewhere.
 
 #### Q. I don't want to use the PokéUpdater executable, but I still want to notify my users that a new version has been released. Is it possible to do this with the provided scripts?
 
