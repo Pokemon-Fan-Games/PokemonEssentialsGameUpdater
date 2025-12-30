@@ -144,6 +144,7 @@ Ver debajo para una explicación de cada variable:<br><br>
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `GAME_VERSION` | Última versión del juego. Debe coincidir con el `CURRENT_GAME_VERSION` del archivo de configuración al lanzar una nueva versión (ver [Al lanzar una nueva versión](#al-lanzar-una-nueva-versión)). | Cualquier número de versión con el formato x.x (por ejemplo: `1.0`, `2.5`, `23.03`, `23.10`).                |
 | `DOWNLOAD_URL` | La URL con la cual se descarga el juego.                                                                                                                                                           | Cualquier URL a un archivo descargable. Los sitios de descarga aceptados son MEGA, GitHub y Dropbox. |
+| `FORCE_UPDATE`         | Booleano si el usuario elige que no cuando se le pregunta si quiere actualizar el juego, se le mostrará un mensaje informando que la actualización es obligatoria y el juego se cerrará                              | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                |
 
 Una vez creado, una URL para este archivo de Pastebin será generada. Se necesitará la URL al formato RAW para el archivo de Pastebin. Para conseguirla, se debe hacer click en el botón que dice `raw` arriba de la primera línea del nuevo archivo generado.
 
@@ -156,7 +157,6 @@ CURRENT_GAME_VERSION=1.0
 VERSION_PASTEBIN=
 UPDATER_FILENAME=./poke_updater/poke_updater.exe
 FORCE_VERSION_CHECK=true
-FORCE_UPDATE=true
 MANUAL_DOWNLOAD_LINK=
 ```
 
@@ -169,7 +169,6 @@ Ver debajo para una explicación de cada variable:<br><br>
 | `VERSION_PASTEBIN`     | La URL al formato RAW del archivo de Pastebin. Esta será la URL con la cual los detalles de la nueva versión serán validados.                                                 | Una URL a un formato **RAW** de un archivo de Pastebin. Si se provee una URL de Pastebin no RAW, los valores no podrán ser determinados correctamente. | Empty              |
 | `UPDATER_FILENAME`     | El nombre del ejecutable del PokéUpdater. No necesita ser cambiado, pero si se cambia también debe ser mantenido en esta variable.                                            | Cualquier nombre de archivo válido que corresponda con el nombre del ejecutable.                                                                       | `./poke_updater/poke_updater.exe` |
 | `FORCE_VERSION_CHECK`  | Booleano para validar obligatoriamente si una nueva versión está disponible basada en la información configurada en el archivo de Pastebin al iniciar el juego.               | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                | `true`             |
-| `FORCE_UPDATE`         | Booleano si el usuario elige que no cuando se le pregunta si quiere actualizar el juego, se le mostrará un mensaje informando que la actualización es obligatoria y el juego se cerrará                              | Mayúscula o minúscula:<br>`true`/`y`/`si`/`yes`/`s`<br>`false`/`n`/`no`                                                                                | `false`             |
 | `MANUAL_DOWNLOAD_LINK` | La URL al enlace de descarga manual. Si mantiene esta variable, podrá no incluir el poke_updater.exe y este plugin funcionará como un notificador de nuevas versiones, cuando se lance una nueva versión, se le preguntará al usuario si desea abrir esta URL en su navegador web para descargar manualmente la nueva versión del juego. | Esta será la URL en la que un usuario puede entrar en su navegador para descargar manualmente la nueva versión del juego | Empty              |
 
 Luego de poner los valores requeridos a todas las variables, no es necesario modificar el archivo a menos que una nueva versión sea lanzada.

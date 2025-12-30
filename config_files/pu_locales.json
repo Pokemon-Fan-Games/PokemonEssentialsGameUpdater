@@ -16,7 +16,7 @@
 		"de": "Verwenden Sie zum Aktualisieren die im Menü verfügbare Schaltfläche."
 	},
 	"MANUAL_UPDATE": {
-		"es": "Por favor ingrese al perfil #{variable} del creador para descargar la última versión del juego.",
+		"es": "Por favor, actualiza el juego entrando a la red social del creador (Twitter/X: @Sky_fangames).",
 		"ja": "最新バージョンをダウンロードするには、クリエイターの#{variable}プロフィールにログインしてください。",
 		"en": "Please check the maker profile #{variable} to download and update the game",
 		"fr": "Veuillez vous connecter au profil #{variable} du créateur pour télécharger la dernière version du jeu.",
@@ -32,7 +32,7 @@
 		"de": "Das Spiel wird automatisch aktualisiert und neu gestartet. Dies kann ein paar Minuten dauern. Ihre Spielstände sind von der Aktualisierung NICHT betroffen."
 	},
 	"NO_NEW_VERSION": {
-		"es": "Estás en la última versión del juego.",
+		"es": "No hay nuevas versiones disponibles en este momento.",
 		"ja": "あなたはゲームの最新バージョンを使っている。",
 		"en": "You are on the latest version of the game",
 		"fr": "Vous êtes sur la dernière version du jeu.",
@@ -40,12 +40,12 @@
 		"de": "Sie haben die neueste Version des Spiels."
 	},
 	"JOIPLAY_UPDATE": {
-		"es": "Estás jugando en joiplay por favor entra a la red social del creador para descargar la última versión del juego.",
+		"es": "Estás jugando en joiplay, por favor entra a la red social del creador para descargar la última versión del juego (Twitter/X: @Sky_fangames).",
 		"ja": "あなたはjoiplayでプレイしていますゲームの最新バージョンをダウンロードするには、作成者のソーシャルネットワークにログインしてください。",
-		"en": "You are playing on joiplay to update the game please check the maker's social networks.",
-		"fr": "Vous jouez sur joiplay, veuillez vous connecter au réseau social du créateur pour télécharger la dernière version du jeu.",
-		"it": "Stai giocando su joiplay, accedi al social network del creatore per scaricare l'ultima versione del gioco.",
-		"de": "Du spielst auf joiplay. Bitte melde dich im sozialen Netzwerk des Erstellers an, um die neueste Version des Spiels herunterzuladen."
+		"en": "You are playing on joiplay to update the game please check the maker's social networks (Twitter/X: @Sky_fangames).",
+		"fr": "Vous jouez sur joiplay, veuillez vous connecter au réseau social du créateur pour télécharger la dernière version du jeu (Twitter/X: @Sky_fangames).",
+		"it": "Stai giocando su joiplay, accedi al social network del creatore per scaricare l'ultima versione del gioco (Twitter/X: @Sky_fangames).",
+		"de": "Du spielst auf joiplay. Bitte melde dich im sozialen Netzwerk des Erstellers an, um die neueste Version des Spiels herunterzuladen (Twitter/X: @Sky_fangames)."
 	},
 	"UPDATER_NOT_FOUND": {
 		"es": "No se ha encontrado el actualizador del juego.",
@@ -56,7 +56,7 @@
 		"de": "Das Spiel-Update-Programm wurde nicht gefunden."
 	},
 	"NO_NEW_VERSION_OR_INTERNET": {
-		"es": "No tienes conexión a internet o se encontró una nueva versión del juego.",
+		"es": "No tienes conexión a internet o no se encontró una nueva versión del juego.",
 		"ja": "インターネットに接続していないか、ゲームの新しいバージョンが見つかりました。",
 		"en": "You don`t have an internet connection on there is not a new version available.",
 		"fr": "Vous n'avez pas de connexion internet ou une nouvelle version du jeu a été trouvée.",
@@ -102,5 +102,21 @@
 		"fr": "Voulez-vous ouvrir le lien de téléchargement?",
 		"it": "Vuoi aprire il link di download?",
 		"de": "Möchten Sie den Download-Link öffnen?"
+	},
+	"ASK_FOR_CHANGELOG": {
+		"es": "¿Deseas ver el changelog de la nueva versión?",
+		"ja": "新しいバージョンの変更ログを見ますか？",
+		"en": "Would you like to see the changelog of the new version?",
+		"fr": "Voulez-vous voir le changelog de la nouvelle version?",
+		"it": "Vuoi vedere il changelog della nuova versione?",
+		"de": "Möchten Sie das Changelog der neuen Version sehen?"
+	},
+	"CURRENT_VERSION": {
+		"es": "Versión actual: #{variable}",
+		"ja": "現在のバージョン: #{variable}",
+		"en": "Current version: #{variable}",
+		"fr": "Version actuelle : #{variable}",
+		"it": "Versione attuale: #{variable}",
+		"de": "Aktuelle Version: #{variable}"
 	}
 }
