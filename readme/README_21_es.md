@@ -36,10 +36,10 @@ El PokéUpdater consiste de un plugin de Ruby llamado `PokemonEssentialsGameUpda
 Para que el juego valide si hay nuevas actualizaciones en la pantalla de carga, se debe agregar la siguiente línea al principio del método `pbStartLoadScreen` en el script `UI_Load` en la sección de `UI`:
 
 ```ruby
-check_for_updates
+PokeUpdater.check_for_updates
 ```
 
-De ser necesario validar la versión del juego en cualquier otro punto del juego, es posible agregar este llamado al método `check_for_updates` donde sea requerido.
+De ser necesario validar la versión del juego en cualquier otro punto del juego, es posible agregar este llamado al método `PokeUpdater.check_for_updates` donde sea requerido.
 
 ### Extractos de código opcionales
 

@@ -32,10 +32,10 @@ The PokéUpdater consists of one Ruby plugin named `PokemonEssentialsGameUpdater
 For the game to check if there are new updates at the loading screen you have to add the following line at the top of the `pbStartLoadScreen` method in the `UI_Load` script under the `UI` section:
 
 ```ruby
-check_for_updates
+PokeUpdater.check_for_updates
 ```
 
-If it is needed that the version is validated at any other point in your game, you can add this `check_for_updates` call where required.
+If it is needed that the version is validated at any other point in your game, you can add this `PokeUpdater.check_for_updates` call where required.
 
 ### Optional code snippets
 
