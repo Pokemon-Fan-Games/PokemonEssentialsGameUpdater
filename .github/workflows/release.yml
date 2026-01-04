@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Zip Folder
-      run: zip -r "PokeUpdater.zip" . -i "Plugins/*" "poke_updater/*" "config_files/pu_config" "config_files/pu_locales.json"
+      run: zip -r "PokeUpdater.zip" . -i "Plugins/*" "poke_updater/*" "pu_config" "pu_locales.json"
 
     - name: Release
       uses: softprops/action-gh-release@v2
