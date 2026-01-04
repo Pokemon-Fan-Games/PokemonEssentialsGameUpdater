@@ -16,7 +16,7 @@
 		"de": "Verwenden Sie zum Aktualisieren die im Menü verfügbare Schaltfläche."
 	},
 	"MANUAL_UPDATE": {
-		"es": "Por favor, actualiza el juego entrando a la red social del creador (Twitter/X: @Sky_fangames).",
+		"es": "Por favor, actualiza el juego entrando a la red social del creador.",
 		"ja": "最新バージョンをダウンロードするには、クリエイターの#{variable}プロフィールにログインしてください。",
 		"en": "Please check the maker profile #{variable} to download and update the game",
 		"fr": "Veuillez vous connecter au profil #{variable} du créateur pour télécharger la dernière version du jeu.",
@@ -40,12 +40,12 @@
 		"de": "Sie haben die neueste Version des Spiels."
 	},
 	"JOIPLAY_UPDATE": {
-		"es": "Estás jugando en joiplay, por favor entra a la red social del creador para descargar la última versión del juego (Twitter/X: @Sky_fangames).",
+		"es": "Estás jugando en joiplay, por favor entra a la red social del creador para descargar la última versión del juego.",
 		"ja": "あなたはjoiplayでプレイしていますゲームの最新バージョンをダウンロードするには、作成者のソーシャルネットワークにログインしてください。",
-		"en": "You are playing on joiplay to update the game please check the maker's social networks (Twitter/X: @Sky_fangames).",
-		"fr": "Vous jouez sur joiplay, veuillez vous connecter au réseau social du créateur pour télécharger la dernière version du jeu (Twitter/X: @Sky_fangames).",
-		"it": "Stai giocando su joiplay, accedi al social network del creatore per scaricare l'ultima versione del gioco (Twitter/X: @Sky_fangames).",
-		"de": "Du spielst auf joiplay. Bitte melde dich im sozialen Netzwerk des Erstellers an, um die neueste Version des Spiels herunterzuladen (Twitter/X: @Sky_fangames)."
+		"en": "You are playing on joiplay to update the game please check the maker's social networks.",
+		"fr": "Vous jouez sur joiplay, veuillez vous connecter au réseau social du créateur pour télécharger la dernière version du jeu.",
+		"it": "Stai giocando su joiplay, accedi al social network del creatore per scaricare l'ultima versione del gioco.",
+		"de": "Du spielst auf joiplay. Bitte melde dich im sozialen Netzwerk des Erstellers an, um die neueste Version des Spiels herunterzuladen."
 	},
 	"UPDATER_NOT_FOUND": {
 		"es": "No se ha encontrado el actualizador del juego.",
