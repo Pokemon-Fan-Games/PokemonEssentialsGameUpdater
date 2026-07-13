@@ -2,10 +2,7 @@ from enum import Enum
 
 class Host(Enum):
     MEGA=1
-    # GOOGLE_DRIVE=2
-    # MEDIAFIRE=3
     DROPBOX=4
-    ANONFILES=5
     GITHUB=6
 
 class HostNames():
@@ -14,16 +11,10 @@ class HostNames():
     def get_name(host):
         if host == Host.MEGA:
             return 'Mega'
-        # elif host == Host.GOOGLE_DRIVE:
-        #     return 'Google Drive'
-        # elif host == Host.MEDIAFIRE:
-        #     return 'MediaFire'
         elif host == Host.GITHUB:
             return 'GitHub'
         elif host == Host.DROPBOX:
             return 'Dropbox'
-        elif host == Host.ANONFILES:
-            return 'AnonFiles'
 
 
 class QuitBoxTitle():
@@ -99,54 +90,6 @@ class QuitBoxTitle():
             'hu': 'Nem',
             'el': 'Οχι',
             'he': 'לא'
-        },
-        'CANCEL': {
-            'en': 'Cancel',
-            'es': 'Cancelar',
-            'fr': 'Annuler',
-            'pt': 'Cancelar',
-            'it': 'Annulla',
-            'de': 'Abbrechen',
-            'ru': 'Отмена',
-            'ja': 'キャンセル',
-            'zh': '取消',
-            'ko': '취소',
-            'ar': 'يلغي',
-            'tr': 'İptal',
-            'pl': 'Anuluj',
-            'nl': 'Annuleren',
-            'sv': 'Avbryt',
-            'da': 'Annuller',
-            'fi': 'Peruuta',
-            'no': 'Avbryt',
-            'cs': 'Zrušit',
-            'hu': 'Mögse',
-            'el': 'Ακυρωση',
-            'he': 'ביטול'
-        },
-        'QUIT': {
-            'en': 'Quit',
-            'es': 'Salir',
-            'fr': 'Quitter',
-            'pt': 'Sair',
-            'it': 'Esci',
-            'de': 'Beenden',
-            'ru': 'Выход',
-            'ja': 'やめる',
-            'zh': '退出',
-            'ko': '종료',
-            'ar': 'الخروج',
-            'tr': 'Çıkış',
-            'pl': 'Wyjdź',
-            'nl': 'Stoppen',
-            'sv': 'Avsluta',
-            'da': 'Afslut',
-            'fi': 'Lopeta',
-            'no': 'Avslutt',
-            'cs': 'Opustit',
-            'hu': 'Kilépés',
-            'el': 'Αποχώρηση',
-            'he': 'יציאה'
         },
     }
 
@@ -753,28 +696,28 @@ class ProgressLabel():
         'he': 'נשארו כמה שניות'
     }
     DONE = {
-        'en': 'Done! Launching game in ',
-        'es': '¡Hecho! Iniciando el juego en ',
-        'fr': 'Terminé! Lancement du jeu dans ',
-        'pt': 'Feito! Iniciando o jogo em ',
-        'it': 'Fatto! Avvio del gioco in ',
-        'de': 'Fertig! Das Spiel startet in ',
-        'ru': 'Готово! Запуск игры в ',
-        'ja': '完了！ゲームを起動中 ',
-        'zh': '完成！正在启动游戏 ',
-        'ko': '완료! 게임 시작 ',
-        'ar': 'تم! تشغيل اللعبة في ',
-        'tr': 'Bitti! Oyun başlatılıyor ',
-        'pl': 'Gotowe! Uruchamianie gry w ',
-        'nl': 'Klaar! Game starten in ',
-        'sv': 'Klart! Startar spelet i ',
-        'da': 'Færdig! Starter spillet i ',
-        'fi': 'Valmis! Käynnistetään peli ',
-        'no': 'Ferdig! Starter spillet i ',
-        'cs': 'Hotovo! Spuštění hry v ',
-        'hu': 'Kész! Játék indítása ',
-        'el': 'Έγινε! Εκκίνηση παιχνιδιού σε ',
-        'he': 'סיים! משחק ההשקה ב '
+        'en': 'Done! You can now launch the game manually. Cleanup will continue in the background.',
+        'es': '¡Hecho! Ahora puedes iniciar el juego manualmente. La limpieza continuará en segundo plano.',
+        'fr': 'Terminé! Vous pouvez maintenant lancer le jeu manuellement. Le nettoyage continuera en arrière-plan.',
+        'pt': 'Feito! Agora você pode iniciar o jogo manualmente. A limpeza continuará em segundo plano.',
+        'it': 'Fatto! Ora puoi avviare il gioco manualmente. La pulizia continuerà in background.',
+        'de': 'Fertig! Sie können das Spiel jetzt manuell starten. Die Bereinigung läuft im Hintergrund weiter.',
+        'ru': 'Готово! Теперь вы можете запустить игру вручную. Очистка продолжится в фоновом режиме.',
+        'ja': '完了！ゲームを手動で起動できます。クリーンアップはバックグラウンドで続行されます。',
+        'zh': '完成！您现在可以手动启动游戏。清理将在后台继续。',
+        'ko': '완료! 이제 게임을 수동으로 시작할 수 있습니다. 정리는 백그라운드에서 계속됩니다.',
+        'ar': 'تم! يمكنك الآن تشغيل اللعبة يدوياً. سيستمر التنظيف في الخلفية.',
+        'tr': 'Bitti! Artık oyunu manuel olarak başlatabilirsiniz. Temizlik arka planda devam edecek.',
+        'pl': 'Gotowe! Możesz teraz uruchomić grę ręcznie. Czyszczenie będzie kontynuowane w tle.',
+        'nl': 'Klaar! Je kunt het spel nu handmatig starten. Opruimen gaat door op de achtergrond.',
+        'sv': 'Klart! Du kan nu starta spelet manuellt. Rensning kommer att fortsätta i bakgrunden.',
+        'da': 'Færdig! Du kan nu starte spillet manuelt. Oprydning vil fortsætte i baggrunden.',
+        'fi': 'Valmis! Voit nyt käynnistää pelin manuaalisesti. Siivous jatkuu taustalla.',
+        'no': 'Ferdig! Du kan nå starte spillet manuelt. Opprydding vil fortsette i bakgrunnen.',
+        'cs': 'Hotovo! Nyní můžete hru spustit ručně. Úklid bude pokračovat na pozadí.',
+        'hu': 'Kész! Most már manuálisan elindíthatod a játékot. A takarítás a háttérben folytatódik.',
+        'el': 'Έγινε! Μπορείτε τώρα να εκκινήσετε το παιχνίδι χειροκίνητα. Ο καθαρισμός θα συνεχιστεί στο παρασκήνιο.',
+        'he': 'סיים! עכשיו אתה יכול להפעיל את המשחק באופן ידני. הניקוי ימשיך ברקע.'
     }
     SECONDS = {
         'en': ' seconds...',

@@ -1,62 +1,72 @@
 import requests
-from mega import Mega
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
 from crypto import (base64_to_a32, base64_url_decode, decrypt_attr, a32_to_str)
 import json
 from locales import *
 from exceptions import *
-from bs4 import BeautifulSoup
-from tenacity import retry, wait_exponential, retry_if_exception_type
+import logging
 import random
 import re
 import os
-# import mediafire_api
+import threading
+import time
 
 
 CHUNK_SIZE = 32768  # 32 Kb
-wait, kill = False, False
+# Connect/read timeout: without it a stalled host hangs the updater forever
+# behind a "do not close this window" dialog.
+TIMEOUT = (10, 60)
+
+class Cancellation():
+    """Pause/cancel signal shared by the downloaders. resume is set while
+    downloading may proceed; kill is set once the user cancels."""
+    def __init__(self):
+        self.resume = threading.Event()
+        self.resume.set()
+        self.kill = threading.Event()
+
+    def set_wait(self, wait):
+        self.resume.clear() if wait else self.resume.set()
+
+    def set_kill(self, kill):
+        if kill:
+            self.kill.set()
+            self.resume.set()  # release a paused download so it can bail out
+
+    def cancelled(self):
+        """Block while paused. True if the download was cancelled."""
+        self.resume.wait()
+        return self.kill.is_set()
 
 class Download():
     def __init__(self, app, path, temp_path, language='en'):
         self.app = app
         self.path = os.path.join(path, temp_path)
         self.language = language
-        self.wait = False
-        self.kill = False
+        self.signal = Cancellation()
         self.mega = None
-        
+
     def set_wait(self, wait):
-        self.wait = wait
-        if self.mega:
-            self.mega.set_wait(wait)
+        self.signal.set_wait(wait)
+
     def set_kill(self, kill):
-        self.kill = kill
-        if self.mega:
-            self.mega.set_kill(kill)
+        self.signal.set_kill(kill)
 
     def start_download(self, url):
         host = None
         try:
             host = self.get_file_host(url)
-            
+
             if host == Host.MEGA:
-                self.mega = self._MegaDownload(self.app)
+                self.mega = self._MegaDownload(self.app, self.signal, self.language)
                 self.mega.download_url(url, self.path)
-            # elif host == Host.GOOGLE_DRIVE:
-            #     self._download_file_from_google_drive(url)
-            # elif host == Host.MEDIAFIRE:
-                # pass
-                # request_data = requests.get(url = url, allow_redirects = True)
-                # download_url = BeautifulSoup(request_data.content, 'html.parser').find(id="downloadButton")["href"]
-                # download_url = mediafire_api.get_download_link(url)
-                # self._download_from_mediafire(download_url)
             elif host == Host.DROPBOX:
                 self._download_from_dropbox(url)
             elif host == Host.GITHUB:
                 self._download_from_github(url)
             else:
-                raise Exception(ExceptionMessage.NO_FILE_HOST)
+                raise Exception(ExceptionMessage.NO_FILE_HOST[self.language])
         except ConnectionResetError:
             if host == Host.MEGA:
                 raise Exception(ExceptionMessage.DOWNLOAD_ERROR_MEGA[self.language])
@@ -67,116 +77,73 @@ class Download():
         except Exception as e:
             raise e
 
+    # Every host listed here must have a branch in start_download, or the player
+    # gets offered a host that always fails.
     def get_file_host(self, url):
         if "mega.nz" in url:
             return Host.MEGA
-        # elif "drive.google.com" in url:
-        #     return Host.GOOGLE_DRIVE
-        elif "mediafire.com" in url:
-            return Host.MEDIAFIRE
-        elif "anonfiles.com" in url:
-            return Host.ANONFILES
         elif "dropbox.com" in url:
             return Host.DROPBOX
+        elif "github.com" in url:
+            return Host.GITHUB
         else:
             raise Exception(ExceptionMessage.NO_FILE_HOST[self.language])
 
     def _stream_to_file(self, filename, response):
         content_length = response.headers.get("content-length")
         if not content_length: raise Exception(ExceptionMessage.NO_VALID_FILE_FOUND[self.language])
+        total = int(content_length)
+        written = 0
+        last_percentage = -1
         with open(filename, "wb") as f:
             for chunk in response.iter_content(CHUNK_SIZE):
-                while self.wait:
-                    if self.kill:
-                        return
+                if self.signal.cancelled():
+                    return
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
-                    current_size=os.path.getsize(filename) 
-                    percentage=round((int(current_size)/int(content_length))*100)
-                    self.app.progress_label.configure(text=str(percentage) + "%")
-                    self.app.progressbar.set(percentage / 100)
+                    written += len(chunk)
+                    percentage = round(written / total * 100)
+                    if percentage != last_percentage:
+                        last_percentage = percentage
+                        self.app.set_note(str(percentage) + "%")
+                        self.app.set_progress(percentage / 100)
 
-    # Mediafire
-    def _download_from_mediafire(self, url):
-        filename = url.split("/")[-1].replace('+', ' ')
-        content = requests.get(url, stream=True)
-        filename = os.path.join(self.path, filename)
-        self._stream_to_file(filename, content)
-        self.app.progress_label.configure(text="100%")
-        self.app.progressbar.set(1)
+    def _finish(self):
+        self.app.set_note("100%")
+        self.app.set_progress(1)
 
     def _download_from_github(self, url):
-        filename = url.split("/")[-1]
-        content = requests.get(url, stream=True)
-        filename = os.path.join(self.path, filename)
-        self._stream_to_file(filename, content)
-        self.app.progress_label.configure(text="100%")
-        self.app.progressbar.set(1)
+        filename = os.path.join(self.path, url.split("/")[-1])
+        response = requests.get(url, stream=True, timeout=TIMEOUT)
+        self._stream_to_file(filename, response)
+        self._finish()
 
     # Dropbox
     def _download_from_dropbox(self, url):
         if 'dl=' in url:
             url = url.replace('dl=0', 'dl=1')
         else:
-            url += '&dl=1'            
-        
-        content = requests.get(url, stream=True)
+            url += '&dl=1'
+
+        response = requests.get(url, stream=True, timeout=TIMEOUT)
         filename = os.path.join(self.path, url.split('/')[6].split('?')[0])
-        self._stream_to_file(filename, content)
-        self.app.progress_label.configure(text="100%")
-        self.app.progressbar.set(1)
-    
-    # Google Drive
-    def _download_file_from_google_drive(self, url):
-            URL = "https://docs.google.com/uc?export=download&confirm=1"
-            session = requests.Session()
-            id = self._gdrive_get_id_from_url(url)
-            response = session.get(URL, params={"id": id}, stream=True)
-            token = self._gdrive_get_confirm_token(response)
-            if token:
-                params = {"id": id, "confirm": token}
-                response = session.get(URL, params=params, stream=True)
-            if response.status_code == 200:
-                self._gdrive_save_response_content(response, self.path)
-            elif response.status_code == 404 :
-                raise Exception(ExceptionMessage.FILE_NOT_ACCESSIBLE[self.language])
-            else:
-                raise Exception(ExceptionMessage.DOWNLOAD_ERROR[self.language])
-
-    def _gdrive_get_confirm_token(self, response):
-        for key, value in response.cookies.items():
-            if key.startswith("download_warning"):
-                return value
-        return None
-
-    def _gdrive_get_id_from_url(self, url):
-        id = url.split("/")[5]
-        return id
-
-    def _gdrive_save_response_content(self, response, destination):
-        content_disposition = response.headers.get("content-disposition")
-        filename = re.findall("filename=(.+)", content_disposition)[0].split(';')[0].replace('"', '')
-        filename = os.path.join(destination, filename)
         self._stream_to_file(filename, response)
-        if self.kill:
-            return
-        self.app.progress_label.configure(text="100%")
-        self.app.progressbar.set(1)
+        self._finish()
 
     # Mega
     class _MegaDownload():
-        def __init__(self, app):
+        def __init__(self, app, signal, language='en'):
             self.app = app
+            self.signal = signal
+            self.language = language
             self.sequence_num = random.randint(0, 0xFFFFFFFF)
             self.timeout = 160  # max secs to wait for resp from api requests
             self.schema = 'https'
             self.domain = 'mega.co.nz'
+            # Public links need no session, so there is no login: this class talks to
+            # the Mega API directly and the mega.py package is not needed at all.
             self.sid = None
-            self.mega = Mega()
-            self.mega.login()
-            self.wait = False
-            self.kill = False
-            
+
         def download_url(self, url, dest_path=None, dest_filename=None):
             path = self._parse_url(url).split('!')
             file_id = path[0]
@@ -188,15 +155,19 @@ class Download():
                 dest_filename=dest_filename,
                 is_public=True,
             )
-        
-        def set_wait(self, wait):
-            self.wait = wait
-        def set_kill(self, kill):
-            self.kill = kill
 
-        @retry(retry=retry_if_exception_type(RuntimeError),
-        wait=wait_exponential(multiplier=2, min=2, max=60))
         def _api_request(self, data):
+            # ponytail: replaced tenacity @retry(wait_exponential(2,min=2,max=60))
+            # on RuntimeError; bounded to 6 attempts matching the old ceiling.
+            for attempt in range(6):
+                try:
+                    return self._api_request_once(data)
+                except RuntimeError:
+                    if attempt == 5:
+                        raise
+                    time.sleep(min(2 * 2 ** attempt, 60))
+
+        def _api_request_once(self, data):
             params = {'id': self.sequence_num}
             self.sequence_num += 1
 
@@ -226,9 +197,8 @@ class Download():
                 if int_resp == 0:
                     return int_resp
                 if int_resp == -3:
-                    msg = 'Request failed, retrying'
-                    print(msg)
-                print(int_resp)
+                    logging.info("Mega request failed, retrying")
+                logging.info("Mega API response: %s", int_resp)
             return json_resp[0]
         
         def _download_file(self, file_handle, file_key, dest_path=None, dest_filename=None, is_public=False, file=None):
@@ -256,7 +226,7 @@ class Download():
                 iv = file['iv']
 
             if 'g' not in file_data:
-                print('File not accessible anymore')
+                raise Exception(ExceptionMessage.FILE_NOT_ACCESSIBLE[self.language])
             file_url = file_data['g']
             file_size = file_data['s']
             attribs = base64_url_decode(file_data['at'])
@@ -267,7 +237,7 @@ class Download():
             else:
                 file_name = attribs['n']
 
-            response = requests.get(file_url, stream=True)
+            response = requests.get(file_url, stream=True, timeout=TIMEOUT)
 
             if response.status_code == 509:
                 raise BandwithExceededError()
@@ -277,23 +247,25 @@ class Download():
             else:
                 dest_path += '/'
             filepath = os.path.join(dest_path, file_name)
+            written = 0
+            last_percentage = -1
             with open(filepath, "wb") as f:
                 k_str = a32_to_str(k)
                 counter = Counter.new(128, initial_value=((iv[0] << 32) + iv[1]) << 64)
                 aes = AES.new(k_str, AES.MODE_CTR, counter=counter)
 
-                for chunk in response.iter_content(CHUNK_SIZE): #chunk_start, chunk_size in get_chunks(file_size):
-                    #chunk = input_file.read(chunk_size)
+                for chunk in response.iter_content(CHUNK_SIZE):
                     chunk = aes.decrypt(chunk)
-                    while self.wait:
-                        if self.kill:
-                            return
+                    if self.signal.cancelled():
+                        return
                     if chunk:  # filter out keep-alive new chunks
                         f.write(chunk)
-                        current_size=os.path.getsize(filepath) 
-                        percentage=round((int(current_size)/int(file_size))*100)
-                        self.app.progress_label.configure(text=str(percentage) + "%")
-                        self.app.progressbar.set(percentage / 100)
+                        written += len(chunk)
+                        percentage = round(written / int(file_size) * 100)
+                        if percentage != last_percentage:
+                            last_percentage = percentage
+                            self.app.set_note(str(percentage) + "%")
+                            self.app.set_progress(percentage / 100)
             return filepath
 
         def _parse_url(self, url):
@@ -311,5 +283,5 @@ class Download():
                 path = match[0]
                 return path
             else:
-                print('Url key missing')
+                raise Exception(ExceptionMessage.NO_FILE_HOST[self.language])
             
