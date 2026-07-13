@@ -1,4 +1,5 @@
 *.zip
+!poke_updater/lib/library.zip
 .agents
 .claude
 CLAUDE.md
